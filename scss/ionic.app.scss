@@ -21,3 +21,23 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+/* Empty. Add your own CSS if you like */
+
+.top {
+  background-color: #009688;
+}
+
+.title {
+  color: white
+}
+
+.icon {
+  color: white;
+}
+
+.completed {
+  color: #9E9E9E;
+  text-decoration: line-through;
+}
+
+
