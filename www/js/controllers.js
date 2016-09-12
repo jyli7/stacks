@@ -2,19 +2,58 @@ angular.module('starter.controllers', [])
 
   .controller('LoginCtrl', LoginCtrl)
 
-  .controller('CardsCtrl', CardsCtrl);
+  .controller('CardsCtrl', CardsCtrl)
+
+  .controller('SignupCtrl', SignupCtrl)
+
+  .controller('PasswordResetCtrl', PasswordResetCtrl)
+
+  ;
 
 
-function LoginCtrl(Auth, $state) {
-  this.loginWithFacebook = function loginWithFacebook() {
-    Auth.$authWithOAuthPopup('facebook')
-      .then(function(authData) {
-        $state.go('cards');
-      });
+function LoginCtrl($scope, AuthService, $state) {
+  $scope.data = {};
+
+  $scope.loginEmail = function(){
+    var email = $scope.data.email;
+    var password = $scope.data.password;
+    AuthService.loginUser(email, password);
+  };
+
+  $scope.loginWithFacebook = function loginWithFacebook() {
+    AuthService.loginWithFacebook();
+
   };
 }
 
-LoginCtrl.$inject = ['Auth', '$state'];
+LoginCtrl.$inject = ['$scope', 'AuthService', '$state'];
+
+function SignupCtrl($scope, AuthService, $state) {
+  $scope.data = {};
+
+  $scope.createUser = function(){
+    var newEmail = $scope.data.email;
+    var newPassword = $scope.data.password;
+    AuthService.signupWithEmail(newEmail, newPassword);
+  };
+}
+
+SignupCtrl.$inject = ['$scope', 'AuthService', '$state'];
+
+
+function PasswordResetCtrl($scope, AuthService, $state) {
+  $scope.data = {}; // Empty object to get the form data.
+
+  /**
+   * We grab our user's email from the form and send it to our service, piece of cake!
+   */
+  $scope.resetPassword = function(){
+    var email = $scope.data.email;
+    AuthService.resetPassword(email);
+  };
+}
+
+PasswordResetCtrl.$inject = ['$scope', 'AuthService', '$state'];
 
 function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, $ionicPopup) {
   $scope.cards = [];

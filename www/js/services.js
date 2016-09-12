@@ -1,18 +1,70 @@
-function Auth(rootRef, $firebaseAuth) {
-  return $firebaseAuth(rootRef);
+function AuthService(rootRef, $firebaseAuth, $state) {
+  var authUser = $firebaseAuth(rootRef);
+  return {
+    signupWithEmail: function (email, password) {
+      authUser.$createUser({
+        email: email,
+        password: password
+      }).then(function (authData) {
+        rootRef.child("users").child(authData.uid).set({
+          email: email
+        });
+        $state.go('cards');
+      }).catch(function (error) {
+        switch (error.code) {
+          case "EMAIL_TAKEN":
+            alert("Sorry, that email is already taken");
+            break;
+          case "INVALID_EMAIL":
+            alert("Sorry, that is an invalid email address");
+            break;
+          default:
+            alert("Error creating user:", error);
+        }
+      });
+    },
+
+    loginUser: function (email, password) {
+      authUser.$authWithPassword({
+        "email": email,
+        "password": password
+      }).then(function (authData) {
+        $state.go('cards');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    loginWithFacebook: function () {
+      authUser.$authWithOAuthPopup('facebook')
+      .then(function(authData) {
+        $state.go('cards');
+      });
+    },
+
+    resetPassword: function (resetEmail) {
+      authUser.$resetPassword({
+        email: resetEmail
+      }).then(function () {
+        console.log('Password Reset Email was sent successfully');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
 }
 
-Auth.$inject = ['rootRef', '$firebaseAuth'];
+AuthService.$inject = ['rootRef', '$firebaseAuth', '$state'];
 
 angular.module('starter.services', []
   )
 
-  .factory('Auth', Auth)
+  .factory('AuthService', AuthService)
 
-  .factory('Users', ['rootRef', function(rootRef) {
+  .factory('Users', ['rootRef', function (rootRef) {
     var usersRef = rootRef.child('users');
     var retObj = {};
-    retObj.getUserById = function(userId) {
+    retObj.getUserById = function (userId) {
       return usersRef.child(userId);
     };
     return retObj;
@@ -24,23 +76,23 @@ angular.module('starter.services', []
 
     retObj.forUserId = function (userId) {
       return Users.getUserById(userId).child("cards").once("value")
-      .then(function (userCardsSnapshot) {
-        var cardPromises = [];
-        userCardsSnapshot.forEach(function (userCardSnapshot) {
-          var cardData = {};
-          cardPromises.push(
-            retObj.getCardById(userCardSnapshot.key()).once("value")
-              .then(function (cardSnapshot) {
-                cardData = cardSnapshot.val();
-                return cardData;
-            })
-          )
-        });
-        return cardPromises;
-      })
-      .then(function (cardDataPromises) {
-        return Promise.all(cardDataPromises);
-      })
+        .then(function (userCardsSnapshot) {
+          var cardPromises = [];
+          userCardsSnapshot.forEach(function (userCardSnapshot) {
+            var cardData = {};
+            cardPromises.push(
+              retObj.getCardById(userCardSnapshot.key()).once("value")
+                .then(function (cardSnapshot) {
+                  cardData = cardSnapshot.val();
+                  return cardData;
+                })
+            )
+          });
+          return cardPromises;
+        })
+        .then(function (cardDataPromises) {
+          return Promise.all(cardDataPromises);
+        })
     };
 
     retObj.getCardById = function (cardId) {
@@ -52,9 +104,9 @@ angular.module('starter.services', []
 
       var addedCard = cardsRef.push();
 
-      if(!addedCard) return;
+      if (!addedCard) return;
 
-      rootRef.onAuth(function(authData) {
+      rootRef.onAuth(function (authData) {
         var form = {
           id: addedCard.key(),
           creator_id: authData.uid,

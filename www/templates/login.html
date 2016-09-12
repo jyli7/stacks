@@ -6,5 +6,32 @@
       </button>
 
     </div>
+
+      <form name="loginForm" ng-submit="loginEmail(loginForm)" class="list card no-margin">
+
+        <ion-input class="item item-input item-stacked-label" >
+          <ion-label >Email</ion-label>
+          <input type="email" name="email" placeholder="Your email..." ng-model="data.email">
+        </ion-input>
+
+        <ion-input class="item item-input item-stacked-label" >
+          <ion-label >Password</ion-label>
+          <input type="password" name="password" placeholder="Your Password..." ng-model="data.password">
+        </ion-input>
+
+        <ion-input class="item-input padding">
+          <input type="submit" class="button button-positive" value="Login" />
+        </ion-input>
+
+      </form>
+
+      <a href="#/signup" class="button button-royal button-clear button-block">
+        Or create an account
+      </a>
+
+      <a href="#/passwordResetForm" class="button button-royal button-clear button-block button-small">
+        I forgot my password :'(
+      </a>
+
   </ion-content>
 </ion-view>

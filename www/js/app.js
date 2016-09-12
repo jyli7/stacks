@@ -46,6 +46,12 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
       controller: 'LoginCtrl as ctrl'
     })
 
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html',
+      controller: 'SignupCtrl'
+    })
+
     .state('cards', {
       url: '/cards',
       templateUrl: 'templates/cards.html',
