@@ -16,36 +16,60 @@ function LoginCtrl(Auth, $state) {
 
 LoginCtrl.$inject = ['Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, $ionicListDelegate, Cards) {
+function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, $ionicPopup) {
   $scope.cards = [];
   $scope.usersRef = new Firebase('https://stacks703.firebaseio.com/users');
-  rootRef.onAuth(function (authData) {
-    Cards.forUserId(authData.uid)
-      .then(function (cardsForUser) {
-        $scope.cards = cardsForUser;
-        $scope.$apply();
+
+  $scope.init = function () {
+    rootRef.onAuth(function (authData) {
+      Cards.forUserId(authData.uid)
+        .then(function (cardsForUser) {
+          $scope.cards = cardsForUser;
+          $scope.$apply();
+        });
     });
-  });
+  };
 
   $scope.addCard = function () {
-    rootRef.onAuth(function(authData) {
-      if (authData) {
-        var content = prompt("What would you like to put on your card?");
-        if (content) {
-          $scope.cards.$add({
-            creator_id: authData.uid,
-            content: content
-          }).then(function (ref) {
-            var id = ref.key();
-            var pair = {};
-            pair[id] = true;
-            $scope.usersRef.child(authData.uid).child('cards').set(pair);
-          });
+    $scope.newCard = {};
+
+    var myPopup = $ionicPopup.show({
+      template: '<input class="item myNumberInput" type="text" ng-model="newCard.content" placeholder="Card content" style="background: white;"/>',
+      title: '<b>Card content</b>',
+      subTitle: 'What content would you like to add to this card?',
+      scope: $scope,
+      buttons: [
+        {
+          text: '<i class="icon ion-close"></i>',
+          type: 'button',
+          onTap: function(e) {
+            return null;
+          }
+        },
+        {
+          text: '<i class="icon ion-checkmark"></i>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.newCard.content) {
+              e.preventDefault();
+            }
+            else {
+              return $scope.newCard;
+            }
+          }
         }
-        console.log("Authenticated with uid:", authData.uid);
-      } else {
-        console.log("Client unauthenticated.")
-      }
+      ]
+    });
+
+    myPopup.then(function(newCard){
+      if(!newCard || !newCard.content) return;
+
+      rootRef.onAuth(function(authData) {
+        if (authData) {
+          Cards.addForUserId(authData.uid, newCard.content);
+        }
+      });
+      $rootScope.$broadcast("refreshCards");
     });
   };
 
@@ -54,6 +78,12 @@ function CardsCtrl ($scope, rootRef, $ionicListDelegate, Cards) {
     cardRef.child('status').set('completed');
     $ionicListDelegate.closeOptionButtons();
   };
+
+  $scope.init();
+
+  $scope.$on("refreshCards", function () {
+    $scope.init();
+  });
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', '$ionicListDelegate', 'Cards'];
+CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', '$ionicPopup'];

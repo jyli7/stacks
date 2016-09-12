@@ -47,6 +47,32 @@ angular.module('starter.services', []
       return cardsRef.child(cardId);
     };
 
+    retObj.addForUserId = function (userId, content) {
+      if (!userId || !content) return;
+
+      var addedCard = cardsRef.push();
+
+      if(!addedCard) return;
+
+      rootRef.onAuth(function(authData) {
+        var form = {
+          id: addedCard.key(),
+          creator_id: authData.uid,
+          content: content,
+          created: Firebase.ServerValue.TIMESTAMP,
+          updated: Firebase.ServerValue.TIMESTAMP
+        };
+
+        addedCard.set(form, function (err) {
+          if (err) {
+            console.error(err);
+          } else {
+            Users.getUserById(userId).child("cards").child(addedCard.key()).set(true);
+          }
+        });
+      });
+    };
+
     return retObj;
   }]);
 
