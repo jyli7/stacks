@@ -17,7 +17,15 @@ function LoginCtrl(Auth, $state) {
 LoginCtrl.$inject = ['Auth', '$state'];
 
 function CardsCtrl ($scope, rootRef, $ionicListDelegate, Cards) {
-  $scope.cards = Cards;
+  $scope.cards = [];
+  $scope.usersRef = new Firebase('https://stacks703.firebaseio.com/users');
+  rootRef.onAuth(function (authData) {
+    Cards.forUserId(authData.uid)
+      .then(function (cardsForUser) {
+        $scope.cards = cardsForUser;
+        $scope.$apply();
+    });
+  });
 
   $scope.addCard = function () {
     rootRef.onAuth(function(authData) {
@@ -25,8 +33,13 @@ function CardsCtrl ($scope, rootRef, $ionicListDelegate, Cards) {
         var content = prompt("What would you like to put on your card?");
         if (content) {
           $scope.cards.$add({
-            'content': content,
-            'userId': authData.uid
+            creator_id: authData.uid,
+            content: content
+          }).then(function (ref) {
+            var id = ref.key();
+            var pair = {};
+            pair[id] = true;
+            $scope.usersRef.child(authData.uid).child('cards').set(pair);
           });
         }
         console.log("Authenticated with uid:", authData.uid);
