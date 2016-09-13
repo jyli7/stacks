@@ -8,8 +8,9 @@ function AuthService(rootRef, $firebaseAuth, $state) {
       }).then(function (authData) {
         rootRef.child("users").child(authData.uid).set({
           email: email
+        }).then(function () {
+          $state.go('cards');
         });
-        $state.go('cards');
       }).catch(function (error) {
         switch (error.code) {
           case "EMAIL_TAKEN":
