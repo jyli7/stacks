@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.router', 'firebase'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
