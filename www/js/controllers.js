@@ -22,8 +22,9 @@ function LoginCtrl($scope, AuthService, $state) {
 
   $scope.loginWithFacebook = function loginWithFacebook() {
     AuthService.loginWithFacebook();
-
   };
+
+  $state.go('cards');
 }
 
 LoginCtrl.$inject = ['$scope', 'AuthService', '$state'];
@@ -36,6 +37,8 @@ function SignupCtrl($scope, AuthService, $state) {
     var newPassword = $scope.data.password;
     AuthService.signupWithEmail(newEmail, newPassword);
   };
+
+  $state.go('cards');
 }
 
 SignupCtrl.$inject = ['$scope', 'AuthService', '$state'];
