@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
 function LoginCtrl($scope, AuthService, $state) {
   $scope.data = {};
 
-  $scope.loginEmail = function(){
+  $scope.loginEmail = function() {
     var email = $scope.data.email;
     var password = $scope.data.password;
     AuthService.loginUser(email, password);
@@ -23,8 +23,6 @@ function LoginCtrl($scope, AuthService, $state) {
   $scope.loginWithFacebook = function loginWithFacebook() {
     AuthService.loginWithFacebook();
   };
-
-  $state.go('cards');
 }
 
 LoginCtrl.$inject = ['$scope', 'AuthService', '$state'];
@@ -37,8 +35,6 @@ function SignupCtrl($scope, AuthService, $state) {
     var newPassword = $scope.data.password;
     AuthService.signupWithEmail(newEmail, newPassword);
   };
-
-  $state.go('cards');
 }
 
 SignupCtrl.$inject = ['$scope', 'AuthService', '$state'];
