@@ -1,6 +1,15 @@
 <ion-view view-title="Cards">
   <ion-content>
-    <button class="button button-icon ion-plus" ng-click="addCard()"> Add card</button>
+    <form class="cards-form" ng-submit="createCard()">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="newCard" placeholder="Type a message...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">Create</button>
+        </span>
+      </div>
+
+    </form>
+
     <ion-list>
       <ion-item ng-repeat="card in cards" ng-class="{completed: card.status == 'completed'}">
         {{card.content}}

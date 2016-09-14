@@ -31,23 +31,35 @@ function ApplicationRun($ionicPlatform, $rootScope, $state) {
 
 ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state'];
 
-function AuthDataResolver(Auth) {
-  return Auth.$requireAuth();
-}
-
-AuthDataResolver.$inject = ['Auth'];
-
 function ApplicationConfig($stateProvider, $urlRouterProvider) {
 
   $stateProvider
     .state('login', {
       url: '/login',
+      resolve: {
+        requireNoAuth: function($state, AuthService){
+          return AuthService.$requireAuth().then(function(auth){
+            $state.go('cards');
+          }, function(error){
+            return;
+          });
+        }
+      },
       templateUrl: 'templates/login.html',
       controller: 'AuthCtrl as ctrl'
     })
 
     .state('signup', {
       url: '/signup',
+      resolve: {
+        requireNoAuth: function($state, AuthService){
+          return AuthService.$requireAuth().then(function(auth){
+            $state.go('cards');
+          }, function(error){
+            return;
+          });
+        }
+      },
       templateUrl: 'templates/signup.html',
       controller: 'AuthCtrl'
     })
@@ -55,7 +67,7 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
     .state('cards', {
       url: '/cards',
       templateUrl: 'templates/cards.html',
-      controller: 'CardsCtrl'
+      controller: 'CardsCtrl as ctrl'
     });
 
   // if none of the above states are matched, use this as the fallback
