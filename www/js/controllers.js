@@ -72,11 +72,13 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
+  $scope.selectedTags = [];
+
   $scope.newCard = {
     front: '',
     back: '',
     frontIsActive: true,
-    tags: '',
+    tags: $scope.selectedTags,
     creator_id: currentAuth.uid
   };
 
