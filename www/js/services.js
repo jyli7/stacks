@@ -1,14 +1,14 @@
-function AuthService(rootRef, $firebaseAuth) {
+function Auth(rootRef, $firebaseAuth) {
   var auth = $firebaseAuth(rootRef);
   return auth;
 };
 
-AuthService.$inject = ['rootRef', '$firebaseAuth'];
+Auth.$inject = ['rootRef', '$firebaseAuth'];
 
 angular.module('stacksApp.services', []
   )
 
-  .factory('AuthService', AuthService)
+  .factory('Auth', Auth)
 
   .factory('Users', ['rootRef', function (rootRef) {
     var usersRef = rootRef.child('users');

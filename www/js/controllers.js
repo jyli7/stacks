@@ -9,12 +9,12 @@ angular.module('stacksApp.controllers', [])
   ;
 
 
-function AuthCtrl(rootRef, $scope, AuthService, $state) {
+function AuthCtrl(rootRef, $scope, Auth, $state) {
 
   $scope.data = {};
 
   $scope.loginEmail = function() {
-    AuthService.$authWithPassword({
+    Auth.$authWithPassword({
       "email": $scope.data.email,
       "password": $scope.data.password
     }).then(function (authData) {
@@ -25,11 +25,11 @@ function AuthCtrl(rootRef, $scope, AuthService, $state) {
   };
 
   $scope.loginWithFacebook = function loginWithFacebook() {
-    AuthService.loginWithFacebook();
+    Auth.loginWithFacebook();
   };
 
   $scope.register = function () {
-    AuthService.$createUser({
+    Auth.$createUser({
       email: $scope.data.email,
       password: $scope.data.password
     }).then(function (authData) {
@@ -53,9 +53,9 @@ function AuthCtrl(rootRef, $scope, AuthService, $state) {
   };
 }
 
-AuthCtrl.$inject = ['rootRef', '$scope', 'AuthService', '$state'];
+AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state'];
 
-function PasswordResetCtrl($scope, AuthService, $state) {
+function PasswordResetCtrl($scope, Auth, $state) {
   $scope.data = {}; // Empty object to get the form data.
 
   /**
@@ -63,76 +63,26 @@ function PasswordResetCtrl($scope, AuthService, $state) {
    */
   $scope.resetPassword = function(){
     var email = $scope.data.email;
-    AuthService.resetPassword(email);
+    Auth.resetPassword(email);
   };
 }
 
-PasswordResetCtrl.$inject = ['$scope', 'AuthService', '$state'];
+PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, $ionicPopup) {
-  $scope.cards = Cards.all();
+function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, currentAuth) {
+  $scope.cards = Cards.forUser(currentAuth.uid);
 
-  $scope.createCard = function () {
-    $scope.newCard = {};
-
-
+  $scope.newCard = {
+    content: '',
+    creator_id: currentAuth.uid
   };
 
-  //$scope.usersRef = new Firebase('https://stacks703.firebaseio.com/users');
-  //
-  //$scope.init = function () {
-  //  rootRef.onAuth(function (authData) {
-  //    Cards.forUserId(authData.uid)
-  //      .then(function (cardsForUser) {
-  //        $scope.cards = cardsForUser;
-  //        $scope.$apply();
-  //      });
-  //  });
-  //};
-  //
-  //$scope.addCard = function () {
-  //  $scope.newCard = {};
-  //
-  //  var myPopup = $ionicPopup.show({
-  //    template: '<input class="item myNumberInput" type="text" ng-model="newCard.content" placeholder="Card content" style="background: white;"/>',
-  //    title: '<b>Card content</b>',
-  //    subTitle: 'What content would you like to add to this card?',
-  //    scope: $scope,
-  //    buttons: [
-  //      {
-  //        text: '<i class="icon ion-close"></i>',
-  //        type: 'button',
-  //        onTap: function(e) {
-  //          return null;
-  //        }
-  //      },
-  //      {
-  //        text: '<i class="icon ion-checkmark"></i>',
-  //        type: 'button-positive',
-  //        onTap: function(e) {
-  //          if (!$scope.newCard.content) {
-  //            e.preventDefault();
-  //          }
-  //          else {
-  //            return $scope.newCard;
-  //          }
-  //        }
-  //      }
-  //    ]
-  //  });
-  //
-  //  myPopup.then(function(newCard){
-  //    if(!newCard || !newCard.content) return;
-  //
-  //    rootRef.onAuth(function(authData) {
-  //      if (authData) {
-  //        Cards.addForUserId(authData.uid, newCard.content);
-  //      }
-  //    });
-  //    $rootScope.$broadcast("refreshCards");
-  //  });
-  //};
-  //
+  $scope.createCard = function () {
+    $scope.cards.$add($scope.newCard).then(function () {
+      $scope.newCard.content = '';
+    });
+  };
+
   //$scope.completeCard = function (card) {
   //  var cardRef = new Firebase('https://stacks703.firebaseio.com/cards/' + card.$id);
   //  cardRef.child('status').set('completed');
@@ -146,4 +96,4 @@ function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, $ion
   //});
 }
 
-CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', '$ionicPopup'];
+CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', 'currentAuth'];

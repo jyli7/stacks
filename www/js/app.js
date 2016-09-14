@@ -21,8 +21,6 @@ function ApplicationRun($ionicPlatform, $rootScope, $state) {
   });
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-    // We can catch the error thrown when the $requireAuth promise is rejected
-    // and redirect the user back to the home page
     if (error === 'AUTH_REQUIRED') {
       $state.go('login');
     }
@@ -37,8 +35,9 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
     .state('login', {
       url: '/login',
       resolve: {
-        requireNoAuth: function($state, AuthService){
-          return AuthService.$requireAuth().then(function(auth){
+        // Only allow access to this page if user is NOT already signed in
+        requireNotAuthed: function($state, Auth){
+          return Auth.$requireAuth().then(function(auth){
             $state.go('cards');
           }, function(error){
             return;
@@ -52,8 +51,9 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
     .state('signup', {
       url: '/signup',
       resolve: {
-        requireNoAuth: function($state, AuthService){
-          return AuthService.$requireAuth().then(function(auth){
+        // Only allow access to this page if user is NOT already signed in
+        requireNotAuthed: function($state, Auth){
+          return Auth.$requireAuth().then(function(auth){
             $state.go('cards');
           }, function(error){
             return;
@@ -67,7 +67,12 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
     .state('cards', {
       url: '/cards',
       templateUrl: 'templates/cards.html',
-      controller: 'CardsCtrl as ctrl'
+      controller: 'CardsCtrl as ctrl',
+      resolve: {
+        "currentAuth": ["Auth", function (Auth) {
+          return Auth.$requireAuth();
+        }]
+      }
     });
 
   // if none of the above states are matched, use this as the fallback
