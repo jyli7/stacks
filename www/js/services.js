@@ -1,63 +1,11 @@
-function AuthService(rootRef, $firebaseAuth, $state) {
-  var authUser = $firebaseAuth(rootRef);
-  return {
-    signupWithEmail: function (email, password) {
-      authUser.$createUser({
-        email: email,
-        password: password
-      }).then(function (authData) {
-        rootRef.child("users").child(authData.uid).set({
-          email: email
-        }).then(function () {
-          $state.go('cards');
-        });
-      }).catch(function (error) {
-        switch (error.code) {
-          case "EMAIL_TAKEN":
-            alert("Sorry, that email is already taken");
-            break;
-          case "INVALID_EMAIL":
-            alert("Sorry, that is an invalid email address");
-            break;
-          default:
-            alert("Error creating user:", error);
-        }
-      });
-    },
+function AuthService(rootRef, $firebaseAuth) {
+  var auth = $firebaseAuth(rootRef);
+  return auth;
+};
 
-    loginUser: function (email, password) {
-      authUser.$authWithPassword({
-        "email": email,
-        "password": password
-      }).then(function (authData) {
-        $state.go('cards');
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
+AuthService.$inject = ['rootRef', '$firebaseAuth'];
 
-    loginWithFacebook: function () {
-      authUser.$authWithOAuthPopup('facebook')
-      .then(function(authData) {
-        $state.go('cards');
-      });
-    },
-
-    resetPassword: function (resetEmail) {
-      authUser.$resetPassword({
-        email: resetEmail
-      }).then(function () {
-        console.log('Password Reset Email was sent successfully');
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }
-}
-
-AuthService.$inject = ['rootRef', '$firebaseAuth', '$state'];
-
-angular.module('starter.services', []
+angular.module('stacksApp.services', []
   )
 
   .factory('AuthService', AuthService)

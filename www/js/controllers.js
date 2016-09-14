@@ -1,44 +1,59 @@
-angular.module('starter.controllers', [])
+angular.module('stacksApp.controllers', [])
 
-  .controller('LoginCtrl', LoginCtrl)
+  .controller('AuthCtrl', AuthCtrl)
 
   .controller('CardsCtrl', CardsCtrl)
-
-  .controller('SignupCtrl', SignupCtrl)
 
   .controller('PasswordResetCtrl', PasswordResetCtrl)
 
   ;
 
 
-function LoginCtrl($scope, AuthService, $state) {
+function AuthCtrl(rootRef, $scope, AuthService, $state) {
+
   $scope.data = {};
 
   $scope.loginEmail = function() {
-    var email = $scope.data.email;
-    var password = $scope.data.password;
-    AuthService.loginUser(email, password);
+    AuthService.$authWithPassword({
+      "email": $scope.data.email,
+      "password": $scope.data.password
+    }).then(function (authData) {
+      $state.go('cards');
+    }).catch(function (error) {
+      console.log(error);
+    });
   };
 
   $scope.loginWithFacebook = function loginWithFacebook() {
     AuthService.loginWithFacebook();
   };
-}
 
-LoginCtrl.$inject = ['$scope', 'AuthService', '$state'];
-
-function SignupCtrl($scope, AuthService, $state) {
-  $scope.data = {};
-
-  $scope.createUser = function(){
-    var newEmail = $scope.data.email;
-    var newPassword = $scope.data.password;
-    AuthService.signupWithEmail(newEmail, newPassword);
+  $scope.register = function () {
+    AuthService.$createUser({
+      email: $scope.data.email,
+      password: $scope.data.password
+    }).then(function (authData) {
+      rootRef.child("users").child(authData.uid).set({
+        email: $scope.data.email
+      }).then(function () {
+        $scope.loginEmail({email: $scope.data.email, password: $scope.data.password});
+      });
+    }).catch(function (error) {
+      switch (error.code) {
+        case "EMAIL_TAKEN":
+          alert("Sorry, that email is already taken");
+          break;
+        case "INVALID_EMAIL":
+          alert("Sorry, that is an invalid email address");
+          break;
+        default:
+          alert("Error creating user:", error);
+      }
+    });
   };
 }
 
-SignupCtrl.$inject = ['$scope', 'AuthService', '$state'];
-
+AuthCtrl.$inject = ['rootRef', '$scope', 'AuthService', '$state'];
 
 function PasswordResetCtrl($scope, AuthService, $state) {
   $scope.data = {}; // Empty object to get the form data.

@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.router', 'firebase'])
+angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.services', 'ui.router', 'firebase'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
@@ -43,13 +43,13 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
     .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
-      controller: 'LoginCtrl as ctrl'
+      controller: 'AuthCtrl as ctrl'
     })
 
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
-      controller: 'SignupCtrl'
+      controller: 'AuthCtrl'
     })
 
     .state('cards', {
