@@ -19,7 +19,7 @@ function AuthCtrl(rootRef, $scope, Auth, $state) {
     }).then(function (authData) {
       $state.go('cards');
     }).catch(function (error) {
-      console.log(error);
+      alert(error);
     });
   };
 
