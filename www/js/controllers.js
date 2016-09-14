@@ -69,7 +69,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, currentAuth) {
+function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, Users, currentAuth, $state) {
   $scope.cards = Cards.forUser(currentAuth.uid);
 
   $scope.newCard = {
@@ -78,8 +78,17 @@ function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, curr
   };
 
   $scope.createCard = function () {
-    $scope.cards.$add($scope.newCard).then(function () {
+    $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.content = '';
+      var newCardForUser = {};
+      newCardForUser[ref.key()] = true;
+      Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
+    });
+  };
+
+  $scope.logout = function () {
+    rootRef.unauth().then(function () {
+      $state.go('login');
     });
   };
 
@@ -96,4 +105,4 @@ function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, curr
   //});
 }
 
-CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', 'currentAuth'];
+CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', 'Users', 'currentAuth', '$state'];

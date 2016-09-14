@@ -1,4 +1,8 @@
 <ion-view view-title="Cards">
+  <ion-nav-buttons side="right">
+    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+  </ion-nav-buttons>
+
   <ion-content>
     <form class="cards-form" ng-submit="createCard()">
       <div class="input-group">
@@ -7,10 +11,9 @@
           <button class="btn btn-default" type="submit">Create</button>
         </span>
       </div>
-
     </form>
 
-    <ion-list>
+    <ion-list ng-show="cards.length > 0">
       <ion-item ng-repeat="card in cards" ng-class="{completed: card.status == 'completed'}">
         {{card.content}}
         <ion-option-button class="button-royal" ng-click="completeCard(card)">
