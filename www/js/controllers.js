@@ -88,8 +88,10 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
     $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.front = '';
       $scope.newCard.back = '';
-      var newCardForUser = {};
-      newCardForUser[ref.key()] = true;
+      var newCardForUser = {
+        $id: ref.key(),
+        $value: true
+      };
       Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
     });
   };
@@ -110,11 +112,12 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
   };
 
   $scope.createTag = function () {
-    console.log("jhere!");
     $scope.tags.$add($scope.newTag).then(function (ref) {
       $scope.newTag.name = '';
-      var newTagForUser = {};
-      newTagForUser[ref.key()] = true;
+      var newTagForUser = {
+        $id: ref.key(),
+        $value: true
+      };
       Users.getTagsForUserById(currentAuth.uid).$add(newTagForUser);
     });
   }
