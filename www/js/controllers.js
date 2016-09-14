@@ -5,7 +5,6 @@ angular.module('stacksApp.controllers', [])
   .controller('CardsCtrl', CardsCtrl)
 
   .controller('PasswordResetCtrl', PasswordResetCtrl)
-
   ;
 
 
@@ -69,7 +68,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, Users, currentAuth, $state) {
+function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -77,6 +76,7 @@ function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, User
     front: '',
     back: '',
     frontIsActive: true,
+    tags: '',
     creator_id: currentAuth.uid
   };
 
@@ -100,17 +100,24 @@ function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, User
     });
   };
 
-  //$scope.completeCard = function (card) {
-  //  var cardRef = new Firebase('https://stacks703.firebaseio.com/cards/' + card.$id);
-  //  cardRef.child('status').set('completed');
-  //  $ionicListDelegate.closeOptionButtons();
-  //};
-  //
-  //$scope.init();
-  //
-  //$scope.$on("refreshCards", function () {
-  //  $scope.init();
-  //});
+  // Tags stuff
+
+  $scope.tags = Tags.forUser(currentAuth.uid);
+
+  $scope.newTag = {
+    name: '',
+    creator_id: currentAuth.uid
+  };
+
+  $scope.createTag = function () {
+    console.log("jhere!");
+    $scope.tags.$add($scope.newTag).then(function (ref) {
+      $scope.newTag.name = '';
+      var newTagForUser = {};
+      newTagForUser[ref.key()] = true;
+      Users.getTagsForUserById(currentAuth.uid).$add(newTagForUser);
+    });
+  }
 }
 
-CardsCtrl.$inject = ['$scope', '$rootScope', 'rootRef', '$ionicListDelegate', 'Cards', 'Users', 'currentAuth', '$state'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state'];

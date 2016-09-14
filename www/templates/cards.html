@@ -8,13 +8,24 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Front of card</span>
-          <input type="text" class="form-control" ng-model="newCard.front">
+          <input type="text" class="form-control" ng-model="newCard.front" placeholder="Capital of Canada?">
         </label>
 
         <label class="item item-input">
           <span class="input-label">Back of card (optional)</span>
-          <input type="text" class="form-control" ng-model="newCard.back">
+          <input type="text" class="form-control" ng-model="newCard.back" placeholder="Ottawa">
         </label>
+
+        <label class="item item-input">
+          <span class="input-label">Tags</span>
+          <input type="text" class="form-control" ng-model="newCard.tags" placeholder="Geography, Capitals">
+        </label>
+
+        <br>
+
+        <a ng-repeat="(id, tag) in card.tags" ui-sref="tags({tagId: id})">{{ tag.name }}</a>
+
+
       </div>
 
       <div class="padding">
@@ -22,6 +33,18 @@
       </div>
     </form>
 
+    <form class="tag-form" ng-submit="createTag()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Tag name</span>
+          <input type="text" class="form-control" ng-model="newTag.name" placeholder="Geography">
+        </label>
+      </div>
+
+      <div class="padding">
+        <button type="submit" class="button button-positive">Create New Tag</button>
+      </div>
+    </form>
 
     <br>
     <br>

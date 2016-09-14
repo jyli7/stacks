@@ -16,6 +16,11 @@ angular.module('stacksApp.services', []
       getCardsForUserById: function (userId) {
         var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
         return $firebaseArray(cardsForUserRef);
+      },
+
+      getTagsForUserById: function (userId) {
+        var tagsForUserRef = rootRef.child("users").child(userId).child('tags');
+        return $firebaseArray(tagsForUserRef);
       }
     };
   }])
@@ -32,6 +37,20 @@ angular.module('stacksApp.services', []
         return $firebaseArray(cardsForUserRef);
       }
     };
+  }])
+
+  .factory('Tags', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+    var tagsRef = rootRef.child("tags");
+    return {
+      all: function () {
+        return $firebaseArray(tagsRef);
+      },
+
+      forUser: function (userId) {
+        var tagsForUserRef = rootRef.child("tags").orderByChild("creator_id").equalTo(userId);
+        return $firebaseArray(tagsForUserRef);
+      }
+    }
   }]);
 
 
