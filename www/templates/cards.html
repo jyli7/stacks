@@ -5,20 +5,37 @@
 
   <ion-content>
     <form class="cards-form" ng-submit="createCard()">
-      <div class="input-group">
-        <input type="text" class="form-control" ng-model="newCard.content" placeholder="Content of card goes here...">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit">Create</button>
-        </span>
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Front of card</span>
+          <input type="text" class="form-control" ng-model="newCard.front">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Back of card (optional)</span>
+          <input type="text" class="form-control" ng-model="newCard.back">
+        </label>
+      </div>
+
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Create Card</button>
       </div>
     </form>
 
+
+    <br>
+    <br>
+    <h2>Your Cards</h2>
+    <br>
     <ion-list ng-show="cards.length > 0">
-      <ion-item ng-repeat="card in cards" ng-class="{completed: card.status == 'completed'}">
-        {{card.content}}
-        <ion-option-button class="button-royal" ng-click="completeCard(card)">
-          <i class="icon ion-checkmark"></i>
-        </ion-option-button>
+      <ion-item ng-repeat="card in cards" on-double-tap="switchActiveSide(card)">
+        <span ng-show="card.frontIsActive">
+          {{card.front}}
+        </span>
+
+        <span ng-show="!card.frontIsActive">
+          {{card.back}}
+        </span>
       </ion-item>
     </ion-list>
   </ion-content>

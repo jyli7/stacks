@@ -70,16 +70,24 @@ function PasswordResetCtrl($scope, Auth, $state) {
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl ($scope, $rootScope, rootRef, $ionicListDelegate, Cards, Users, currentAuth, $state) {
+
   $scope.cards = Cards.forUser(currentAuth.uid);
 
   $scope.newCard = {
-    content: '',
+    front: '',
+    back: '',
+    frontIsActive: true,
     creator_id: currentAuth.uid
+  };
+
+  $scope.switchActiveSide = function (card) {
+    card.frontIsActive = !card.frontIsActive;
   };
 
   $scope.createCard = function () {
     $scope.cards.$add($scope.newCard).then(function (ref) {
-      $scope.newCard.content = '';
+      $scope.newCard.front = '';
+      $scope.newCard.back = '';
       var newCardForUser = {};
       newCardForUser[ref.key()] = true;
       Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
