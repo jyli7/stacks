@@ -13,6 +13,11 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
     console.log('Token saved:', t.token);
   });
 
+  $rootScope.$on('cloud:push:notification', function(event, data) {
+    var msg = data.message;
+    alert(msg.title + ': ' + msg.text);
+  });
+
 
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

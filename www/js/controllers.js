@@ -70,10 +70,7 @@ PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $ionicPush) {
 
-  $scope.$on('cloud:push:notification', function(event, data) {
-    var msg = data.message;
-    alert(msg.title + ': ' + msg.text);
-  });
+
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
