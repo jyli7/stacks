@@ -1,13 +1,20 @@
-angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.services', 'ui.router', 'firebase'])
+angular.module('stacksApp', ['ionic', 'ionic.cloud', 'stacksApp.controllers', 'stacksApp.services', 'ui.router', 'firebase'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
   .config(ApplicationConfig);
 
 
-function ApplicationRun($ionicPlatform, $rootScope, $state) {
-  $ionicPlatform.ready(function () {
+function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
 
+  $ionicPush.register().then(function(t) {
+    return $ionicPush.saveToken(t);
+  }).then(function(t) {
+    console.log('Token saved:', t.token);
+  });
+
+
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -27,9 +34,26 @@ function ApplicationRun($ionicPlatform, $rootScope, $state) {
   });
 };
 
-ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state'];
+ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', '$ionicPush'];
 
-function ApplicationConfig($stateProvider, $urlRouterProvider) {
+function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
+  $ionicCloudProvider.init({
+    "core": {
+      "app_id": "b00ca850"
+    },
+    "push": {
+      "sender_id": "932163409078",
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+        },
+        "android": {
+          "iconColor": "#343434"
+        }
+      }
+    }
+  });
 
   $stateProvider
     .state('login', {
@@ -79,6 +103,6 @@ function ApplicationConfig($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/login");
 };
 
-ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider'];
 
 

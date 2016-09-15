@@ -1,4 +1,4 @@
-angular.module('stacksApp.controllers', [])
+angular.module('stacksApp.controllers', ['ionic.cloud'])
 
   .controller('AuthCtrl', AuthCtrl)
 
@@ -68,7 +68,12 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
+function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $ionicPush) {
+
+  $scope.$on('cloud:push:notification', function(event, data) {
+    var msg = data.message;
+    alert(msg.title + ': ' + msg.text);
+  });
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -106,23 +111,23 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
 
   // Tags stuff
 
-  $scope.tags = Tags.forUser(currentAuth.uid);
-
-  $scope.newTag = {
-    name: '',
-    creator_id: currentAuth.uid
-  };
-
-  $scope.createTag = function () {
-    $scope.tags.$add($scope.newTag).then(function (ref) {
-      $scope.newTag.name = '';
-      var newTagForUser = {
-        $id: ref.key(),
-        $value: true
-      };
-      Users.getTagsForUserById(currentAuth.uid).$add(newTagForUser);
-    });
-  }
+  //$scope.tags = Tags.forUser(currentAuth.uid);
+  //
+  //$scope.newTag = {
+  //  name: '',
+  //  creator_id: currentAuth.uid
+  //};
+  //
+  //$scope.createTag = function () {
+  //  $scope.tags.$add($scope.newTag).then(function (ref) {
+  //    $scope.newTag.name = '';
+  //    var newTagForUser = {
+  //      $id: ref.key(),
+  //      $value: true
+  //    };
+  //    Users.getTagsForUserById(currentAuth.uid).$add(newTagForUser);
+  //  });
+  //}
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state', '$ionicPush'];
