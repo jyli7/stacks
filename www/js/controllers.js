@@ -1,4 +1,4 @@
-angular.module('stacksApp.controllers', ['ionic.cloud'])
+angular.module('stacksApp.controllers', [])
 
   .controller('AuthCtrl', AuthCtrl)
 
@@ -68,9 +68,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $ionicPush) {
-
-
+function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state) {
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -127,4 +125,4 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $i
   //}
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state', '$ionicPush'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state'];

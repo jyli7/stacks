@@ -1,35 +1,37 @@
-angular.module('stacksApp', ['ionic', 'ionic.cloud', 'stacksApp.controllers', 'stacksApp.services', 'ui.router', 'firebase'])
+angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.services', 'ui.router', 'firebase'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
   .config(ApplicationConfig);
 
 
-function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
+function ApplicationRun($ionicPlatform, $rootScope, $state) {
 
-  $ionicPush.register().then(function(t) {
-    return $ionicPush.saveToken(t);
-  }).then(function(t) {
-    console.log('Token saved:', t.token);
-  });
-
-  $rootScope.$on('cloud:push:notification', function(event, data) {
-    var msg = data.message;
-    alert(msg.title + ': ' + msg.text);
-  });
 
 
   $ionicPlatform.ready(function () {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+      // Don't remove this line unless you know what you are doing. It stops the viewport
+      // from snapping when text inputs are focused. Ionic handles this internally for
+      // a much nicer keyboard experience.
       cordova.plugins.Keyboard.disableScroll(true);
     }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+    
+    var push = new Ionic.Push({
+      "debug": true
+    });
+
+    push.register(function(token) {
+      console.log("My Device token:",token.token);
+      push.saveToken(token);  // persist the token in the Ionic Platform
+    });
+
+
   });
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
@@ -39,27 +41,9 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
   });
 };
 
-ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', '$ionicPush'];
+ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state'];
 
 function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
-  $ionicCloudProvider.init({
-    "core": {
-      "app_id": "b00ca850"
-    },
-    "push": {
-      "sender_id": "932163409078",
-      "pluginConfig": {
-        "ios": {
-          "badge": true,
-          "sound": true
-        },
-        "android": {
-          "iconColor": "#343434"
-        }
-      }
-    }
-  });
-
   $stateProvider
     .state('login', {
       url: '/login',
@@ -108,6 +92,6 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
   $urlRouterProvider.otherwise("/login");
 };
 
-ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider'];
+ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 
