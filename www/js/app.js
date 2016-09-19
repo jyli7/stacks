@@ -4,88 +4,6 @@ angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'ionic.cloud', 's
   .run(ApplicationRun)
   .config(ApplicationConfig);
 
-function onPushwooshInitialized(pushNotification) {
-
-  //if you need push token at a later time you can always get it from Pushwoosh plugin
-  pushNotification.getPushToken(
-    function(token) {
-      console.info('push token: ' + token);
-    }
-  );
-
-  //and HWID if you want to communicate with Pushwoosh API
-  pushNotification.getPushwooshHWID(
-    function(token) {
-      console.info('Pushwoosh HWID: ' + token);
-    }
-  );
-
-  //settings tags
-  pushNotification.setTags({
-      tagName: "tagValue",
-      intTagName: 10
-    },
-    function(status) {
-      console.info('setTags success: ' + JSON.stringify(status));
-    },
-    function(status) {
-      console.warn('setTags failed');
-    }
-  );
-
-  pushNotification.getTags(
-    function(status) {
-      console.info('getTags success: ' + JSON.stringify(status));
-    },
-    function(status) {
-      console.warn('getTags failed');
-    }
-  );
-
-  //start geo tracking.
-  //pushNotification.startLocationTracking();
-}
-
-
-function initPushwoosh() {
-  var pushNotification = cordova.require("pushwoosh-cordova-plugin.PushNotification");
-
-  //set push notifications handler
-  document.addEventListener('push-notification',
-    function(event) {
-      var message = event.notification.message;
-      var userData = event.notification.userdata;
-
-      alert("Push message opened: " + message);
-      console.info(JSON.stringify(event.notification));
-
-      //dump custom data to the console if it exists
-      if (typeof(userData) != "undefined") {
-        console.warn('user data: ' + JSON.stringify(userData));
-      }
-    }
-  );
-
-  // Initialize Pushwoosh. This will trigger all pending push notifications on start.
-  pushNotification.onDeviceReady({
-    appid: "37015-2D103",
-    projectid: "932163409078",
-    serviceName: "MPNS_SERVICE_NAME"
-  });
-
-  //register for push notifications
-  pushNotification.registerDevice(
-    function(status) {
-      alert("registered with token: " + status.pushToken);
-      onPushwooshInitialized(pushNotification);
-    },
-    function(status) {
-      alert("failed to register: " + status);
-      console.warn(JSON.stringify(['failed to register ', status]));
-    }
-  );
-}
-
 function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -100,6 +18,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
     }
 
     $ionicPush.register().then(function(t) {
+      alert(t);
       return $ionicPush.saveToken(t);
     }).then(function(t) {
       console.log('Token saved:', t.token);
@@ -109,8 +28,6 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
       var msg = data.message;
       alert(msg.title + ': ' + msg.text);
     });
-
-    //initPushwoosh();
 
   });
 
