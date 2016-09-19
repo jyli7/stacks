@@ -98,10 +98,8 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $h
     $http.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1NGEwYTJlZi0wZjkxLTQ5MGUtYTMwYy00NzE4YTAyNzk4YmUifQ.L5Ylvt6lvJ7IYQEYHIqkWOnqNy7MYJjPA1i0UwGkWCw";
 
     $http.post('https://api.ionic.io/push/notifications', data).success(function(data) {
-      alert("sucess");
       alert(data);
     }).error(function (data, status) {
-      alert("error");
       alert(data);
     });
     //$scope.cards.$add($scope.newCard).then(function (ref) {

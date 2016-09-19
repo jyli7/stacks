@@ -18,7 +18,6 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
     }
 
     $ionicPush.register().then(function(t) {
-      alert(t);
       return $ionicPush.saveToken(t);
     }).then(function(t) {
       console.log('Token saved:', t.token);
