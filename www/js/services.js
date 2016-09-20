@@ -44,20 +44,6 @@ angular.module('stacksApp.services', []
         return $firebaseArray(cardsForUserRef);
       }
     };
-  }])
-
-  .factory('Tags', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
-    var tagsRef = rootRef.child("tags");
-    return {
-      all: function () {
-        return $firebaseArray(tagsRef);
-      },
-
-      forUser: function (userId) {
-        var tagsForUserRef = rootRef.child("tags").orderByChild("creator_id").equalTo(userId).orderByChild('last_updated');
-        return $firebaseArray(tagsForUserRef);
-      }
-    }
   }]);
 
 

@@ -1,0 +1,63 @@
+/*
+Error: File to import not found or unreadable: www/lib/ionic/scss/ionic.
+       Load paths:
+         
+        on line 21 of ionic.app.scss
+
+16: *\/
+17: 
+18: // The path for our ionicons font files, relative to the built CSS in www/css
+19: $ionicons-font-path: "../lib/ionic/fonts" !default;
+20: 
+21: @import "www/lib/ionic/scss/ionic";
+22: 
+23: /* Empty. Add your own CSS if you like *\/
+24: 
+25: .top {
+26:   background-color: #009688;
+
+Backtrace:
+ionic.app.scss:21
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/import_node.rb:66:in `rescue in import'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/import_node.rb:45:in `import'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/import_node.rb:28:in `imported_file'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/import_node.rb:37:in `css_import?'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/stack.rb:79:in `block in with_base'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/stack.rb:115:in `with_frame'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/stack.rb:79:in `with_base'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/engine.rb:368:in `_render_with_sourcemap'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/engine.rb:285:in `render_with_sourcemap'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/plugin.rb:82:in `update_stylesheets'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/exec/sass_scss.rb:350:in `watch_or_update'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/exec/sass_scss.rb:50:in `process_result'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/exec/base.rb:52:in `parse'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/lib/sass/exec/base.rb:19:in `parse!'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/gems/sass-3.4.10/bin/scss:13:in `<top (required)>'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/bin/scss:23:in `load'
+/Users/jimmyli/.rvm/gems/ruby-1.9.3-p551/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: www/lib/ionic/scss/ionic.\A        Load paths:\A          \A         on line 21 of ionic.app.scss\A \A 16: */\A 17: \A 18: // The path for our ionicons font files, relative to the built CSS in www/css\A 19: $ionicons-font-path: \"../lib/ionic/fonts\" !default;\A 20: \A 21: @import \"www/lib/ionic/scss/ionic\";\A 22: \A 23: /* Empty. Add your own CSS if you like */\A 24: \A 25: .top {\A 26:   background-color: #009688;"; }

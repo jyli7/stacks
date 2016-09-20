@@ -79,7 +79,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $http) {
+function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http) {
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -90,7 +90,9 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $h
     back: '',
     frontIsActive: true,
     tags: $scope.selectedTags,
-    creator_id: currentAuth.uid
+    creator_id: currentAuth.uid,
+    last_updated: Date.now(),
+    completed: false
   };
 
   $scope.switchActiveSide = function (card) {
@@ -118,12 +120,22 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $h
       $scope.newCard.back = '';
       var newCardForUser = {
         $id: ref.key(),
-        $value: true,
-        last_updated: Date.now()
+        $value: true
       };
       Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
 
     });
+  };
+
+  $scope.recycle = function (card) {
+    card.last_updated = Date.now();
+    $scope.cards.$save(card);
+  };
+
+  $scope.complete = function (card) {
+    card.last_updated = Date.now();
+    card.completed = true;
+    $scope.cards.$save(card);
   };
 
   $scope.logout = function () {
@@ -153,4 +165,4 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $h
   //}
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Tags', 'currentAuth', '$state', '$http'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http'];

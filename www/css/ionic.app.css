@@ -9822,9 +9822,10 @@ a.button {
 .title {
   color: white; }
 
-.icon {
-  color: white; }
-
 .completed {
   color: #9E9E9E;
   text-decoration: line-through; }
+
+i.card-checkmark {
+  float: right;
+  color: #387ef5; }

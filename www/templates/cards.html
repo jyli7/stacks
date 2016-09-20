@@ -15,15 +15,6 @@
           <span class="input-label">Back of card (optional)</span>
           <input type="text" class="form-control" ng-model="newCard.back" placeholder="Ottawa">
         </label>
-
-        <!--<br>-->
-
-        <!--<label class="item item-input">-->
-          <!--<select ng-model="selectedTags" multiple>-->
-            <!--<option ng-repeat="tag in tags" value="{{tag.name}}">{{tag.name}}</option>-->
-          <!--</select>-->
-        <!--</label>-->
-
       </div>
 
       <div class="padding">
@@ -31,25 +22,11 @@
       </div>
     </form>
 
-    <!--<form class="tag-form" ng-submit="createTag()">-->
-      <!--<div class="list">-->
-        <!--<label class="item item-input">-->
-          <!--<span class="input-label">Tag name</span>-->
-          <!--<input type="text" class="form-control" ng-model="newTag.name" placeholder="Geography">-->
-        <!--</label>-->
-      <!--</div>-->
-
-      <!--<div class="padding">-->
-        <!--<button type="submit" class="button button-positive">Create New Tag</button>-->
-      <!--</div>-->
-    <!--</form>-->
-
-    <br>
     <br>
     <h2>Your Cards</h2>
     <br>
     <ion-list ng-show="cards.length > 0">
-      <ion-item ng-repeat="card in cards | reverse" on-double-tap="switchActiveSide(card)">
+      <ion-item ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)" class="item-button-right">
         <span ng-show="card.frontIsActive">
           {{card.front}}
         </span>
@@ -57,6 +34,14 @@
         <span ng-show="!card.frontIsActive">
           {{card.back}}
         </span>
+        <div class="buttons">
+          <button class="button button-energized" ng-click="recycle(card)">
+            <i class="icon ion-arrow-return-right"></i>
+          </button>
+          <button class="button button-balanced" ng-click="complete(card)">
+            <i class="icon ion-checkmark"></i>
+          </button>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>
