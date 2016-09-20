@@ -21,6 +21,13 @@ angular.module('stacksApp.services', []
       getTagsForUserById: function (userId) {
         var tagsForUserRef = rootRef.child("users").child(userId).child('tags');
         return $firebaseArray(tagsForUserRef);
+      },
+
+      addDeviceTokenToUser: function (userId, token) {
+        var tokensRef = rootRef.child("users").child(userId).child('tokens');
+        var tokenObj = {};
+        tokenObj[token] = true;
+        tokensRef.update(tokenObj);
       }
     };
   }])
@@ -47,7 +54,7 @@ angular.module('stacksApp.services', []
       },
 
       forUser: function (userId) {
-        var tagsForUserRef = rootRef.child("tags").orderByChild("creator_id").equalTo(userId);
+        var tagsForUserRef = rootRef.child("tags").orderByChild("creator_id").equalTo(userId).orderByChild('last_updated');
         return $firebaseArray(tagsForUserRef);
       }
     }

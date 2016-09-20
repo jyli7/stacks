@@ -49,7 +49,7 @@
     <h2>Your Cards</h2>
     <br>
     <ion-list ng-show="cards.length > 0">
-      <ion-item ng-repeat="card in cards" on-double-tap="switchActiveSide(card)">
+      <ion-item ng-repeat="card in cards | reverse" on-double-tap="switchActiveSide(card)">
         <span ng-show="card.frontIsActive">
           {{card.front}}
         </span>

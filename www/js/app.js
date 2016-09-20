@@ -1,10 +1,10 @@
-angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'ionic.cloud', 'stacksApp.services', 'ui.router', 'firebase'])
+angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filters', 'ionic.cloud', 'stacksApp.services', 'ui.router', 'firebase'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
   .config(ApplicationConfig);
 
-function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
+function ApplicationRun($ionicPlatform, $rootScope, $state) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,17 +17,10 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
       StatusBar.styleDefault();
     }
 
-    $ionicPush.register().then(function(t) {
-      return $ionicPush.saveToken(t);
-    }).then(function(t) {
-      console.log('Token saved:', t.token);
-    });
-
     $rootScope.$on('cloud:push:notification', function(event, data) {
       var msg = data.message;
       alert(msg.title + ': ' + msg.text);
     });
-
   });
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
@@ -37,7 +30,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, $ionicPush) {
   });
 };
 
-ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', '$ionicPush'];
+ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state'];
 
 function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
 

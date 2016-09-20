@@ -8,7 +8,17 @@ angular.module('stacksApp.controllers', [])
   ;
 
 
-function AuthCtrl(rootRef, $scope, Auth, $state) {
+function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
+
+  $scope.captureDeviceToken = function (userId) {
+    $ionicPush.register().then(function(t) {
+      return $ionicPush.saveToken(t);
+    }).then(function(t) {
+      Users.addDeviceTokenToUser(userId, t.token);
+    }).catch(function (error) {
+      alert(error);
+    });
+  };
 
   $scope.data = {};
 
@@ -17,13 +27,14 @@ function AuthCtrl(rootRef, $scope, Auth, $state) {
       "email": $scope.data.email,
       "password": $scope.data.password
     }).then(function (authData) {
+      $scope.captureDeviceToken(authData.uid);
       $state.go('cards');
     }).catch(function (error) {
       alert(error);
     });
   };
 
-  $scope.loginWithFacebook = function loginWithFacebook() {
+  $scope.loginWithFacebook = function () {
     Auth.loginWithFacebook();
   };
 
@@ -52,7 +63,7 @@ function AuthCtrl(rootRef, $scope, Auth, $state) {
   };
 }
 
-AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state'];
+AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
 
 function PasswordResetCtrl($scope, Auth, $state) {
   $scope.data = {}; // Empty object to get the form data.
@@ -87,31 +98,32 @@ function CardsCtrl ($scope, rootRef, Cards, Users, Tags, currentAuth, $state, $h
   };
 
   $scope.createCard = function () {
-    var data = {
-      "tokens": ["e1d6a237952ae682b428b175446158a201c8dfb034b42e98f2fa99f37835a557"],
-      "profile": "jimmy",
-      "notification": {
-        "message": $scope.newCard.front
-      }
-    };
-
-    $http.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1NGEwYTJlZi0wZjkxLTQ5MGUtYTMwYy00NzE4YTAyNzk4YmUifQ.L5Ylvt6lvJ7IYQEYHIqkWOnqNy7MYJjPA1i0UwGkWCw";
-
-    $http.post('https://api.ionic.io/push/notifications', data).success(function(data) {
-      alert(data);
-    }).error(function (data, status) {
-      alert(data);
-    });
-    //$scope.cards.$add($scope.newCard).then(function (ref) {
-    //  $scope.newCard.front = '';
-    //  $scope.newCard.back = '';
-    //  var newCardForUser = {
-    //    $id: ref.key(),
-    //    $value: true
-    //  };
-    //  Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
+    //var data = {
+    //  "tokens": ["e1d6a237952ae682b428b175446158a201c8dfb034b42e98f2fa99f37835a557"],
+    //  "profile": "jimmy",
+    //  "notification": {
+    //    "message": $scope.newCard.front
+    //  }
+    //};
     //
+    //$http.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1NGEwYTJlZi0wZjkxLTQ5MGUtYTMwYy00NzE4YTAyNzk4YmUifQ.L5Ylvt6lvJ7IYQEYHIqkWOnqNy7MYJjPA1i0UwGkWCw";
+    //
+    //$http.post('https://api.ionic.io/push/notifications', data).success(function(data) {
+    //  alert(data);
+    //}).error(function (data, status) {
+    //  alert(data);
     //});
+    $scope.cards.$add($scope.newCard).then(function (ref) {
+      $scope.newCard.front = '';
+      $scope.newCard.back = '';
+      var newCardForUser = {
+        $id: ref.key(),
+        $value: true,
+        last_updated: Date.now()
+      };
+      Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
+
+    });
   };
 
   $scope.logout = function () {
