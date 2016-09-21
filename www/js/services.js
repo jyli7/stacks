@@ -44,7 +44,10 @@ angular.module('stacksApp.services', []
         return $firebaseArray(cardsForUserRef);
       }
     };
-  }]);
+
+  }])
+
+;
 
 
 

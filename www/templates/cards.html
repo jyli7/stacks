@@ -22,9 +22,6 @@
       </div>
     </form>
 
-    <br>
-    <h2>Your Cards</h2>
-    <br>
     <ion-list ng-show="cards.length > 0">
       <ion-item ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)" class="item-button-right">
         <span ng-show="card.frontIsActive">

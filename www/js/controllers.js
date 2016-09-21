@@ -100,21 +100,7 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http) {
   };
 
   $scope.createCard = function () {
-    //var data = {
-    //  "tokens": ["e1d6a237952ae682b428b175446158a201c8dfb034b42e98f2fa99f37835a557"],
-    //  "profile": "jimmy",
-    //  "notification": {
-    //    "message": $scope.newCard.front
-    //  }
-    //};
-    //
-    //$http.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1NGEwYTJlZi0wZjkxLTQ5MGUtYTMwYy00NzE4YTAyNzk4YmUifQ.L5Ylvt6lvJ7IYQEYHIqkWOnqNy7MYJjPA1i0UwGkWCw";
-    //
-    //$http.post('https://api.ionic.io/push/notifications', data).success(function(data) {
-    //  alert(data);
-    //}).error(function (data, status) {
-    //  alert(data);
-    //});
+
     $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.front = '';
       $scope.newCard.back = '';
