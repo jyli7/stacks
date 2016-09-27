@@ -31,7 +31,7 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
       $scope.captureDeviceToken(authData.uid);
       $state.go('cards');
     }).catch(function (error) {
-      console.log(error);
+      alert(error);
     });
   };
 
