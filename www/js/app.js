@@ -37,6 +37,8 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef) {
     rootRef.onAuth(function (authData) {
       if (authData === null) {
         $state.go('login')
+      } else {
+        $state.go('cards');
       }
     });
   });
