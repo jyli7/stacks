@@ -1,10 +1,9 @@
 <ion-view view-title="Cards">
+  <ion-nav-buttons side="right">
+    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+  </ion-nav-buttons>
   <ion-pane>
-
     <ion-content>
-      <ion-nav-buttons side="right">
-        <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
-      </ion-nav-buttons>
       <form class="cards-form" ng-submit="createCard()">
         <div class="list">
           <label class="item item-input">
@@ -25,7 +24,7 @@
 
       <td-cards>
         <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)"
-                 on-swipe-right="recycle(card)" on-swipe-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
+                 on-swipe-right="recycle(card, swipeCard)" on-swipe-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
                  ng-class="{grey: !card.frontIsActive}">
           <div class="card-front" ng-show="card.frontIsActive">
             {{card.front}}

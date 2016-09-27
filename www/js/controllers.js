@@ -26,8 +26,6 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
     Auth.$authWithPassword({
       "email": $scope.data.email,
       "password": $scope.data.password
-    }).then(function (authData) {
-      $scope.captureDeviceToken(authData.uid);
     }).then(function () {
       $state.go('cards');
     }).catch(function (error) {
@@ -48,6 +46,8 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
         email: $scope.data.email
       }).then(function () {
         $scope.loginEmail({email: $scope.data.email, password: $scope.data.password});
+      }).then(function (authData) {
+        $scope.captureDeviceToken(authData.uid);
       });
     }).catch(function (error) {
       switch (error.code) {
@@ -80,7 +80,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate) {
+function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth) {
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -113,10 +113,17 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
     });
   };
 
-  $scope.recycle = function (card) {
+  $scope.recycle = function (card, scope) {
     console.log("Recycling");
+    console.log(scope);
+    var el = scope.el;
+    var rightText = el.querySelector('.yes-text');
     card.last_updated = Date.now();
     $scope.cards.$save(card);
+    setTimeout(function () {
+      el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
+      if (rightText) rightText.style.opacity = 0;
+    }, 500);
   };
 
   $scope.complete = function (card) {
@@ -127,13 +134,11 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   };
 
   $scope.logout = function () {
-    rootRef.unauth().then(function () {
-      $state.go('login');
-    });
+    Auth.$unauth();
+    $state.go('login');
   };
 
   // Tags stuff
-
   //$scope.tags = Tags.forUser(currentAuth.uid);
   //
   //$scope.newTag = {
@@ -153,4 +158,4 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   //}
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth'];

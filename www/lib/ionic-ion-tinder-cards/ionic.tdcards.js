@@ -312,12 +312,12 @@
             onSwipeRight: function() {
               $timeout(function() {
                 $scope.onSwipeRight();
+
               });
             },
             onSwipeLeft: function() {
               $timeout(function() {
                 $scope.onSwipeLeft();
-
               });
             },
             onTransitionRight: function() {

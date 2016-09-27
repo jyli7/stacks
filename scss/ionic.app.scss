@@ -37,10 +37,7 @@ td-cards {
 }
 
 td-card {
-  position: absolute;
-  left: 50%;
-  margin: 80px 0 40px -150px;
-  width: 300px;
+  margin: 10px;
   height: 300px;
   border: 1px solid #999;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
@@ -72,13 +69,9 @@ td-card img {
 /* Overlay styling*/
 
 .overlayBox {
-  position: absolute;
-  left: 50%;
-  height: 98%;
+  height: 100%;
   width: 100%;
-  top: -80px;
   opacity: 0;
-  margin: 80px 0 0 -149px;
 }
 
 .boxed {
