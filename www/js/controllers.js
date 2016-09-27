@@ -27,7 +27,8 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
     Auth.$authWithPassword({
       "email": $scope.data.email,
       "password": $scope.data.password
-    }).then(function () {
+    }).then(function (authData) {
+      $scope.captureDeviceToken(authData.uid);
       $state.go('cards');
     }).catch(function (error) {
       console.log(error);
@@ -47,8 +48,6 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
         email: $scope.data.email
       }).then(function () {
         $scope.loginEmail({email: $scope.data.email, password: $scope.data.password});
-      }).then(function (authData) {
-        $scope.captureDeviceToken(authData.uid);
       });
     }).catch(function (error) {
       switch (error.code) {
