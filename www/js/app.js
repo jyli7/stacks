@@ -16,7 +16,7 @@ angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filter
   })
 ;
 
-function ApplicationRun($ionicPlatform, $rootScope, $state) {
+function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -33,6 +33,12 @@ function ApplicationRun($ionicPlatform, $rootScope, $state) {
       var msg = data.message;
       alert(msg.title + ': ' + msg.text);
     });
+
+    rootRef.onAuth(function (authData) {
+      if (authData === null) {
+        $state.go('login')
+      }
+    });
   });
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
@@ -40,9 +46,11 @@ function ApplicationRun($ionicPlatform, $rootScope, $state) {
       $state.go('login');
     }
   });
+
+
 };
 
-ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state'];
+ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', 'rootRef'];
 
 function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
 

@@ -10,6 +10,7 @@ angular.module('stacksApp.controllers', [])
 
 function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
 
+
   $scope.captureDeviceToken = function (userId) {
     $ionicPush.register().then(function(t) {
       return $ionicPush.saveToken(t);
@@ -115,7 +116,6 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
 
   $scope.recycle = function (card, scope) {
     console.log("Recycling");
-    console.log(scope);
     var el = scope.el;
     var rightText = el.querySelector('.yes-text');
     card.last_updated = Date.now();
@@ -127,7 +127,6 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   };
 
   $scope.complete = function (card) {
-    console.log("Completing");
     card.last_updated = Date.now();
     card.completed = true;
     $scope.cards.$save(card);
@@ -135,7 +134,6 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
 
   $scope.logout = function () {
     Auth.$unauth();
-    $state.go('login');
   };
 
   // Tags stuff
