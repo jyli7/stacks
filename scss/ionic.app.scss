@@ -48,10 +48,13 @@ td-card {
   background-color: rgb(255,255,255);
 }
 
-.td-card .title {
-  height: 40px;
+td-card {
   font-size: 15px;
   padding: 15px;
+
+  &.grey {
+    background-color: $stable;
+  }
 }
 
 td-card .image {
@@ -76,7 +79,6 @@ td-card img {
   top: -80px;
   opacity: 0;
   margin: 80px 0 0 -149px;
-  font-size: 14px;
 }
 
 .boxed {
@@ -84,7 +86,7 @@ td-card img {
   width: 100px;
   padding: 10px;
   border-radius: 6px;
-  font-size: 30px;
+  font-size: 16px;
 }
 
 .yes-text {

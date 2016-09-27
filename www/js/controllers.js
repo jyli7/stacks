@@ -114,11 +114,13 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   };
 
   $scope.recycle = function (card) {
+    console.log("Recycling");
     card.last_updated = Date.now();
     $scope.cards.$save(card);
   };
 
   $scope.complete = function (card) {
+    console.log("Completing");
     card.last_updated = Date.now();
     card.completed = true;
     $scope.cards.$save(card);

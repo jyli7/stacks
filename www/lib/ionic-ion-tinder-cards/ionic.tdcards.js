@@ -317,15 +317,20 @@
             onSwipeLeft: function() {
               $timeout(function() {
                 $scope.onSwipeLeft();
+
               });
             },
             onTransitionRight: function() {
               $timeout(function() {
+                if (self.leftText) self.leftText.style.opacity = 0;
+                if (self.rightText) self.rightText.style.opacity = 0;
                 $scope.onTransitionRight();
               });
             },
             onTransitionLeft: function() {
               $timeout(function() {
+                if (self.leftText) self.leftText.style.opacity = 0;
+                if (self.rightText) self.rightText.style.opacity = 0;
                 $scope.onTransitionLeft();
               });
             },
