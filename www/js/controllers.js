@@ -28,9 +28,10 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
       "password": $scope.data.password
     }).then(function (authData) {
       $scope.captureDeviceToken(authData.uid);
+    }).then(function () {
       $state.go('cards');
     }).catch(function (error) {
-      alert(error);
+      console.log(error);
     });
   };
 
@@ -79,8 +80,9 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http) {
+function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate) {
 
+  console.log(currentAuth.uid);
   $scope.cards = Cards.forUser(currentAuth.uid);
 
   $scope.selectedTags = [];
@@ -100,7 +102,6 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http) {
   };
 
   $scope.createCard = function () {
-
     $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.front = '';
       $scope.newCard.back = '';
@@ -151,4 +152,4 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http) {
   //}
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate'];

@@ -30,6 +30,8 @@ gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
 });
 
+gulp.task('serve:before', ['sass', 'watch']);
+
 gulp.task('install', ['git-check'], function() {
   return bower.commands.install()
     .on('log', function(data) {

@@ -22,25 +22,31 @@
       </div>
     </form>
 
-    <ion-list ng-show="cards.length > 0">
-      <ion-item ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)" class="item-button-right">
-        <span ng-show="card.frontIsActive">
+    <td-cards class="cards-container" ng-show="cards.length > 0">
+      <td-card class="card"  ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)" class="item-button-right"
+               on-swipe-right="complete(card)" on-swipe-left="recycle(card)" on-partial-swipe="cardPartialSwipe(amt)" on-destroy="cardDestroyed($index)"
+               on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)"
+               on-partial-swipe="cardPartialSwipe(amt)">
+        <div class="item item-text-wrap card-front" ng-show="card.frontIsActive">
           {{card.front}}
-        </span>
-
-        <span ng-show="!card.frontIsActive">
-          {{card.back}}
-        </span>
-        <div class="buttons">
-          <button class="button button-energized" ng-click="recycle(card)">
-            <i class="icon ion-arrow-return-right"></i>
-          </button>
-          <button class="button button-balanced" ng-click="complete(card)">
-            <i class="icon ion-checkmark"></i>
-          </button>
         </div>
-      </ion-item>
-    </ion-list>
+
+        <div class="item item-text-wrap card-back" ng-show="!card.frontIsActive">
+          {{card.back}}
+        </div>
+      </td-card>
+      <!--<ion-item>-->
+
+        <!--<div class="buttons">-->
+          <!--<button class="button button-energized" ng-click="recycle(card)">-->
+            <!--<i class="icon ion-arrow-return-right"></i>-->
+          <!--</button>-->
+          <!--<button class="button button-balanced" ng-click="complete(card)">-->
+            <!--<i class="icon ion-checkmark"></i>-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</ion-item>-->
+    </td-cards>
   </ion-content>
 </ion-view>
 

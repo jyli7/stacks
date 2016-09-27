@@ -2,7 +2,18 @@ angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filter
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)
-  .config(ApplicationConfig);
+  .config(ApplicationConfig)
+  .directive('noScroll', function() {
+    return {
+      restrict: 'A',
+      link: function($scope, $element, $attr) {
+        $element.on('touchmove', function(e) {
+          e.preventDefault();
+        });
+      }
+    }
+  })
+;
 
 function ApplicationRun($ionicPlatform, $rootScope, $state) {
   $ionicPlatform.ready(function () {
