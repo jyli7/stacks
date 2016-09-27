@@ -1,4 +1,5 @@
-angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filters', 'ionic.cloud', 'stacksApp.services', 'ui.router', 'firebase'])
+angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filters', 'ionic.cloud',
+  'stacksApp.services', 'ui.router', 'firebase', 'ionic.contrib.ui.tinderCards'])
   .constant('FirebaseUrl', 'https://stacks703.firebaseio.com/')
   .service('rootRef', ['FirebaseUrl', Firebase])
   .run(ApplicationRun)

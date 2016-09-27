@@ -166,12 +166,12 @@ function Animation(opts) {
   opts.easing && this.easing(opts.easing);
   opts.reverse && this.reverse(opts.reverse);
   opts.distance && this.distance(opts.distance);
- 
+
   //Put this here so we don't have to call _tick in the context of our object.
   //Avoids having to use .bind() or .call() every frame.
   self._tick = function(deltaT) {
     var state = self._;
-    
+
     state.onStep(animStepValue(self, state.percent));
 
     if (Math.abs(state.velocity) < VELOCITY_MIN) {
@@ -278,8 +278,8 @@ Animation.prototype = {
     return this._.duration;
   },
 
-  isRunning: function() { 
-    return !!this._.isRunning; 
+  isRunning: function() {
+    return !!this._.isRunning;
   },
 
   promise: function() {
@@ -351,7 +351,7 @@ function animBegin(animation, immediate) {
   return animation;
 }
 function animIsComplete(animation) {
-  return !animation._.isRunning && 
+  return !animation._.isRunning &&
     animation._.percent === animEndPercent(animation);
 }
 function animEndPercent(animation) {
@@ -387,7 +387,7 @@ function figureOutEasing(easing) {
 
   } else if (typeof easing === 'string') {
     easing = easing.toLowerCase().trim();
-    
+
     if (easing.indexOf('cubic-bezier(') === 0) {
       var parts = easing
         .replace('cubic-bezier(', '')
@@ -444,7 +444,7 @@ function figureOutEasing(easing) {
 // function vendorizePropertyName(property) {
 //   if (property === 'transform') {
 //     //Set transformProperty lazily, to be sure DOM has loaded already when using it
-//     return transformProperty || 
+//     return transformProperty ||
 //       (transformProperty = cssFeature('transform').property);
 //   } else {
 //     return property;
@@ -998,7 +998,7 @@ module.exports = function extend(obj) {
 },{}],11:[function(_dereq_,module,exports){
 
 // All we want is an eventEmitter that doesn't use #call or #apply,
-// by expecting 0-1 arguments. 
+// by expecting 0-1 arguments.
 // We couldn't find this on npm, so we make our own.
 
 module.exports = SimpleEventEmitter;
@@ -1052,7 +1052,7 @@ SimpleEventEmitter.prototype = {
         }
       }
     }
-  } 
+  }
 };
 
 },{}],12:[function(_dereq_,module,exports){

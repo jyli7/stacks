@@ -82,7 +82,6 @@ PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate) {
 
-  console.log(currentAuth.uid);
   $scope.cards = Cards.forUser(currentAuth.uid);
 
   $scope.selectedTags = [];
