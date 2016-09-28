@@ -39,13 +39,10 @@ td-cards {
 .td-card {
   margin: 10px;
   height: 200px;
-
 }
 
 td-card {
   font-size: 15px;
-
-
   &.flipped {
     .td-card {
       -webkit-transform: rotateX( -180deg );
@@ -70,7 +67,6 @@ td-card {
     border: 1px solid #999;
     box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
     border-radius: 6px;
-    height: 200px;
     position: absolute;
     z-index: 2;
     height: 100%;
