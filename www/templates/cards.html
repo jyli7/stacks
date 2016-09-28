@@ -25,12 +25,12 @@
       <td-cards>
         <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)"
                  on-swipe-right="recycle(card, swipeCard)" on-swipe-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
-                 ng-class="{grey: !card.frontIsActive}">
-          <div class="card-front" ng-show="card.frontIsActive">
+                 ng-class="{flipped: !card.frontIsActive}">
+          <div class="card-front face">
             {{card.front}}
           </div>
 
-          <div class="card-back" ng-show="!card.frontIsActive">
+          <div class="card-back face">
             {{card.back}}
           </div>
           <div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>

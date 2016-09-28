@@ -126,6 +126,7 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   };
 
   $scope.complete = function (card) {
+    console.log("Trashing....");
     card.last_updated = Date.now();
     card.completed = true;
     $scope.cards.$save(card);
