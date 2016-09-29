@@ -46,7 +46,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
       } else {
         console.log("Going to cards");
         console.log(authData.uid);
-        $state.go('cards');
+        $state.go('cards', {}, {reload: true});
       }
     });
   });
@@ -62,7 +62,8 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
 
 ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', 'rootRef', '$ionicPush'];
 
-function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
+function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.views.maxCache(0);
 
   $ionicCloudProvider.init({
     "core": {
@@ -119,10 +120,15 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
     .state('cards', {
       url: '/cards',
       templateUrl: 'templates/cards.html',
-      controller: 'CardsCtrl as ctrl',
+      controller: 'CardsCtrl',
       resolve: {
         "currentAuth": ["Auth", function (Auth) {
           return Auth.$requireAuth();
+        }],
+        "cardsList": ["Cards", "Auth", function (Cards, Auth){
+          return Cards.forUser(Auth.$getAuth().uid).$loaded().then(function (data) {
+            return data;
+          });
         }]
       }
     });
@@ -131,6 +137,6 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
   $urlRouterProvider.otherwise("/login");
 };
 
-ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider'];
+ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider', '$ionicConfigProvider'];
 
 

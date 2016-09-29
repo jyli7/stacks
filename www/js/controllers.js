@@ -70,12 +70,8 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth) {
-  console.log(currentAuth);
-
-  $scope.cards = [];
-
-  $scope.cards = Cards.forUser(currentAuth.uid);
+function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList) {
+  $scope.cards = cardsList;
 
   $scope.selectedTags = [];
 
@@ -133,4 +129,4 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
 
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList'];
