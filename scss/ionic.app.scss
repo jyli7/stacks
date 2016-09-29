@@ -43,6 +43,8 @@ td-cards {
 
 td-card {
   font-size: 15px;
+  position: absolute;
+  width: 100%;
   &.flipped {
     .td-card {
       -webkit-transform: rotateX( -180deg );
@@ -71,10 +73,8 @@ td-card {
     z-index: 2;
     height: 100%;
     width: 100%;
-    line-height: 170px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 40px;
+    padding: 15px;
+    font-size: 16px;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -o-backface-visibility: hidden;
@@ -83,6 +83,7 @@ td-card {
 
   .card-back {
     background-color: black;
+    z-index: 1;
     color: white;
     -webkit-transform: rotateX( -180deg );
     -moz-transform: rotateX( -180deg );
@@ -92,7 +93,8 @@ td-card {
 
   .card-front {
     position: absolute;
-    z-index: 1;
+    z-index: -1;
+    background-color: white;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -o-backface-visibility: hidden;
@@ -119,6 +121,7 @@ td-card {
 
 .yes-text {
   background-color: rgba(0,256,0,0.2);
+  //z-index: 4;
 }
 
 .yesBox {
@@ -130,6 +133,7 @@ td-card {
 
 .no-text {
   background-color: rgba(256,0,0,0.2);
+  //z-index: 4;
 }
 
 .noBox {

@@ -16,7 +16,7 @@ angular.module('stacksApp', ['ionic', 'stacksApp.controllers', 'stacksApp.filter
   })
 ;
 
-function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef) {
+function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -34,10 +34,18 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef) {
       alert(msg.title + ': ' + msg.text);
     });
 
+    $ionicPush.register().then(function(t) {
+      $ionicPush.saveToken(t);
+    }).catch(function (error) {
+      console.log(error);
+    });
+
     rootRef.onAuth(function (authData) {
       if (authData === null) {
         $state.go('login')
       } else {
+        console.log("Going to cards");
+        console.log(authData.uid);
         $state.go('cards');
       }
     });
@@ -52,7 +60,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef) {
 
 };
 
-ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', 'rootRef'];
+ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', 'rootRef', '$ionicPush'];
 
 function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider) {
 

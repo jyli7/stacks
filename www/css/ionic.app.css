@@ -9828,7 +9828,9 @@ td-cards {
   height: 200px; }
 
 td-card {
-  font-size: 15px; }
+  font-size: 15px;
+  position: absolute;
+  width: 100%; }
   td-card.flipped .td-card {
     -webkit-transform: rotateX(-180deg);
     -moz-transform: rotateX(-180deg);
@@ -9852,16 +9854,15 @@ td-card {
     z-index: 2;
     height: 100%;
     width: 100%;
-    line-height: 170px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 40px;
+    padding: 15px;
+    font-size: 16px;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden; }
   .td-card .card-back {
     background-color: black;
+    z-index: 1;
     color: white;
     -webkit-transform: rotateX(-180deg);
     -moz-transform: rotateX(-180deg);
@@ -9869,7 +9870,8 @@ td-card {
     transform: rotateX(-180deg); }
   .td-card .card-front {
     position: absolute;
-    z-index: 1;
+    z-index: -1;
+    background-color: white;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -o-backface-visibility: hidden;

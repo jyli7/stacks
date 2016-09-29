@@ -10,17 +10,6 @@ angular.module('stacksApp.controllers', [])
 
 function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
 
-
-  $scope.captureDeviceToken = function (userId) {
-    $ionicPush.register().then(function(t) {
-      return $ionicPush.saveToken(t);
-    }).then(function(t) {
-      Users.addDeviceTokenToUser(userId, t.token);
-    }).catch(function (error) {
-      alert(error);
-    });
-  };
-
   $scope.data = {};
 
   $scope.loginEmail = function() {
@@ -28,8 +17,9 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
       "email": $scope.data.email,
       "password": $scope.data.password
     }).then(function (authData) {
-      $scope.captureDeviceToken(authData.uid);
-      $state.go('cards');
+      if ($ionicPush.token) {
+        Users.addDeviceTokenToUser(authData.uid, $ionicPush.token["token"]);
+      }
     }).catch(function (error) {
       alert(error);
     });
@@ -81,6 +71,9 @@ function PasswordResetCtrl($scope, Auth, $state) {
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth) {
+  console.log(currentAuth);
+
+  $scope.cards = [];
 
   $scope.cards = Cards.forUser(currentAuth.uid);
 
@@ -133,27 +126,11 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
   };
 
   $scope.logout = function () {
+    $scope.cards = [];
+    console.log("unauthed");
     Auth.$unauth();
   };
 
-  // Tags stuff
-  //$scope.tags = Tags.forUser(currentAuth.uid);
-  //
-  //$scope.newTag = {
-  //  name: '',
-  //  creator_id: currentAuth.uid
-  //};
-  //
-  //$scope.createTag = function () {
-  //  $scope.tags.$add($scope.newTag).then(function (ref) {
-  //    $scope.newTag.name = '';
-  //    var newTagForUser = {
-  //      $id: ref.key(),
-  //      $value: true
-  //    };
-  //    Users.getTagsForUserById(currentAuth.uid).$add(newTagForUser);
-  //  });
-  //}
 }
 
 CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth'];
