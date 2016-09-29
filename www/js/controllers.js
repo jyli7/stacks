@@ -5,14 +5,14 @@ angular.module('stacksApp.controllers', [])
   .controller('CardsCtrl', CardsCtrl)
 
   .controller('PasswordResetCtrl', PasswordResetCtrl)
-  ;
+;
 
 
 function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
 
   $scope.data = {};
 
-  $scope.loginEmail = function() {
+  $scope.loginEmail = function () {
     Auth.$authWithPassword({
       "email": $scope.data.email,
       "password": $scope.data.password
@@ -62,7 +62,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
   /**
    * We grab our user's email from the form and send it to our service, piece of cake!
    */
-  $scope.resetPassword = function(){
+  $scope.resetPassword = function () {
     var email = $scope.data.email;
     Auth.resetPassword(email);
   };
@@ -70,8 +70,11 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList) {
+function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList) {
+
   $scope.cards = cardsList;
+
+  console.log($scope.cards);
 
   $scope.selectedTags = [];
 
@@ -102,16 +105,23 @@ function CardsCtrl ($scope, rootRef, Cards, Users, currentAuth, $state, $http, T
     });
   };
 
+  $scope.zIndexCount = -2;
+
   $scope.recycle = function (card, scope) {
     console.log("Recycling");
     var el = scope.el;
     var rightText = el.querySelector('.yes-text');
     card.last_updated = Date.now();
-    $scope.cards.$save(card);
-    setTimeout(function () {
-      el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
-      if (rightText) rightText.style.opacity = 0;
-    }, 500);
+    $scope.cards.$save(card).then(function () {
+      setTimeout(function () {
+        el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
+        el.style.zIndex = $scope.zIndexCount;
+        $scope.zIndexCount -= 1;
+        if (rightText) {
+          rightText.style.opacity = 0;
+        }
+      }, 500);
+    });
   };
 
   $scope.complete = function (card) {

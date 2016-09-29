@@ -63,7 +63,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
 ApplicationRun.$inject = ['$ionicPlatform', '$rootScope', '$state', 'rootRef', '$ionicPush'];
 
 function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvider, $ionicConfigProvider) {
-  $ionicConfigProvider.views.maxCache(0);
+  //$ionicConfigProvider.views.maxCache(0);
 
   $ionicCloudProvider.init({
     "core": {
