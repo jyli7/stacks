@@ -110,17 +110,20 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
   $scope.recycle = function (card, scope) {
     console.log("Recycling");
     var el = scope.el;
-    var rightText = el.querySelector('.yes-text');
+    var yesText = el.querySelector('.yes-text');
+
     card.last_updated = Date.now();
     $scope.cards.$save(card).then(function () {
+      $scope.zIndexCount -= 1;
+      el.style.zIndex = $scope.zIndexCount;
+      yesText.style.opacity = 0;
       setTimeout(function () {
         el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
-        el.style.zIndex = $scope.zIndexCount;
-        $scope.zIndexCount -= 1;
-        if (rightText) {
-          rightText.style.opacity = 0;
-        }
+        el.style.transition = el.style.webkitTransition = 'all 0.75s ease-in-out';
       }, 500);
+      setTimeout(function () {
+        el.style.transition = el.style.webkitTransition = 'all 0s linear';
+      }, 1000)
     });
   };
 
