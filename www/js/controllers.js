@@ -96,11 +96,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.front = '';
       $scope.newCard.back = '';
-      var newCardForUser = {
-        $id: ref.key(),
-        $value: true
-      };
-      Users.getCardsForUserById(currentAuth.uid).$add(newCardForUser);
+      Users.getCardsForUserById(currentAuth.uid).$ref().child(ref.key()).set(true);
 
     });
   };
