@@ -6,14 +6,12 @@
     <ion-content>
       <form class="cards-form" ng-submit="createCard()">
         <div class="list">
-          <label class="item item-input">
-            <span class="input-label">Front of card</span>
-            <input type="text" class="form-control" ng-model="newCard.front" placeholder="Capital of Canada?">
+          <label class="item item-input front-input-label">
+            <textarea class="form-control front-input" ng-model="newCard.front" placeholder="Front of card"></textarea>
           </label>
 
           <label class="item item-input">
-            <span class="input-label">Back of card (optional)</span>
-            <input type="text" class="form-control" ng-model="newCard.back" placeholder="Ottawa">
+            <textarea class="form-control back-input" ng-model="newCard.back" placeholder="Back of card (optional)"></textarea>
           </label>
         </div>
 

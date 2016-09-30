@@ -9827,6 +9827,14 @@ td-cards {
   margin: 10px;
   height: 200px; }
 
+.item-input {
+  height: 100px; }
+
+.front-input, .back-input {
+  height: 100%;
+  resize: none;
+  padding-top: 8px; }
+
 td-card {
   font-size: 15px;
   position: absolute;
