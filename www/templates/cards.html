@@ -22,7 +22,7 @@
 
       <td-cards>
         <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false}" on-double-tap="switchActiveSide(card)"
-                 on-swipe-right="recycle(card, swipeCard)" on-swipe-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
+                 on-transition-right="recycle(card, swipeCard)" on-transition-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
                  ng-class="{flipped: !card.frontIsActive}">
           <div class="card-front face">
             {{card.front}}
