@@ -1,46 +1,41 @@
-<ion-view view-title="Cards" cache-view="false">
-  <ion-nav-buttons side="right">
-    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+<ion-view title="Cards" cache-view="false">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+
   </ion-nav-buttons>
-  <ion-pane>
-    <ion-content>
-      <form class="cards-form" ng-submit="createCard()">
-        <div class="list">
-          <label class="item item-input front-input-label">
-            <textarea class="form-control front-input" ng-model="newCard.front" placeholder="Front of card"></textarea>
-          </label>
+  <ion-content class="has-header">
+    <form class="cards-form" ng-submit="createCard()">
+      <div class="list">
+        <label class="item item-input front-input-label">
+          <textarea class="form-control front-input" ng-model="newCard.front" placeholder="Front of card"></textarea>
+        </label>
 
-          <label class="item item-input">
-            <textarea class="form-control back-input" ng-model="newCard.back" placeholder="Back of card (optional)"></textarea>
-          </label>
+        <label class="item item-input">
+          <textarea class="form-control back-input" ng-model="newCard.back" placeholder="Back of card (optional)"></textarea>
+        </label>
+      </div>
+
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Create Card</button>
+      </div>
+    </form>
+
+    <hr>
+    <td-cards>
+      <div class="card-count">{{filtered.length}} active cards</div>
+      <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false} as filtered" on-double-tap="switchActiveSide(card)"
+               on-transition-right="recycle(card, swipeCard)" on-transition-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
+               ng-class="{flipped: !card.frontIsActive}">
+        <div class="card-front face">
+          {{card.front}}
+          <span ng-show="card.back.length > 0" class="back-instruction">Has back</span>
         </div>
 
-        <div class="padding">
-          <button type="submit" class="button button-block button-positive">Create Card</button>
+        <div class="card-back face">
+          {{card.back}}
         </div>
-      </form>
-
-      <hr>
-      <td-cards>
-        <div class="card-count">{{filtered.length}} active cards</div>
-        <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false} as filtered" on-double-tap="switchActiveSide(card)"
-                 on-transition-right="recycle(card, swipeCard)" on-transition-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
-                 ng-class="{flipped: !card.frontIsActive}">
-          <div class="card-front face">
-            {{card.front}}
-            <span ng-show="card.back.length > 0" class="back-instruction">Has back</span>
-          </div>
-
-          <div class="card-back face">
-            {{card.back}}
-          </div>
-          <div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>
-          <div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Recycle</div></div>
-        </td-card>
-      </td-cards>
-
-    </ion-content>
-  </ion-pane>
+        <div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>
+        <div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Recycle</div></div>
+      </td-card>
+    </td-cards>
 </ion-view>
-
-

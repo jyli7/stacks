@@ -44,9 +44,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
       if (authData === null) {
         $state.go('login')
       } else {
-        console.log("Going to cards");
-        console.log(authData.uid);
-        $state.go('cards', {}, {reload: true});
+        $state.go('app.cards', {}, {reload: true});
       }
     });
   });
@@ -85,13 +83,40 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
 
 
   $stateProvider
+    .state('app', {
+      url: "/app",
+      abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'AppCtrl'
+    })
+
+    .state('app.cards', {
+      url: '/cards',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/cards.html',
+          controller: 'CardsCtrl'
+        }
+      },
+      resolve: {
+        "currentAuth": ["Auth", function (Auth) {
+          return Auth.$requireAuth();
+        }],
+        "cardsList": ["Cards", "Auth", function (Cards, Auth){
+          return Cards.forUser(Auth.$getAuth().uid).$loaded().then(function (data) {
+            return data;
+          });
+        }]
+      }
+    })
+
     .state('login', {
       url: '/login',
       resolve: {
         // Only allow access to this page if user is NOT already signed in
         requireNotAuthed: function($state, Auth){
           return Auth.$requireAuth().then(function(auth){
-            $state.go('cards');
+            $state.go('app.cards');
           }, function(error){
             return;
           });
@@ -107,7 +132,7 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
         // Only allow access to this page if user is NOT already signed in
         requireNotAuthed: function($state, Auth){
           return Auth.$requireAuth().then(function(auth){
-            $state.go('cards');
+            $state.go('app.cards');
           }, function(error){
             return;
           });
@@ -117,24 +142,10 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       controller: 'AuthCtrl'
     })
 
-    .state('cards', {
-      url: '/cards',
-      templateUrl: 'templates/cards.html',
-      controller: 'CardsCtrl',
-      resolve: {
-        "currentAuth": ["Auth", function (Auth) {
-          return Auth.$requireAuth();
-        }],
-        "cardsList": ["Cards", "Auth", function (Cards, Auth){
-          return Cards.forUser(Auth.$getAuth().uid).$loaded().then(function (data) {
-            return data;
-          });
-        }]
-      }
-    });
+    ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise("/cards");
+  $urlRouterProvider.otherwise("/app/cards");
 };
 
 ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider', '$ionicConfigProvider'];

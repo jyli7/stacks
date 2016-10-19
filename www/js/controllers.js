@@ -5,6 +5,8 @@ angular.module('stacksApp.controllers', [])
   .controller('CardsCtrl', CardsCtrl)
 
   .controller('PasswordResetCtrl', PasswordResetCtrl)
+
+  .controller('AppCtrl', AppCtrl)
 ;
 
 
@@ -74,8 +76,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
 
   $scope.cards = cardsList;
 
-  console.log($scope.cards);
-
   $scope.selectedTags = [];
 
   $scope.newCard = {
@@ -130,12 +130,15 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     $scope.cards.$save(card);
   };
 
-  $scope.logout = function () {
-    $scope.cards = [];
-    console.log("unauthed");
-    Auth.$unauth();
-  };
+
 
 }
 
 CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList'];
+
+function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
+  $scope.logout = function () {
+    $scope.cards = [];
+    Auth.$unauth();
+  };
+};
