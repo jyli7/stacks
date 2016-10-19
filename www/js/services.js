@@ -40,7 +40,6 @@ angular.module('stacksApp.services', []
         newCard.creator_id = userId;
         newCard.sender_id = senderId;
         newCard.sender_email = senderEmail;
-        console.log(userId);
         Cards.forUser(userId).$add(newCard).then(function (ref) {
           var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
           $firebaseArray(cardsForUserRef).$ref().child(ref.key()).set(true);
