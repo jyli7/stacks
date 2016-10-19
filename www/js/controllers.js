@@ -4,6 +4,8 @@ angular.module('stacksApp.controllers', [])
 
   .controller('CardsCtrl', CardsCtrl)
 
+  .controller('GroupsCtrl', GroupsCtrl)
+
   .controller('PasswordResetCtrl', PasswordResetCtrl)
 
   .controller('AppCtrl', AppCtrl)
@@ -76,8 +78,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
 
   $scope.cards = cardsList;
 
-  $scope.selectedTags = [];
-
   $scope.newCard = {
     front: '',
     back: '',
@@ -88,10 +88,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     completed: false
   };
 
-  $scope.switchActiveSide = function (card) {
-    card.frontIsActive = !card.frontIsActive;
-  };
-
   $scope.createCard = function () {
     $scope.cards.$add($scope.newCard).then(function (ref) {
       $scope.newCard.front = '';
@@ -99,6 +95,12 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
       Users.getCardsForUserById(currentAuth.uid).$ref().child(ref.key()).set(true);
 
     });
+  };
+
+  $scope.selectedTags = [];
+
+  $scope.switchActiveSide = function (card) {
+    card.frontIsActive = !card.frontIsActive;
   };
 
   $scope.zIndexCount = -2;
@@ -142,3 +144,46 @@ function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
     Auth.$unauth();
   };
 };
+
+AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
+
+function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, groupsList) {
+  $scope.groups = groupsList;
+
+  $scope.newGroup = {
+    name: '',
+    description: '',
+    creator_id: currentAuth.uid,
+    members: ''
+  };
+
+
+  $scope.createGroup = function () {
+    var memberEmails = $scope.newGroup.members.split(",|, ");
+    delete $scope.newGroup.members;
+
+    $scope.groups.$add($scope.newGroup).then(function (groupRef) {
+      $scope.newGroup.name = '';
+      $scope.newGroup.description = '';
+      for (var i = 0; i < memberEmails.length; memberEmails++) {
+        var email = memberEmails[i];
+        // For members
+        rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+          snapshot.forEach(function (data) {
+            var userId = data.key();
+            Users.getGroupsForUserById(userId).$ref().child(groupRef.key()).set(true);
+            rootRef.child('groups').child(groupRef.key()).child('members').child(userId).set(true);
+          });
+        });
+      }
+      Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
+      rootRef.child('groups').child(groupRef.key()).child('members').child($scope.newGroup.creator_id).set(true);
+
+    });
+  };
+};
+
+GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', 'groupsList'];
+
+
+

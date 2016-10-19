@@ -110,6 +110,26 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       }
     })
 
+    .state('app.groups', {
+      url: '/groups',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/groups.html',
+          controller: 'GroupsCtrl'
+        }
+      },
+      resolve: {
+        "currentAuth": ["Auth", function (Auth) {
+          return Auth.$requireAuth();
+        }],
+        "groupsList": ["Groups", "Auth", function (Groups, Auth){
+          return Groups.forUser(Auth.$getAuth().uid).$loaded().then(function (data) {
+            return data;
+          });
+        }]
+      }
+    })
+
     .state('login', {
       url: '/login',
       resolve: {
@@ -145,7 +165,7 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise("/app/cards");
+  $urlRouterProvider.otherwise("#/app/groups");
 };
 
 ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider', '$ionicConfigProvider'];

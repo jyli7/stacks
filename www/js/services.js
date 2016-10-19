@@ -18,6 +18,11 @@ angular.module('stacksApp.services', []
         return $firebaseArray(cardsForUserRef);
       },
 
+      getGroupsForUserById: function (userId) {
+        var groupsForUserRef = rootRef.child("users").child(userId).child('groups');
+        return $firebaseArray(groupsForUserRef);
+      },
+
       getTagsForUserById: function (userId) {
         var tagsForUserRef = rootRef.child("users").child(userId).child('tags');
         return $firebaseArray(tagsForUserRef);
@@ -42,6 +47,21 @@ angular.module('stacksApp.services', []
       forUser: function (userId) {
         var cardsForUserRef = rootRef.child("cards").orderByChild("creator_id").equalTo(userId);
         return $firebaseArray(cardsForUserRef);
+      }
+    };
+
+  }])
+
+  .factory('Groups', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+    var groupsRef = rootRef.child("groups");
+    return {
+      all: function () {
+        return $firebaseArray(groupsRef);
+      },
+
+      forUser: function (userId) {
+        var groupsForUserRef = rootRef.child("groups").orderByChild("creator_id").equalTo(userId);
+        return $firebaseArray(groupsForUserRef);
       }
     };
 

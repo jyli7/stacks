@@ -1,0 +1,33 @@
+<ion-view title="Groups" cache-view="false">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <form class="groups-form" ng-submit="createGroup()">
+      <div class="list">
+        <label class="item item-input">
+          <textarea class="form-control" ng-model="newGroup.name" placeholder="Group name"></textarea>
+        </label>
+
+        <label class="item item-input">
+          <textarea class="form-control" ng-model="newGroup.description" placeholder="Group description (optional)"></textarea>
+        </label>
+
+        <label class="item item-input">
+          <textarea class="form-control" ng-model="newGroup.members" placeholder="Member emails (comma separated)"></textarea>
+        </label>
+      </div>
+
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Create Group</button>
+      </div>
+    </form>
+
+    <hr>
+    <ion-list>
+      <ion-item ng-repeat="group in groups">
+        {{group.name}}
+      </ion-item>
+    </ion-list>
+</ion-view>
