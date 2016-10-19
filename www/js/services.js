@@ -10,7 +10,7 @@ angular.module('stacksApp.services', []
 
   .factory('Auth', Auth)
 
-  .factory('Users', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+  .factory('Users', ['rootRef', 'Cards', '$firebaseArray', function (rootRef, Cards, $firebaseArray) {
     var usersRef = rootRef.child('users');
     return {
       getCardsForUserById: function (userId) {
@@ -33,6 +33,15 @@ angular.module('stacksApp.services', []
         var tokenObj = {};
         tokenObj[token] = true;
         tokensRef.update(tokenObj);
+      },
+
+      createCardForUser: function (userId, card, senderId) {
+        card.creator_id = userId;
+        card.sender_id = senderId;
+        Cards.forUser(userId).$add(card).then(function (ref) {
+          var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
+          $firebaseArray(cardsForUserRef).$ref().child(ref.key()).set(true);
+        });
       }
     };
   }])

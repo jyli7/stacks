@@ -93,7 +93,26 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
       $scope.newCard.front = '';
       $scope.newCard.back = '';
       Users.getCardsForUserById(currentAuth.uid).$ref().child(ref.key()).set(true);
+    });
+  };
 
+  $scope.shareWithGroups = function (card) {
+    console.log("clicked");
+    rootRef.child("users").child(currentAuth.uid).child('groups').on('value', function (snapshot) {
+      snapshot.forEach(function (data) {
+        var groupId = data.key();
+        rootRef.child("groups").child(groupId).child('members').on('value', function (snapshot) {
+          snapshot.forEach(function (data) {
+            var groupMemberId = data.key();
+            if (groupMemberId !== currentAuth.uid) {
+              Users.createCardForUser(groupMemberId, card, currentAuth.uid);
+            }
+          });
+        });
+
+        console.log(data.key());
+        console.log(data.val());
+      });
     });
   };
 
@@ -162,12 +181,13 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     var memberEmails = $scope.newGroup.members.split(",|, ");
     delete $scope.newGroup.members;
 
+    // TODO: Refactor
     $scope.groups.$add($scope.newGroup).then(function (groupRef) {
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
+      // Add group to requested members, add members to group
       for (var i = 0; i < memberEmails.length; memberEmails++) {
         var email = memberEmails[i];
-        // For members
         rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
           snapshot.forEach(function (data) {
             var userId = data.key();
@@ -176,6 +196,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
           });
         });
       }
+      // Add group to creator, add creator to group
       Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
       rootRef.child('groups').child(groupRef.key()).child('members').child($scope.newGroup.creator_id).set(true);
 

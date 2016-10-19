@@ -25,7 +25,8 @@
       <div class="card-count">{{filtered.length}} active cards</div>
       <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false} as filtered" on-double-tap="switchActiveSide(card)"
                on-transition-right="recycle(card, swipeCard)" on-transition-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
-               ng-class="{flipped: !card.frontIsActive}">
+               ng-class="{flipped: !card.frontIsActive}"
+               ng-click="shareWithGroups(card)">
         <div class="card-front face">
           {{card.front}}
           <span ng-show="card.back.length > 0" class="back-instruction">Has back</span>
