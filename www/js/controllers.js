@@ -82,7 +82,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     front: '',
     back: '',
     frontIsActive: true,
-    tags: $scope.selectedTags,
+    //tags: $scope.selectedTags,
     creator_id: currentAuth.uid,
     last_updated: Date.now(),
     completed: false
@@ -106,7 +106,8 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
             snapshot.forEach(function (data) {
               var groupMemberId = data.key();
               if (groupMemberId !== currentAuth.uid) {
-                Users.createCardForUser(groupMemberId, card, currentAuth.uid);
+                console.log(groupMemberId);
+                Users.createCardForUser(groupMemberId, card, currentAuth.uid, currentAuth.password.email);
               }
             });
           });
@@ -115,7 +116,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     };
   };
 
-  $scope.selectedTags = [];
+  //$scope.selectedTags = [];
 
   $scope.switchActiveSide = function (card) {
     card.frontIsActive = !card.frontIsActive;

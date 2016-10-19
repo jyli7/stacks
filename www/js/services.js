@@ -35,10 +35,13 @@ angular.module('stacksApp.services', []
         tokensRef.update(tokenObj);
       },
 
-      createCardForUser: function (userId, card, senderId) {
-        card.creator_id = userId;
-        card.sender_id = senderId;
-        Cards.forUser(userId).$add(card).then(function (ref) {
+      createCardForUser: function (userId, card, senderId, senderEmail) {
+        var newCard = JSON.parse(JSON.stringify(card));
+        newCard.creator_id = userId;
+        newCard.sender_id = senderId;
+        newCard.sender_email = senderEmail;
+        console.log(userId);
+        Cards.forUser(userId).$add(newCard).then(function (ref) {
           var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
           $firebaseArray(cardsForUserRef).$ref().child(ref.key()).set(true);
         });
