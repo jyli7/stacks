@@ -25,18 +25,21 @@
       <div class="card-count">{{filtered.length}} active cards</div>
       <td-card ng-repeat="card in cards | orderBy: 'last_updated' | filter: {completed: false} as filtered" on-double-tap="switchActiveSide(card)"
                on-transition-right="recycle(card, swipeCard)" on-transition-left="complete(card)" on-partial-swipe="cardPartialSwipe(amt)"
-               ng-class="{flipped: !card.frontIsActive}"
-               ng-click="shareWithGroups(card)">
+               ng-class="{flipped: !card.frontIsActive}">
+
+
         <div class="card-front face">
           {{card.front}}
+          <a href="#" ng-click="shareWithGroups(card)" class="share-link">Share</a>
           <span ng-show="card.back.length > 0" class="back-instruction">Has back</span>
         </div>
+
 
         <div class="card-back face">
           {{card.back}}
         </div>
-        <div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>
-        <div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Recycle</div></div>
+        <!--<div class="no-text overlayBox"><div class="noBox boxed">Trash</div></div>-->
+        <!--<div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Recycle</div></div>-->
       </td-card>
     </td-cards>
 </ion-view>

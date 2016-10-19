@@ -97,23 +97,22 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
   };
 
   $scope.shareWithGroups = function (card) {
-    console.log("clicked");
-    rootRef.child("users").child(currentAuth.uid).child('groups').on('value', function (snapshot) {
-      snapshot.forEach(function (data) {
-        var groupId = data.key();
-        rootRef.child("groups").child(groupId).child('members').on('value', function (snapshot) {
-          snapshot.forEach(function (data) {
-            var groupMemberId = data.key();
-            if (groupMemberId !== currentAuth.uid) {
-              Users.createCardForUser(groupMemberId, card, currentAuth.uid);
-            }
+    var response = confirm("Share this card with your groups?");
+    if (response == true) {
+      rootRef.child("users").child(currentAuth.uid).child('groups').on('value', function (snapshot) {
+        snapshot.forEach(function (data) {
+          var groupId = data.key();
+          rootRef.child("groups").child(groupId).child('members').on('value', function (snapshot) {
+            snapshot.forEach(function (data) {
+              var groupMemberId = data.key();
+              if (groupMemberId !== currentAuth.uid) {
+                Users.createCardForUser(groupMemberId, card, currentAuth.uid);
+              }
+            });
           });
         });
-
-        console.log(data.key());
-        console.log(data.val());
       });
-    });
+    };
   };
 
   $scope.selectedTags = [];

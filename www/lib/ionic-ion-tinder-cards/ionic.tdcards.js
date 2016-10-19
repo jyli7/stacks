@@ -281,6 +281,7 @@
         onSnapBack: '&',
         onDestroy: '&'
       },
+
       compile: function(element, attr) {
         return function($scope, $element, $attr, swipeCards) {
           var el = $element[0];
@@ -308,6 +309,10 @@
                 }
                 $scope.onPartialSwipe({amt: amt});
               });
+            },
+            onTap: function (card) {
+              console.log("here at all");
+              $scope.$parent.onTap(card);
             },
             onSwipeRight: function() {
               $timeout(function() {
@@ -408,6 +413,8 @@
         var existingCards, card;
 
         var i, j;
+
+
 
         var sortCards = function() {
           existingCards = $element[0].querySelectorAll('td-card');

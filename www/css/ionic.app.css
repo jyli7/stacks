@@ -9931,3 +9931,9 @@ td-card {
   right: 10px;
   bottom: 10px;
   color: gray; }
+
+.share-link {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding: 0 0 10px 10px; }
