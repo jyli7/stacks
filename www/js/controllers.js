@@ -176,7 +176,6 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     members: ''
   };
 
-
   $scope.createGroup = function () {
     var memberEmails = $scope.newGroup.members.split(",|, ");
     delete $scope.newGroup.members;

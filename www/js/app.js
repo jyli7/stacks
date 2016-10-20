@@ -165,7 +165,7 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise("#/app/groups");
+  $urlRouterProvider.otherwise("/app/cards");
 };
 
 ApplicationConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicCloudProvider', '$ionicConfigProvider'];
