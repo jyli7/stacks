@@ -71,10 +71,13 @@ angular.module('stacksApp.services', []
       },
 
       forUser: function (userId) {
-        //var groupIdsForUserRef = rootRef.child("users").child(userId).child("groups");
-        var groupsForUserRef = rootRef.child("groups").orderByChild("creator_id").equalTo(userId);
-        //var groupsForUserRef = rootRef.child("groups").orderByChild("members").equalTo(userId);
-        return $firebaseArray(groupsForUserRef);
+        var nc = new Firebase.util.NormalizedCollection(
+          rootRef.child('users/' + userId),
+          ref.child('groups')
+        )
+          .select('groups.name', 'groups.description')
+          .ref();
+        return $firebaseArray(nc);
       }
     };
 
