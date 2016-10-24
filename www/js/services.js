@@ -72,11 +72,14 @@ angular.module('stacksApp.services', []
 
       forUser: function (userId) {
         var nc = new Firebase.util.NormalizedCollection(
-          rootRef.child('users/' + userId),
-          ref.child('groups')
-        )
-          .select('groups.name', 'groups.description')
-          .ref();
+          [rootRef.child("/users/" + userId + "/groups"), "userGroups"],
+          rootRef.child("/groups")
+        ).select(
+          "userGroups.$key",
+          "groups.name",
+          "groups.members",
+          "groups.description"
+        ).ref();
         return $firebaseArray(nc);
       }
     };

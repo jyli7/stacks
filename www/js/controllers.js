@@ -168,6 +168,7 @@ AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush']
 
 function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, groupsList) {
   $scope.groups = groupsList;
+  console.log($scope.groups);
 
   $scope.newGroup = {
     name: '',
@@ -182,6 +183,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
     // TODO: Refactor
     $scope.groups.$add($scope.newGroup).then(function (groupRef) {
+      console.log("INside");
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       // Add group to requested members, add members to group
