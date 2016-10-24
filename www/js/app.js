@@ -121,11 +121,6 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       resolve: {
         "currentAuth": ["Auth", function (Auth) {
           return Auth.$requireAuth();
-        }],
-        "groupsList": ["Groups", "Auth", function (Groups, Auth){
-          return Groups.forUser(Auth.$getAuth().uid).$loaded().then(function (data) {
-            return data;
-          });
         }]
       }
     })

@@ -166,9 +166,8 @@ function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
 
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
 
-function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, groupsList) {
-  $scope.groups = groupsList;
-  console.log($scope.groups);
+function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth) {
+  $scope.groups = Groups.forUser(currentAuth.uid);
 
   $scope.newGroup = {
     name: '',
@@ -181,9 +180,8 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     var memberEmails = $scope.newGroup.members.split(",|, ");
     delete $scope.newGroup.members;
 
-    // TODO: Refactor
-    $scope.groups.$add($scope.newGroup).then(function (groupRef) {
-      console.log("INside");
+    var groupsRef = rootRef.child("groups");
+    groupsRef.push($scope.newGroup).then(function (groupRef) {
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       // Add group to requested members, add members to group
@@ -200,12 +198,11 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
       // Add group to creator, add creator to group
       Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
       rootRef.child('groups').child(groupRef.key()).child('members').child($scope.newGroup.creator_id).set(true);
-
     });
   };
 };
 
-GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', 'groupsList'];
+GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth'];
 
 
 
