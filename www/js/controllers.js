@@ -74,7 +74,13 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList) {
+function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal) {
+
+  $ionicModal.fromTemplateUrl('templates/createCard.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
 
   $scope.cards = cardsList;
 
@@ -93,6 +99,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
       $scope.newCard.front = '';
       $scope.newCard.back = '';
       Users.getCardsForUserById(currentAuth.uid).$ref().child(ref.key()).set(true);
+      $scope.modal.hide();
     });
   };
 
@@ -150,12 +157,9 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     card.completed = true;
     $scope.cards.$save(card);
   };
-
-
-
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
 
 function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
   $scope.logout = function () {
