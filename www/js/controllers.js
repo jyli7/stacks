@@ -74,7 +74,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal) {
+function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal) {
 
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
@@ -82,7 +82,20 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     $scope.modal = modal;
   });
 
+  $ionicModal.fromTemplateUrl('templates/shareWithGroups.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.shareWithGroupsModal = modal;
+  });
+
+  $scope.showShareWithGroupsModal = function (cardToShare) {
+    $scope.selectedCard = cardToShare;
+    $scope.shareWithGroupsModal.show();
+  };
+
   $scope.cards = cardsList;
+
+  $scope.groups = Groups.forUser(currentAuth.uid);
 
   $scope.newCard = {
     front: '',
@@ -103,24 +116,30 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
     });
   };
 
-  $scope.shareWithGroups = function (card) {
-    var response = confirm("Share this card with your groups?");
-    if (response == true) {
-      rootRef.child("users").child(currentAuth.uid).child('groups').on('value', function (snapshot) {
-        snapshot.forEach(function (data) {
-          var groupId = data.key();
-          rootRef.child("groups").child(groupId).child('members').on('value', function (snapshot) {
+  $scope.shareWithGroups = function () {
+    var selectedGroups = $scope.groups.filter(function (group) { return group.selected === true });
+    if (selectedGroups.length > 0) {
+      var response = confirm("Share this card with selected groups?");
+      if (response == true) {
+        var groupMemberIds = new Set();
+        selectedGroups.forEach(function (group) {
+          rootRef.child("groups").child(group.$id).child('members').on('value', function (snapshot) {
             snapshot.forEach(function (data) {
               var groupMemberId = data.key();
-              if (groupMemberId !== currentAuth.uid) {
-                console.log(groupMemberId);
-                Users.createCardForUser(groupMemberId, card, currentAuth.uid, currentAuth.password.email);
+              if (groupMemberId !== currentAuth.uid && !groupMemberIds.has(groupMemberId)) {
+                groupMemberIds.add(groupMemberId);
+                Users.createCardForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
               }
             });
           });
         });
-      });
-    };
+        $scope.shareWithGroupsModal.hide();
+        $scope.groups.forEach(function (group) { group.selected = false; });
+      };
+    } else {
+      alert("You have not selected any groups");
+    }
+
   };
 
   //$scope.selectedTags = [];
@@ -159,7 +178,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, currentAuth, $state, $http, TD
   };
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
 
 function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
   $scope.logout = function () {

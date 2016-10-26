@@ -9945,3 +9945,6 @@ td-card {
   position: absolute;
   bottom: 35px;
   left: 10px; }
+
+.share-card-display {
+  height: 220px; }

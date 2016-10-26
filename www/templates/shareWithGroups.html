@@ -1,0 +1,30 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Share Card With Groups</h1>
+    <button class="button button-clear button-primary" ng-click="shareWithGroupsModal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="has-header">
+    <td-cards class="share-card-display">
+      <td-card on-double-tap="switchActiveSide(selectedCard)">
+        <div class="card-front face">
+          {{selectedCard.front}}
+          <span class="card-sender" ng-show="selectedCard.sender_email.length > 0">Shared with you by {{selectedCard.sender_email}}</span>
+          <span ng-show="selectedCard.back.length > 0" class="back-instruction">Has back</span>
+        </div>
+        <div class="card-back face">
+          {{selectedCard.back}}
+        </div>
+      </td-card>
+    </td-cards>
+
+    <ion-list>
+      <ion-list ng-repeat="group in groups">
+        <ion-checkbox ng-model="group.selected">{{group.name}}</ion-checkbox>
+      </ion-list>
+    </ion-list>
+    <div class="padding">
+      <button type="submit" class="button button-block button-positive" ng-click="shareWithGroups()">Share With Groups
+      </button>
+    </div>
+  </ion-content>
+</ion-modal-view>

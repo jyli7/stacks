@@ -18,7 +18,7 @@
         <div class="card-front face">
           {{card.front}}
           <span class="card-sender" ng-show="card.sender_email.length > 0">Shared with you by {{card.sender_email}}</span>
-          <a href="#" ng-click="shareWithGroups(card)" class="share-link">Share with your groups</a>
+          <a href="#" ng-click="showShareWithGroupsModal(card)" class="share-link">Share with your groups</a>
           <span ng-show="card.back.length > 0" class="back-instruction">Has back</span>
         </div>
 
