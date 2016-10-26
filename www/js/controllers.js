@@ -170,7 +170,13 @@ function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
 
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
 
-function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth) {
+function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
+  $ionicModal.fromTemplateUrl('templates/createGroup.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
   $scope.groups = Groups.forUser(currentAuth.uid);
 
   $scope.newGroup = {
@@ -188,6 +194,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     groupsRef.push($scope.newGroup).then(function (groupRef) {
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
+      $scope.modal.hide();
       // Add group to requested members, add members to group
       for (var i = 0; i < memberEmails.length; memberEmails++) {
         var email = memberEmails[i];
@@ -206,7 +213,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 };
 
-GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth'];
+GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal'];
 
 
 
