@@ -182,14 +182,20 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
 CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
 
-function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
+function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush, $ionicModal) {
+  $ionicModal.fromTemplateUrl('templates/notifications.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.notificationsModal = modal;
+  });
+
   $scope.logout = function () {
     $scope.cards = [];
     Auth.$unauth();
   };
 };
 
-AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
+AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
 function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
@@ -217,7 +223,6 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
     for (var i = 0; i < memberEmails.length; memberEmails++) {
       var email = memberEmails[i];
-      console.log(email);
       rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
         snapshot.forEach(function (data) {
           var userId = data.key();
