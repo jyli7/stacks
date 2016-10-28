@@ -198,6 +198,19 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     $scope.modal = modal;
   });
 
+  $ionicModal.fromTemplateUrl('templates/groupShow.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.groupShowModal = modal;
+  });
+
+  $scope.showGroupModal = function (group) {
+    $scope.selectedGroup = group;
+    $scope.selectedGroupMembers = Groups.getMembersWithGroupId(group.$key);
+    console.log($scope.selectedGroupMembers);
+    $scope.groupShowModal.show();
+  };
+
   $scope.groups = Groups.forUser(currentAuth.uid);
 
   $scope.newGroup = {
@@ -239,7 +252,6 @@ GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$s
 function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $scope.user = Users.getUserById(currentAuth.uid);
 
-  console.log($scope.user);
   $scope.user.$loaded().then(function() {
     //$scope.numNotificationsPerBatch = $scope.user.numNotificationsPerBatch;
   });

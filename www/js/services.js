@@ -85,6 +85,18 @@ angular.module('stacksApp.services', []
           "groups.description"
         ).ref();
         return $firebaseArray(nc);
+      },
+
+      getMembersWithGroupId: function (groupId) {
+        var nc = new Firebase.util.NormalizedCollection(
+          [rootRef.child("/groups/" + groupId + "/members"), "groupMembers"],
+          rootRef.child("/users")
+        ).select(
+          "groupMembers.$key",
+          "users.uid",
+          "users.email"
+        ).ref();
+        return $firebaseArray(nc);
       }
     };
 

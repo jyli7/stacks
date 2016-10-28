@@ -8,7 +8,7 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
-      <ion-item ng-repeat="group in groups">
+      <ion-item ng-repeat="group in groups" ng-click="showGroupModal(group)">
         {{group.name}}
       </ion-item>
     </ion-list>

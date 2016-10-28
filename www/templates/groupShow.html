@@ -1,0 +1,14 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">{{selectedGroup.name}}</h1>
+    <button class="button button-clear button-primary" ng-click="shareWithGroupsModal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="has-header">
+    <div>{{selectedGroup.description}}</div>
+    <ion-list>
+      <ion-list ng-repeat="member in selectedGroupMembers">
+        <ion-item><img gravatar-src="member.email" gravatar-size="100"></ion-item>
+      </ion-list>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>
