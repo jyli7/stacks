@@ -206,9 +206,26 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
   $scope.showGroupModal = function (group) {
     $scope.selectedGroup = group;
+    console.log(group);
     $scope.selectedGroupMembers = Groups.getMembersWithGroupId(group.$key);
-    console.log($scope.selectedGroupMembers);
     $scope.groupShowModal.show();
+  };
+
+  $scope.addGroupMembers = function () {
+    var memberEmails = $scope.selectedGroup.newMemberEmails.split(",|, ");
+    var groupId = $scope.selectedGroup.$key;
+
+    for (var i = 0; i < memberEmails.length; memberEmails++) {
+      var email = memberEmails[i];
+      console.log(email);
+      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+        snapshot.forEach(function (data) {
+          var userId = data.key();
+          Users.getGroupsForUserById(userId).$ref().child(groupId).set(true);
+          rootRef.child('groups').child(groupId).child('members').child(userId).set(true);
+        });
+      });
+    }
   };
 
   $scope.groups = Groups.forUser(currentAuth.uid);
@@ -218,6 +235,15 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     description: '',
     creator_id: currentAuth.uid,
     members: ''
+  };
+
+  $scope.removeFromGroup = function (member) {
+    delete $scope.selectedGroup.members[member.$id];
+    delete member.groups[$scope.selectedGroup.$id];
+
+    rootRef.child('groups').child($scope.selectedGroup.$id).update({members: $scope.selectedGroup.members}).then(function () {
+      rootRef.child('users').child(member.$id).update({groups: member.groups});
+    });
   };
 
   $scope.createGroup = function () {

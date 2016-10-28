@@ -94,7 +94,8 @@ angular.module('stacksApp.services', []
         ).select(
           "groupMembers.$key",
           "users.uid",
-          "users.email"
+          "users.email",
+          "users.groups"
         ).ref();
         return $firebaseArray(nc);
       }
