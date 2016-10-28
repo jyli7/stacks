@@ -6,6 +6,8 @@ angular.module('stacksApp.controllers', [])
 
   .controller('GroupsCtrl', GroupsCtrl)
 
+  .controller('SettingsCtrl', SettingsCtrl)
+
   .controller('PasswordResetCtrl', PasswordResetCtrl)
 
   .controller('AppCtrl', AppCtrl)
@@ -233,6 +235,17 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 };
 
 GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal'];
+
+function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
+  $scope.user = currentAuth;
+
+  var userRef = rootRef.child("users").child(currentAuth.uid);
+  $scope.updateSettings = function () {
+    userRef.set($scope.user);
+  };
+};
+
+SettingsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal'];
 
 
 

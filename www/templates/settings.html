@@ -1,0 +1,28 @@
+<ion-view title="Settings" cache-view="false">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Settings</h1>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <form class="settings-form" ng-submit="updateSettings()">
+      <label>How often should we send you a batch of cards?</label>
+      <!--<ion-list>-->
+        <!--<ion-radio ng-model="user.numBatchesPerDay" ng-value="0">0</ion-radio>-->
+        <!--<ion-radio ng-model="user.numBatchesPerDay" ng-value="1">1</ion-radio>-->
+        <!--<ion-radio ng-model="user.numBatchesPerDay" ng-value="2">2</ion-radio>-->
+        <!--<ion-radio ng-model="user.numBatchesPerDay" ng-value="3">3</ion-radio>-->
+      <!--</ion-list>-->
+
+      <label>At most how many cards should we send, per batch?</label>
+      <ion-list>
+        <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="0">0</ion-radio>
+        <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="5">5</ion-radio>
+        <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="10">10</ion-radio>
+      </ion-list>
+
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Update settings</button>
+      </div>
+    </form>
+
+  </ion-content>
+</ion-view>

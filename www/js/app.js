@@ -125,6 +125,21 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       }
     })
 
+    .state('app.settings', {
+      url: '/settings',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/settings.html',
+          controller: 'SettingsCtrl'
+        }
+      },
+      resolve: {
+        "currentAuth": ["Auth", function (Auth) {
+          return Auth.$requireAuth();
+        }]
+      }
+    })
+
     .state('login', {
       url: '/login',
       resolve: {
