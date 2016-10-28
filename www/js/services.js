@@ -10,9 +10,13 @@ angular.module('stacksApp.services', []
 
   .factory('Auth', Auth)
 
-  .factory('Users', ['rootRef', 'Cards', '$firebaseArray', function (rootRef, Cards, $firebaseArray) {
+  .factory('Users', ['rootRef', 'Cards', '$firebaseArray', '$firebaseObject', function (rootRef, Cards, $firebaseArray, $firebaseObject) {
     var usersRef = rootRef.child('users');
     return {
+      getUserById: function (userId) {
+        return $firebaseObject(rootRef.child("users").child(userId));
+      },
+
       getCardsForUserById: function (userId) {
         var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
         return $firebaseArray(cardsForUserRef);

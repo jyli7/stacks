@@ -237,11 +237,18 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal'];
 
 function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
-  $scope.user = currentAuth;
+  $scope.user = Users.getUserById(currentAuth.uid);
+
+  console.log($scope.user);
+  $scope.user.$loaded().then(function() {
+    //$scope.numNotificationsPerBatch = $scope.user.numNotificationsPerBatch;
+  });
 
   var userRef = rootRef.child("users").child(currentAuth.uid);
   $scope.updateSettings = function () {
-    userRef.set($scope.user);
+    $scope.user.$save().then(function () {
+      alert("Settings saved!");
+    });
   };
 };
 
