@@ -87,7 +87,12 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
+      controller: 'AppCtrl',
+      resolve: {
+        "currentAuth": ["Auth", function (Auth) {
+          return Auth.$requireAuth();
+        }]
+      }
     })
 
     .state('app.cards', {

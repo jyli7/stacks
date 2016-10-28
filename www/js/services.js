@@ -10,7 +10,7 @@ angular.module('stacksApp.services', []
 
   .factory('Auth', Auth)
 
-  .factory('Users', ['rootRef', 'Cards', '$firebaseArray', '$firebaseObject', function (rootRef, Cards, $firebaseArray, $firebaseObject) {
+  .factory('Users', ['rootRef', 'Cards', 'CardInvites', '$firebaseArray', '$firebaseObject', function (rootRef, Cards, CardInvites, $firebaseArray, $firebaseObject) {
     var usersRef = rootRef.child('users');
     return {
       getUserById: function (userId) {
@@ -25,6 +25,11 @@ angular.module('stacksApp.services', []
       getGroupsForUserById: function (userId) {
         var groupsForUserRef = rootRef.child("users").child(userId).child('groups');
         return $firebaseArray(groupsForUserRef);
+      },
+
+      getGroupInvitesForUserById: function (userId) {
+        var groupInvitesForUserRef = rootRef.child("users").child(userId).child('groupInvites');
+        return $firebaseArray(groupInvitesForUserRef);
       },
 
       getTagsForUserById: function (userId) {
@@ -48,7 +53,19 @@ angular.module('stacksApp.services', []
           var cardsForUserRef = rootRef.child("users").child(userId).child('cards');
           $firebaseArray(cardsForUserRef).$ref().child(ref.key()).set(true);
         });
+      },
+
+      createCardInviteForUser: function (userId, card, senderId, senderEmail) {
+        var newCard = JSON.parse(JSON.stringify(card));
+        newCard.invitee_id = userId;
+        newCard.inviter_id = senderId;
+        newCard.sender_email = senderEmail;
+        CardInvites.forUser(userId).$add(newCard).then(function (ref) {
+          var cardInvitesForUserRef = rootRef.child("users").child(userId).child('cardInvites');
+          $firebaseArray(cardInvitesForUserRef).$ref().child(ref.key()).set(true);
+        });
       }
+
     };
   }])
 
@@ -67,11 +84,43 @@ angular.module('stacksApp.services', []
 
   }])
 
-  .factory('Groups', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+  .factory('CardInvites', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+    var cardInvitesRef = rootRef.child("cardInvites");
+    return {
+      forUser: function (userId) {
+        var cardsForUserRef = rootRef.child("cardInvites").orderByChild("invitee_id").equalTo(userId);
+        return $firebaseArray(cardsForUserRef);
+      }
+    }
+  }])
+
+  .factory('GroupInvites', ['rootRef', '$firebaseArray', function (rootRef, $firebaseArray) {
+    var groupInvitesRef = rootRef.child("groupInvites");
+    return {
+      getInvitesForUserId: function (userId) {
+        var nc = new Firebase.util.NormalizedCollection(
+          [rootRef.child("/users/" + userId + "/groupInvites"), "userGroupInvites"],
+          rootRef.child("/groupInvites")
+        ).select(
+          "userGroupInvites.$key",
+          "groupInvites.groupId",
+          "groupInvites.invitee_id",
+          "groupInvites.inviter_id"
+        ).ref();
+        return $firebaseArray(nc);
+      }
+    }
+  }])
+
+  .factory('Groups', ['rootRef', '$firebaseArray', '$firebaseObject', function (rootRef, $firebaseArray, $firebaseObject) {
     var groupsRef = rootRef.child("groups");
     return {
       all: function () {
         return $firebaseArray(groupsRef);
+      },
+
+      getGroupById: function (groupId) {
+        return $firebaseObject(rootRef.child("groups").child(groupId));
       },
 
       forUser: function (userId) {

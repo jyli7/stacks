@@ -5,13 +5,21 @@
   </ion-header-bar>
   <ion-content class="padding">
     <ion-list>
-      <ion-item ng-repeat="groupInvite in groupInvites">
-        <!--{{group.name}}-->
-      </ion-item>
+      <div ng-repeat="groupInvite in groupInvites">
+        Invited to {{groupsInvitedTo[groupInvite.group_id].name}} by {{groupInviters[groupInvite.inviter_id].email}}
+        <a href="#" ng-click="acceptGroupInvite(groupInvite)">Accept</a>
+        <a href="#" ng-click="declineGroupInvite(groupInvite)">Decline</a>
+      </div>
 
-      <ion-item ng-repeat="cardInvite in cardInvites">
-        <!--{{group.name}}-->
-      </ion-item>
+      <div ng-repeat="cardInvite in cardInvites">
+        Group member {{cardInviters[cardInvite.inviter_id].email}} has shared this card with you. Would you like to add it to your deck?
+        <div>FRONT: {{cardInvite.front}}</div>
+        <div>BACK: {{cardInvite.back}}</div>
+        <a href="#" ng-click="acceptCardInvite(cardInvite)">Accept</a>
+        <a href="#" ng-click="declineCardInvite(cardInvite)">Decline</a>
+        <br>
+        <br>
+      </div>
     </ion-list>
   </ion-content>
 </ion-modal-view>

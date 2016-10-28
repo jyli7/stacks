@@ -130,7 +130,8 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
               var groupMemberId = data.key();
               if (groupMemberId !== currentAuth.uid && !groupMemberIds.has(groupMemberId)) {
                 groupMemberIds.add(groupMemberId);
-                Users.createCardForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
+                Users.createCardInviteForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
+                //Users.createCardForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
               }
             });
           });
@@ -146,9 +147,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
   //$scope.selectedTags = [];
 
-  $scope.switchActiveSide = function (card) {
-    card.frontIsActive = !card.frontIsActive;
-  };
+
 
   $scope.zIndexCount = -2;
 
@@ -161,7 +160,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
     $scope.cards.$save(card).then(function () {
       $scope.zIndexCount -= 1;
       el.style.zIndex = $scope.zIndexCount;
-      yesText.style.opacity = 0;
+      //yesText.style.opacity = 0;
       setTimeout(function () {
         el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
         el.style.transition = el.style.webkitTransition = 'all 0.75s ease-in-out';
@@ -182,20 +181,98 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
 CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
 
-function AppCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush, $ionicModal) {
+function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, currentAuth, $state, Users, $ionicPush, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/notifications.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.notificationsModal = modal;
   });
 
+  $scope.switchActiveSide = function (card) {
+    card.frontIsActive = !card.frontIsActive;
+  };
+
+  $scope.user = Users.getUserById(currentAuth.uid);
+  $scope.groupInvites = GroupInvites.getInvitesForUserId(currentAuth.uid);
+
+  $scope.groupsInvitedTo = {};
+  $scope.groupInviters = {};
+
+  $scope.groupInvites.$watch(function () {
+    $scope.groupInvites.forEach(function (groupInvite) {
+      if (groupInvite.groupId) {
+        $scope.groupsInvitedTo[groupInvite.groupId] = Groups.getGroupById(groupInvite.groupId);
+      }
+
+      if (groupInvite.inviter_id) {
+        $scope.groupInviters[groupInvite.inviter_id] = Users.getUserById(groupInvite.inviter_id);
+      }
+    });
+  });
+
+  $scope.cardInvites = CardInvites.forUser(currentAuth.uid);
+  $scope.cardInviters = {};
+
+  $scope.cardInvites.$watch(function () {
+    $scope.cardInvites.forEach(function (cardInvite) {
+      if (cardInvite.inviter_id) {
+        $scope.cardInviters[cardInvite.inviter_id] = Users.getUserById(cardInvite.inviter_id);
+      }
+    });
+  });
+
   $scope.logout = function () {
     $scope.cards = [];
     Auth.$unauth();
   };
+
+  $scope.acceptGroupInvite = function (invite) {
+    Users.getGroupsForUserById(currentAuth.uid).$ref().child(invite.groupId).set(true);
+    rootRef.child('groups').child(invite.groupId).child('members').child(currentAuth.uid).set(true);
+    $scope.deleteGroupInviteForCurrentUser(invite);
+  };
+
+  $scope.declineGroupInvite = function (invite) {
+    $scope.deleteGroupInviteForCurrentUser(invite);
+  };
+
+  $scope.deleteGroupInviteForCurrentUser = function (invite) {
+    var inviteId = invite.$id;
+    rootRef.child('groupInvites').child(inviteId).remove().then(function () {
+      rootRef.child('users').child(currentAuth.uid).child('groupInvites').child(inviteId).remove().then(function () {
+        $scope.groupInvites = GroupInvites.getInvitesForUserId(currentAuth.uid);
+      });
+    });
+  }
+
+  $scope.acceptCardInvite = function (invite) {
+    var card = {
+      front: invite.front,
+      back: invite.back,
+      frontIsActive: true,
+      creator_id: currentAuth.uid,
+      last_updated: Date.now(),
+      completed: false
+    };
+    Users.createCardForUser(invite.invitee_id, card, invite.inviter_id, invite.sender_email);
+    $scope.deleteCardInviteForCurrentUser(invite);
+  };
+
+  $scope.declineCardInvite = function (invite) {
+    $scope.deleteCardInviteForCurrentUser(invite);
+  };
+
+  $scope.deleteCardInviteForCurrentUser = function (invite) {
+    var inviteId = invite.$id;
+    rootRef.child('cardInvites').child(inviteId).remove().then(function () {
+      rootRef.child('users').child(currentAuth.uid).child('cardInvites').child(inviteId).remove().then(function () {
+        $scope.cardInvites = CardInvites.forUser(currentAuth.uid);
+      });
+    });
+  }
 };
 
-AppCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush', '$ionicModal'];
+AppCtrl.$inject = ['rootRef', '$scope', 'Auth', 'GroupInvites', 'Groups', 'CardInvites', 'currentAuth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
 function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
@@ -212,7 +289,6 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
   $scope.showGroupModal = function (group) {
     $scope.selectedGroup = group;
-    console.log(group);
     $scope.selectedGroupMembers = Groups.getMembersWithGroupId(group.$key);
     $scope.groupShowModal.show();
   };
@@ -226,8 +302,13 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
       rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
         snapshot.forEach(function (data) {
           var userId = data.key();
-          Users.getGroupsForUserById(userId).$ref().child(groupId).set(true);
-          rootRef.child('groups').child(groupId).child('members').child(userId).set(true);
+          rootRef.child('groupInvites').push({
+            invitee_id: userId,
+            inviter_id: currentAuth.uid,
+            groupId: groupId
+          }).then(function (groupInviteRef) {
+            Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
+          });
         });
       });
     }
@@ -256,21 +337,30 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     delete $scope.newGroup.members;
 
     var groupsRef = rootRef.child("groups");
+
+    // Create the group itself
     groupsRef.push($scope.newGroup).then(function (groupRef) {
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       $scope.modal.hide();
-      // Add group to requested members, add members to group
+
+      // Create group invites
       for (var i = 0; i < memberEmails.length; memberEmails++) {
         var email = memberEmails[i];
         rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
           snapshot.forEach(function (data) {
             var userId = data.key();
-            Users.getGroupsForUserById(userId).$ref().child(groupRef.key()).set(true);
-            rootRef.child('groups').child(groupRef.key()).child('members').child(userId).set(true);
+            rootRef.child('groupInvites').push({
+              invitee_id: userId,
+              inviter_id: currentAuth.uid,
+              groupId: groupRef.key()
+            }).then(function (groupInviteRef) {
+              Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
+            });
           });
         });
       }
+
       // Add group to creator, add creator to group
       Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
       rootRef.child('groups').child(groupRef.key()).child('members').child($scope.newGroup.creator_id).set(true);
