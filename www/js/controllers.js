@@ -76,7 +76,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal) {
+function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal, Notifications) {
 
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
@@ -120,6 +120,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
   $scope.shareWithGroups = function () {
     var selectedGroups = $scope.groups.filter(function (group) { return group.selected === true });
+    var inviterEmail = currentAuth.password.email;
     if (selectedGroups.length > 0) {
       var response = confirm("Share this card with selected groups?");
       if (response == true) {
@@ -130,8 +131,12 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
               var groupMemberId = data.key();
               if (groupMemberId !== currentAuth.uid && !groupMemberIds.has(groupMemberId)) {
                 groupMemberIds.add(groupMemberId);
-                Users.createCardInviteForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
-                //Users.createCardForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, currentAuth.password.email);
+                Users.createCardInviteForUser(groupMemberId, $scope.selectedCard, currentAuth.uid, inviterEmail);
+                var msg = inviterEmail + " has shared a card with you. Check it out to accept or decline.";
+                rootRef.child("users").child(groupMemberId).once('value', function (snapshot) {
+                  var user = snapshot.val();
+                  Notifications.sendNotificationToUser(user.tokens, msg);
+                });
               }
             });
           });
@@ -144,10 +149,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
     }
 
   };
-
-  //$scope.selectedTags = [];
-
-
 
   $scope.zIndexCount = -2;
 
@@ -179,7 +180,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
   };
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal', 'Notifications'];
 
 function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, currentAuth, $state, Users, $ionicPush, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/notifications.html', {
