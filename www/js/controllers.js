@@ -249,7 +249,7 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
 
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', 'GroupInvites', 'Groups', 'CardInvites', 'currentAuth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
-function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
+function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal, Notifications) {
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
     scope: $scope
   }).then(function(modal) {
@@ -286,6 +286,9 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
             group_id: groupId,
             group_name: groupName
           }).then(function (groupInviteRef) {
+            var user = data.val();
+            var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
+            Notifications.sendNotificationToUser(user.tokens, msg);
             Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
           });
         });
@@ -381,7 +384,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 };
 
-GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal'];
+GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal', 'Notifications'];
 
 function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $scope.user = Users.getUserById(currentAuth.uid);

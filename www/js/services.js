@@ -10,6 +10,33 @@ angular.module('stacksApp.services', []
 
   .factory('Auth', Auth)
 
+  .factory('Notifications', ['rootRef', '$http', function (rootRef, $http) {
+    return {
+      sendNotificationToUser: function (userTokens, msg) {
+        tokens = Object.keys(userTokens);
+        var data = {
+          "tokens": tokens,
+          "profile": "jimmy",
+          "notification": {
+            "message": msg
+          }
+        };
+
+        $http({
+          url: 'https://api.ionic.io/push/notifications', //URL to hit
+          method: 'POST', //Specify the method
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1NGEwYTJlZi0wZjkxLTQ5MGUtYTMwYy00NzE4YTAyNzk4YmUifQ.L5Ylvt6lvJ7IYQEYHIqkWOnqNy7MYJjPA1i0UwGkWCw"
+          },
+          data: data
+        }).then(function successCallback(response) {
+          }, function errorCallback(response) {
+        });
+      }
+    }
+  }])
+
   .factory('Users', ['rootRef', 'Cards', 'CardInvites', '$firebaseArray', '$firebaseObject', function (rootRef, Cards, CardInvites, $firebaseArray, $firebaseObject) {
     var usersRef = rootRef.child('users');
     return {
