@@ -321,6 +321,25 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     });
   };
 
+  $scope.destroyGroup = function (group) {
+    var response = confirm("Are you sure you want to delete group and remove all its members?");
+    if (response === true) {
+      var members = group.members;
+      for (var memberId in group.members) {
+        if (group.members.hasOwnProperty(memberId)) {
+          rootRef.child('users').child(memberId).child('groups').child(group.$id).remove();
+        }
+      }
+      rootRef.child('groups').child(group.$id).remove(function (error) {
+        if (error) {
+          console.log("Group destroy failed");
+        } else {
+          $scope.groupShowModal.hide();
+        }
+      });
+    }
+  };
+
   $scope.createGroup = function () {
     var memberEmails = $scope.newGroup.members.split(",|, ");
     delete $scope.newGroup.members;
