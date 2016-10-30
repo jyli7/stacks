@@ -330,6 +330,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     // Create the group itself
     groupsRef.push($scope.newGroup).then(function (groupRef) {
       var groupName = $scope.newGroup.name;
+      var inviterEmail = currentAuth.password.email || "Inviter email unknown";
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       $scope.modal.hide();
@@ -344,7 +345,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
             rootRef.child('groupInvites').push({
               invitee_id: userId,
               inviter_id: currentAuth.uid,
-              inviter_email: email,
+              inviter_email: inviterEmail,
               group_id: groupId,
               group_name: groupName
             }).then(function (groupInviteRef) {
