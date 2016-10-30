@@ -195,21 +195,6 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
   $scope.user = Users.getUserById(currentAuth.uid);
   $scope.groupInvites = GroupInvites.getInvitesForUserId(currentAuth.uid);
 
-  $scope.groupsInvitedTo = {};
-  $scope.groupInviters = {};
-
-  $scope.groupInvites.$watch(function () {
-    $scope.groupInvites.forEach(function (groupInvite) {
-      if (groupInvite.groupId) {
-        $scope.groupsInvitedTo[groupInvite.groupId] = Groups.getGroupById(groupInvite.groupId);
-      }
-
-      if (groupInvite.inviter_id) {
-        $scope.groupInviters[groupInvite.inviter_id] = Users.getUserById(groupInvite.inviter_id);
-      }
-    });
-  });
-
   $scope.cardInvites = CardInvites.forUser(currentAuth.uid);
   $scope.cardInviters = {};
 
@@ -227,8 +212,8 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
   };
 
   $scope.acceptGroupInvite = function (invite) {
-    Users.getGroupsForUserById(currentAuth.uid).$ref().child(invite.groupId).set(true);
-    rootRef.child('groups').child(invite.groupId).child('members').child(currentAuth.uid).set(true);
+    Users.getGroupsForUserById(currentAuth.uid).$ref().child(invite.group_id).set(true);
+    rootRef.child('groups').child(invite.group_id).child('members').child(currentAuth.uid).set(true);
     $scope.deleteGroupInviteForCurrentUser(invite);
   };
 
@@ -296,6 +281,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   $scope.addGroupMembers = function () {
     var memberEmails = $scope.selectedGroup.newMemberEmails.split(",|, ");
     var groupId = $scope.selectedGroup.$key;
+    var groupName = $scope.selectedGroup.name;
 
     for (var i = 0; i < memberEmails.length; memberEmails++) {
       var email = memberEmails[i];
@@ -305,7 +291,9 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
           rootRef.child('groupInvites').push({
             invitee_id: userId,
             inviter_id: currentAuth.uid,
-            groupId: groupId
+            inviter_email: email,
+            group_id: groupId,
+            group_name: groupName
           }).then(function (groupInviteRef) {
             Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
           });
@@ -340,6 +328,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
     // Create the group itself
     groupsRef.push($scope.newGroup).then(function (groupRef) {
+      var groupName = $scope.newGroup.name;
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       $scope.modal.hide();
@@ -350,10 +339,13 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
         rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
           snapshot.forEach(function (data) {
             var userId = data.key();
+            var groupId = groupRef.key();
             rootRef.child('groupInvites').push({
               invitee_id: userId,
               inviter_id: currentAuth.uid,
-              groupId: groupRef.key()
+              inviter_email: email,
+              group_id: groupId,
+              group_name: groupName
             }).then(function (groupInviteRef) {
               Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
             });

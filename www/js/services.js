@@ -103,8 +103,9 @@ angular.module('stacksApp.services', []
           rootRef.child("/groupInvites")
         ).select(
           "userGroupInvites.$key",
-          "groupInvites.groupId",
-          "groupInvites.invitee_id",
+          "groupInvites.group_id",
+          "groupInvites.group_name",
+          "groupInvites.inviter_email",
           "groupInvites.inviter_id"
         ).ref();
         return $firebaseArray(nc);
