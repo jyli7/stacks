@@ -279,12 +279,12 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 
   $scope.addGroupMembers = function () {
-    var memberEmails = $scope.selectedGroup.newMemberEmails.split(",|, ");
+    var memberEmails = $scope.selectedGroup.newMemberEmails.split(/, |,/);
     var groupId = $scope.selectedGroup.$key;
     var groupName = $scope.selectedGroup.name;
     var inviterEmail = currentAuth.password.email || "Inviter email unknown";
 
-    for (var i = 0; i < memberEmails.length; memberEmails++) {
+    for (var i = 0; i < memberEmails.length; i++) {
       var email = memberEmails[i];
       rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
         snapshot.forEach(function (data) {
@@ -322,7 +322,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 
   $scope.destroyGroup = function (group) {
-    var response = confirm("Are you sure you want to delete group and remove all its members?");
+    var response = confirm("Are you sure you want to delete group, remove all its members, and retract all invites?");
     if (response === true) {
       var members = group.members;
       for (var memberId in group.members) {
@@ -330,6 +330,16 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
           rootRef.child('users').child(memberId).child('groups').child(group.$id).remove();
         }
       }
+
+      rootRef.child('groupInvites').orderByChild('group_id').equalTo(group.$id).once('value', function(snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          var groupInviteId = childSnapshot.key();
+          var groupInvite = childSnapshot.val();
+          rootRef.child('users').child(groupInvite.invitee_id).child('groupInvites').child(groupInviteId).remove();
+          childSnapshot.ref().remove();
+        });
+      });
+
       rootRef.child('groups').child(group.$id).remove(function (error) {
         if (error) {
           console.log("Group destroy failed");
@@ -341,7 +351,8 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 
   $scope.createGroup = function () {
-    var memberEmails = $scope.newGroup.members.split(",|, ");
+    var memberEmails = $scope.newGroup.members.split(/, |,/);
+    console.log(memberEmails);
     delete $scope.newGroup.members;
 
     var groupsRef = rootRef.child("groups");
@@ -355,7 +366,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
       $scope.modal.hide();
 
       // Create group invites
-      for (var i = 0; i < memberEmails.length; memberEmails++) {
+      for (var i = 0; i < memberEmails.length; i++) {
         var email = memberEmails[i];
         rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
           snapshot.forEach(function (data) {
