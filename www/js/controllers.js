@@ -282,6 +282,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     var memberEmails = $scope.selectedGroup.newMemberEmails.split(",|, ");
     var groupId = $scope.selectedGroup.$key;
     var groupName = $scope.selectedGroup.name;
+    var inviterEmail = currentAuth.password.email || "Inviter email unknown";
 
     for (var i = 0; i < memberEmails.length; memberEmails++) {
       var email = memberEmails[i];
@@ -291,7 +292,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
           rootRef.child('groupInvites').push({
             invitee_id: userId,
             inviter_id: currentAuth.uid,
-            inviter_email: email,
+            inviter_email: inviterEmail,
             group_id: groupId,
             group_name: groupName
           }).then(function (groupInviteRef) {
