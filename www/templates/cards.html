@@ -6,7 +6,11 @@
   <ion-nav-buttons side="right">
     <button class="button button-icon ion-compose" ng-click="modal.show()">
     </button>
-    <button class="button button-icon ion-ios-bell-outline" ng-click="notificationsModal.show()">
+    <button class="button button-icon ion-ios-bell-outline notification-icon" ng-click="notificationsModal.show()">
+      <span class="button_badge" ng-show="(groupInvites.length + cardInvites.length) > 0 && ($scope.groupInvites.length + cardInvites.length) <= 99">
+        {{groupInvites.length + cardInvites.length}}
+      </span>
+      <span class="button_badge" ng-show="(groupInvites.length + cardInvites.length) >= 100">99+</span>
     </button>
   </ion-nav-buttons>
 

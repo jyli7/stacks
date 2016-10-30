@@ -194,17 +194,7 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
 
   $scope.user = Users.getUserById(currentAuth.uid);
   $scope.groupInvites = GroupInvites.getInvitesForUserId(currentAuth.uid);
-
   $scope.cardInvites = CardInvites.forUser(currentAuth.uid);
-  $scope.cardInviters = {};
-
-  $scope.cardInvites.$watch(function () {
-    $scope.cardInvites.forEach(function (cardInvite) {
-      if (cardInvite.inviter_id) {
-        $scope.cardInviters[cardInvite.inviter_id] = Users.getUserById(cardInvite.inviter_id);
-      }
-    });
-  });
 
   $scope.logout = function () {
     $scope.cards = [];
@@ -352,7 +342,6 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
   $scope.createGroup = function () {
     var memberEmails = $scope.newGroup.members.split(/, |,/);
-    console.log(memberEmails);
     delete $scope.newGroup.members;
 
     var groupsRef = rootRef.child("groups");

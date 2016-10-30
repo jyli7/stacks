@@ -190,3 +190,18 @@ td-card {
 .share-card-display {
   height: 220px;
 }
+
+.notification-icon {
+  position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+}
+
+.button_badge {
+  position: absolute;
+  top: 0px;
+  left: 19px;
+  background-color: #d4130d;
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 3px;
+  font: 8px Verdana;
+}

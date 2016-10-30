@@ -12,7 +12,7 @@
       </div>
 
       <div ng-repeat="cardInvite in cardInvites">
-        Group member {{cardInviters[cardInvite.inviter_id].email}} has shared this card with you. Would you like to add it to your deck?
+        Group member {{cardInvite.sender_email}} has shared this card with you. Would you like to add it to your deck?
         <div>FRONT: {{cardInvite.front}}</div>
         <div>BACK: {{cardInvite.back}}</div>
         <a href="#" ng-click="acceptCardInvite(cardInvite)">Accept</a>
