@@ -250,6 +250,29 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', 'GroupInvites', 'Groups', 'CardInvites', 'currentAuth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
 function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal, Notifications) {
+  var createGroupInvites = function (memberEmails, groupId, groupName, inviterEmail, currentAuth) {
+    for (var i = 0; i < memberEmails.length; i++) {
+      var email = memberEmails[i];
+      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+        snapshot.forEach(function (data) {
+          var userId = data.key();
+          rootRef.child('groupInvites').push({
+            invitee_id: userId,
+            inviter_id: currentAuth.uid,
+            inviter_email: inviterEmail,
+            group_id: groupId,
+            group_name: groupName
+          }).then(function (groupInviteRef) {
+            var user = data.val();
+            var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
+            Notifications.sendNotificationToUser(user.tokens, msg);
+            Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
+          });
+        });
+      });
+    }
+  };
+
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
     scope: $scope
   }).then(function(modal) {
@@ -274,26 +297,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     var groupName = $scope.selectedGroup.name;
     var inviterEmail = currentAuth.password.email || "Inviter email unknown";
 
-    for (var i = 0; i < memberEmails.length; i++) {
-      var email = memberEmails[i];
-      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
-        snapshot.forEach(function (data) {
-          var userId = data.key();
-          rootRef.child('groupInvites').push({
-            invitee_id: userId,
-            inviter_id: currentAuth.uid,
-            inviter_email: inviterEmail,
-            group_id: groupId,
-            group_name: groupName
-          }).then(function (groupInviteRef) {
-            var user = data.val();
-            var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
-            Notifications.sendNotificationToUser(user.tokens, msg);
-            Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
-          });
-        });
-      });
-    }
+    createGroupInvites(memberEmails, groupId, groupName, inviterEmail, currentAuth);
   };
 
   $scope.groups = Groups.forUser(currentAuth.uid);
@@ -351,31 +355,14 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
     // Create the group itself
     groupsRef.push($scope.newGroup).then(function (groupRef) {
+      var groupId = groupRef.key();
       var groupName = $scope.newGroup.name;
       var inviterEmail = currentAuth.password.email || "Inviter email unknown";
       $scope.newGroup.name = '';
       $scope.newGroup.description = '';
       $scope.modal.hide();
 
-      // Create group invites
-      for (var i = 0; i < memberEmails.length; i++) {
-        var email = memberEmails[i];
-        rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
-          snapshot.forEach(function (data) {
-            var userId = data.key();
-            var groupId = groupRef.key();
-            rootRef.child('groupInvites').push({
-              invitee_id: userId,
-              inviter_id: currentAuth.uid,
-              inviter_email: inviterEmail,
-              group_id: groupId,
-              group_name: groupName
-            }).then(function (groupInviteRef) {
-              Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
-            });
-          });
-        });
-      }
+      createGroupInvites(memberEmails, groupId, groupName, inviterEmail, currentAuth);
 
       // Add group to creator, add creator to group
       Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
