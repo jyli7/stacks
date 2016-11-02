@@ -178,6 +178,12 @@
     bindEvents: function() {
       var self = this;
       ionic.onGesture('dragstart', function(e) {
+        if (self.el.className.split(" ").indexOf("disable-dragging") != -1) {
+          e.preventDefault();
+        } else {
+          ionic.requestAnimationFrame(function() { self._doDragStart(e) });
+        }
+
         /*
         var cx = window.innerWidth / 2;
         if(e.gesture.touches[0].pageX < cx) {
@@ -186,17 +192,24 @@
           self._transformOriginLeft();
         }
         */
-        ionic.requestAnimationFrame(function() { self._doDragStart(e) });
       }, this.el);
 
       ionic.onGesture('drag', function(e) {
-        ionic.requestAnimationFrame(function() { self._doDrag(e) });
+        if (self.el.className.split(" ").indexOf("disable-dragging") != -1) {
+          e.preventDefault();
+        } else {
+          ionic.requestAnimationFrame(function() { self._doDrag(e) });
+        }
         // Indicate we want to stop parents from using this
         e.gesture.srcEvent.preventDefault();
       }, this.el);
 
       ionic.onGesture('dragend', function(e) {
-        ionic.requestAnimationFrame(function() { self._doDragEnd(e) });
+        if (self.el.className.split(" ").indexOf("disable-dragging") != -1) {
+          e.preventDefault();
+        } else {
+          ionic.requestAnimationFrame(function() { self._doDragEnd(e) });
+        }
       }, this.el);
     },
 
@@ -254,7 +267,7 @@
      */
     var fadeFn = function(t) {
       // Speed up time to ramp up quickly
-      t = Math.min(1, t * 2);
+      t = Math.min(1, t * 6);
 
       // This is a simple cubic bezier curve.
       // http://cubic-bezier.com/#.11,.67,.41,.99
@@ -303,16 +316,20 @@
                 if (amt < 0) {
                   if (self.leftText) {
                     self.leftText.style.opacity = fadeFn(-amt);
+                    self.leftText.style.zIndex = 2;
                   }
                   if (self.rightText) {
                     self.rightText.style.opacity = 0;
+                    self.rightText.style.zIndex = -1;
                   }
                 } else {
                   if (self.leftText) {
                     self.leftText.style.opacity = 0;
+                    self.leftText.style.zIndex = -1;
                   }
                   if (self.rightText) {
                     self.rightText.style.opacity = fadeFn(amt);
+                    self.rightText.style.zIndex = 2;
                   }
                 }
                 $scope.onPartialSwipe({amt: amt});
@@ -334,19 +351,31 @@
             },
             onTransitionRight: function() {
               var self = this;
+              $scope.onTransitionRight();
               $timeout(function() {
-                if (self.leftText) self.leftText.style.opacity = 0;
-                if (self.rightText) self.rightText.style.opacity = 0;
-                $scope.onTransitionRight();
-              });
+                if (self.leftText) {
+                  self.leftText.style.opacity = 0;
+                  self.leftText.style.zIndex = -1;
+                }
+                if (self.rightText) {
+                  self.rightText.style.opacity = 0;
+                  self.rightText.style.zIndex = -1;
+                }
+              }, 500);
             },
             onTransitionLeft: function() {
               var self = this;
+              $scope.onTransitionLeft();
               $timeout(function() {
-                if (self.leftText) self.leftText.style.opacity = 0;
-                if (self.rightText) self.rightText.style.opacity = 0;
-                $scope.onTransitionLeft();
-              });
+                if (self.leftText) {
+                  self.leftText.style.opacity = 0;
+                  self.leftText.style.zIndex = -1;
+                }
+                if (self.rightText) {
+                  self.rightText.style.opacity = 0;
+                  self.rightText.style.zIndex = -1;
+                }
+              }, 500);
             },
             onTransitionOut: function(amt) {
               if (amt < 0) {
@@ -388,9 +417,11 @@
                 el.style.transform = el.style.webkitTransform = 'translate3d(' + (startX - startX*v) + 'px, ' + (startY - startY*v) + 'px, 0) rotate(' + (startRotation - startRotation*v) + 'rad)';
                 if (rightText) {
                   rightText.style.opacity = 0;
+                  rightText.style.zIndex = -1;
                 }
                 if (leftText) {
                   leftText.style.opacity = 0;
+                  leftText.style.zIndex = -1;
                 }
               })
               .start();

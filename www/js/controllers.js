@@ -90,6 +90,10 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
     $scope.shareWithGroupsModal = modal;
   });
 
+  $scope.cardDisablePartialSwipe = function (amt) {
+    console.log("here");
+  };
+
   $scope.showShareWithGroupsModal = function (cardToShare) {
     $scope.selectedCard = cardToShare;
     $scope.shareWithGroupsModal.show();
@@ -147,7 +151,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
     } else {
       alert("You have not selected any groups");
     }
-
   };
 
   $scope.zIndexCount = -2;
@@ -251,24 +254,31 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', 'GroupInvites', 'Groups', 'CardInvites', 'currentAuth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
 function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal, Notifications) {
-  var createGroupInvites = function (memberEmails, groupId, groupName, inviterEmail, currentAuth) {
+  var createGroupInvites = function (memberEmails, group, inviterEmail, currentAuth) {
+    var groupId = group.$id;
+    var groupName = group.name;
+
     for (var i = 0; i < memberEmails.length; i++) {
       var email = memberEmails[i];
       rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
         snapshot.forEach(function (data) {
           var userId = data.key();
-          rootRef.child('groupInvites').push({
-            invitee_id: userId,
-            inviter_id: currentAuth.uid,
-            inviter_email: inviterEmail,
-            group_id: groupId,
-            group_name: groupName
-          }).then(function (groupInviteRef) {
-            var user = data.val();
-            var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
-            Notifications.sendNotificationToUser(user.tokens, msg);
-            Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
-          });
+          if (Object.keys(group.members).indexOf(userId) != -1) {
+            alert(email + " is already in the group");
+          } else {
+            rootRef.child('groupInvites').push({
+              invitee_id: userId,
+              inviter_id: currentAuth.uid,
+              inviter_email: inviterEmail,
+              group_id: groupId,
+              group_name: groupName
+            }).then(function (groupInviteRef) {
+              var user = data.val();
+              var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
+              Notifications.sendNotificationToUser(user.tokens, msg);
+              Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
+            });
+          }
         });
       });
     }
@@ -294,11 +304,9 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
   $scope.addGroupMembers = function () {
     var memberEmails = $scope.selectedGroup.newMemberEmails.split(/, |,/);
-    var groupId = $scope.selectedGroup.$key;
-    var groupName = $scope.selectedGroup.name;
     var inviterEmail = currentAuth.password.email || "Inviter email unknown";
 
-    createGroupInvites(memberEmails, groupId, groupName, inviterEmail, currentAuth);
+    createGroupInvites(memberEmails, $scope.selectedGroup, inviterEmail, currentAuth);
   };
 
   $scope.groups = Groups.forUser(currentAuth.uid);
@@ -363,7 +371,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
       $scope.newGroup.description = '';
       $scope.modal.hide();
 
-      createGroupInvites(memberEmails, groupId, groupName, inviterEmail, currentAuth);
+      createGroupInvites(memberEmails, groupRef.val(), inviterEmail, currentAuth);
 
       // Add group to creator, add creator to group
       Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);

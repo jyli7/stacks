@@ -5,7 +5,7 @@
   </ion-header-bar>
   <ion-content class="has-header">
     <td-cards class="share-card-display">
-      <td-card on-double-tap="switchActiveSide(selectedCard)">
+      <td-card class="disable-dragging" on-double-tap="switchActiveSide(selectedCard)" ng-class="{flipped: !selectedCard.frontIsActive}" on-partial-swipe="cardDisablePartialSwipe(amt)">
         <div class="card-front face">
           {{selectedCard.front}}
           <span class="card-sender" ng-show="selectedCard.sender_email.length > 0">Shared with you by {{selectedCard.sender_email}}</span>

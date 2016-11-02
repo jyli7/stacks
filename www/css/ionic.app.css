@@ -9878,7 +9878,7 @@ td-card {
     transform: rotateX(-180deg); }
   .td-card .card-front {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     background-color: white;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
