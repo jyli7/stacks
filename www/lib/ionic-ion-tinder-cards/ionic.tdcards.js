@@ -435,7 +435,7 @@
             card = existingCards[i];
             if(!card) continue;
             if(i > 0) {
-              card.style.transform = card.style.webkitTransform = 'translate3d(0, ' + (i * 4) + 'px, 0)';
+              //card.style.transform = card.style.webkitTransform = 'translate3d(0, ' + (i * 2) + 'px, 0)';
             }
             card.style.zIndex = (existingCards.length - i);
           }
@@ -458,8 +458,8 @@
           secondCard = cards.length > 2 && cards[1];
           thirdCard = cards.length > 3 && cards[2];
 
-          secondCard && bringCardUp(secondCard, amt, 4);
-          thirdCard && bringCardUp(thirdCard, amt, 8);
+          //secondCard && bringCardUp(secondCard, amt, 4);
+          //thirdCard && bringCardUp(thirdCard, amt, 8);
         };
       }]
     }
