@@ -126,7 +126,7 @@
 
     isUnderThreshold: function() {
       //return true;
-      return Math.abs(this.thresholdAmount) < 0.4;
+      return Math.abs(this.thresholdAmount) < 0.6;
     },
     /**
      * Fly the card out or animate back into resting position.
@@ -254,7 +254,7 @@
      */
     var fadeFn = function(t) {
       // Speed up time to ramp up quickly
-      t = Math.min(1, t * 3);
+      t = Math.min(1, t * 2);
 
       // This is a simple cubic bezier curve.
       // http://cubic-bezier.com/#.11,.67,.41,.99
@@ -300,26 +300,25 @@
               swipeCards.partial(amt);
               var self = this;
               $timeout(function() {
-                //if (amt < 0) {
-                //  if (self.leftText) {
-                //    self.leftText.style.opacity = fadeFn(-amt);
-                //  }
-                //  if (self.rightText) {
-                //    self.rightText.style.opacity = 0;
-                //  }
-                //} else {
-                //  if (self.leftText) {
-                //    self.leftText.style.opacity = 0;
-                //  }
-                //  if (self.rightText) {
-                //    self.rightText.style.opacity = fadeFn(amt);
-                //  }
-                //}
+                if (amt < 0) {
+                  if (self.leftText) {
+                    self.leftText.style.opacity = fadeFn(-amt);
+                  }
+                  if (self.rightText) {
+                    self.rightText.style.opacity = 0;
+                  }
+                } else {
+                  if (self.leftText) {
+                    self.leftText.style.opacity = 0;
+                  }
+                  if (self.rightText) {
+                    self.rightText.style.opacity = fadeFn(amt);
+                  }
+                }
                 $scope.onPartialSwipe({amt: amt});
               });
             },
             onTap: function (card) {
-              console.log("here at all");
               $scope.$parent.onTap(card);
             },
             onSwipeRight: function() {
@@ -334,6 +333,7 @@
               });
             },
             onTransitionRight: function() {
+              var self = this;
               $timeout(function() {
                 if (self.leftText) self.leftText.style.opacity = 0;
                 if (self.rightText) self.rightText.style.opacity = 0;
@@ -341,6 +341,7 @@
               });
             },
             onTransitionLeft: function() {
+              var self = this;
               $timeout(function() {
                 if (self.leftText) self.leftText.style.opacity = 0;
                 if (self.rightText) self.rightText.style.opacity = 0;

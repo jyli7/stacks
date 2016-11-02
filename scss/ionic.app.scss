@@ -122,35 +122,25 @@ td-card {
 }
 
 .boxed {
-  height: 50px;
-  width: 100px;
+  height: 20%;
+  width: 100%;
   padding: 10px;
   border-radius: 6px;
   font-size: 16px;
 }
 
 .yes-text {
-  background-color: rgba(0,256,0,0.2);
-  //z-index: 4;
-}
-
-.yesBox {
-  margin: 10% 60% 0% 10%;
-  border: 2px solid #00FF00;
-  color: rgb(0, 256, 0);
-  -webkit-transform: rotate(-25deg);
+  background-color: grey;
 }
 
 .no-text {
-  background-color: rgba(256,0,0,0.2);
-  //z-index: 4;
+  background-color: grey;
 }
 
-.noBox {
-  margin: 10% 10% 0% 60%;
-  border: 2px solid #FF0000;
-  color: rgb(256, 0, 0);
-  -webkit-transform: rotate(25deg);
+.yesBox, .noBox {
+  margin: 20% 0% 0% 0%;
+  text-align: center;
+  color: white;
 }
 
 .fade {
