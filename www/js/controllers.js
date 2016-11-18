@@ -14,7 +14,19 @@ angular.module('stacksApp.controllers', [])
 ;
 
 
-function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush) {
+function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush, $ionicModal) {
+
+  $ionicModal.fromTemplateUrl('templates/loginForm.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.loginModal = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/signupForm.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.signupModal = modal;
+  });
 
   $scope.data = {};
   $scope.setActiveUserIdOnTokens = function (userId) {
@@ -38,6 +50,7 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush) {
       } else {
         $scope.setActiveUserIdOnTokens(authData.uid);
       }
+      $scope.loginModal.hide();
     }).catch(function (error) {
       alert(error);
     });
@@ -72,7 +85,7 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush) {
   };
 }
 
-AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', 'Tokens', '$state', 'Users', '$ionicPush'];
+AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', 'Tokens', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
 function PasswordResetCtrl($scope, Auth, $state) {
   $scope.data = {}; // Empty object to get the form data.
@@ -103,7 +116,6 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
   });
 
   $scope.cardDisablePartialSwipe = function (amt) {
-    console.log("here");
   };
 
   $scope.showShareWithGroupsModal = function (cardToShare) {

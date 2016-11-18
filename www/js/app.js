@@ -42,7 +42,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
 
     rootRef.onAuth(function (authData) {
       if (authData === null) {
-        $state.go('login')
+        $state.go('loggedOutHome')
       } else {
         $state.go('app.cards', {}, {reload: true});
       }
@@ -51,7 +51,7 @@ function ApplicationRun($ionicPlatform, $rootScope, $state, rootRef, $ionicPush)
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
     if (error === 'AUTH_REQUIRED') {
-      $state.go('login');
+      $state.go('loggedOutHome');
     }
   });
 
@@ -145,8 +145,8 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
       }
     })
 
-    .state('login', {
-      url: '/login',
+    .state('loggedOutHome', {
+      url: '/loggedOutHome',
       resolve: {
         // Only allow access to this page if user is NOT already signed in
         requireNotAuthed: function($state, Auth){
@@ -157,26 +157,9 @@ function ApplicationConfig($stateProvider, $urlRouterProvider, $ionicCloudProvid
           });
         }
       },
-      templateUrl: 'templates/login.html',
+      templateUrl: 'templates/loggedOutHome.html',
       controller: 'AuthCtrl as ctrl'
     })
-
-    .state('signup', {
-      url: '/signup',
-      resolve: {
-        // Only allow access to this page if user is NOT already signed in
-        requireNotAuthed: function($state, Auth){
-          return Auth.$requireAuth().then(function(auth){
-            $state.go('app.cards');
-          }, function(error){
-            return;
-          });
-        }
-      },
-      templateUrl: 'templates/signup.html',
-      controller: 'AuthCtrl'
-    })
-
     ;
 
   // if none of the above states are matched, use this as the fallback
