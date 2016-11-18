@@ -1,24 +1,26 @@
 <ion-modal-view>
-  <ion-header-bar class="bar bar-header bar-positive">
-    <h1 class="title">Sign Up</h1>
+  <ion-header-bar class="bar bar-header bar-calm sign-up-header">
     <button class="button button-clear button-primary" ng-click="signupModal.hide()">Cancel</button>
   </ion-header-bar>
-  <ion-content class="padding has-header">
-    <form name="signupForm" ng-submit="register()" class="list card no-margin">
-
-      <ion-input class="item item-input item-stacked-label">
+  <ion-content class="">
+    <div class="mid-padding stacks-welcome">Hi! Welcome to stacks.</div>
+    <form name="signupForm" ng-submit="register()" class="list">
+      <ion-input class="item item-stacked-label borderless">
         <ion-label>Email</ion-label>
-        <input type="email" name="email" ng-model="data.email">
+        <input type="email" name="email" ng-model="data.email" class="underline-input">
       </ion-input>
 
-      <ion-input class="item item-input item-stacked-label">
+      <ion-input class="item item-stacked-label borderless">
         <ion-label>Password</ion-label>
-        <input type="password" name="password" ng-model="data.password">
+        <input type="password" name="password" ng-model="data.password" class="underline-input">
       </ion-input>
 
-      <ion-input class="item-input padding">
-        <input type="submit" class="button button-positive" value="Sign up"/>
-      </ion-input>
+
     </form>
   </ion-content>
+  <ion-footer-bar align-title="left" class="bar-calm">
+    <button class="button sign-up-button">
+      Sign up
+    </button>
+  </ion-footer-bar>
 </ion-modal-view>

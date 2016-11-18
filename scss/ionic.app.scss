@@ -24,11 +24,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 /* Empty. Add your own CSS if you like */
 
-
 /* Card styling */
 
 /* Empty. Add your own CSS if you like */
-
 
 /* Card styling */
 
@@ -57,10 +55,10 @@ td-card {
   width: 100%;
   &.flipped {
     .td-card {
-      -webkit-transform: rotateX( -180deg );
-      -moz-transform: rotateX( -180deg );
-      -o-transform: rotateX( -180deg );
-      transform: rotateX( -180deg );
+      -webkit-transform: rotateX(-180deg);
+      -moz-transform: rotateX(-180deg);
+      -o-transform: rotateX(-180deg);
+      transform: rotateX(-180deg);
     }
   }
 }
@@ -77,7 +75,7 @@ td-card {
 
   .face {
     border: 1px solid #999;
-    box-shadow: 0px 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     position: absolute;
     z-index: 2;
@@ -95,10 +93,10 @@ td-card {
     background-color: black;
     z-index: 1;
     color: white;
-    -webkit-transform: rotateX( -180deg );
-    -moz-transform: rotateX( -180deg );
-    -o-transform: rotateX( -180deg );
-    transform: rotateX( -180deg );
+    -webkit-transform: rotateX(-180deg);
+    -moz-transform: rotateX(-180deg);
+    -o-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
   }
 
   .card-front {
@@ -172,7 +170,7 @@ td-card {
 .card-sender {
   color: gray;
   font-size: 12px;
-  position:absolute;
+  position: absolute;
   bottom: 35px;
   left: 10px;
 }
@@ -195,3 +193,35 @@ td-card {
   padding: 1px 3px;
   font: 8px Verdana;
 }
+
+.borderless {
+  border: 0px;
+}
+
+.underline-input {
+  border-bottom: 1px solid black !important;
+  width: 80%;
+}
+
+.mid-padding {
+  padding: 16px;
+}
+
+.stacks-welcome {
+  font-size: 18px;
+  padding-top: 25px;
+}
+
+div {
+  color: #444;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+}
+
+.sign-up-button {
+  float: right;
+  position: absolute;
+  right: 10px;
+}
+

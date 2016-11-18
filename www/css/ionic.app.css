@@ -9955,3 +9955,28 @@ td-card {
   border-radius: 3px;
   padding: 1px 3px;
   font: 8px Verdana; }
+
+.borderless {
+  border: 0px; }
+
+.underline-input {
+  border-bottom: 1px solid black !important;
+  width: 80%; }
+
+.mid-padding {
+  padding: 16px; }
+
+.stacks-welcome {
+  font-size: 18px;
+  padding-top: 25px; }
+
+div {
+  color: #444;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif; }
+
+.sign-up-button {
+  float: right;
+  position: absolute;
+  right: 10px; }
