@@ -1,10 +1,10 @@
-<ion-modal-view>
+<ion-modal-view class="main-background-color">
   <ion-header-bar class="bar bar-header bar-calm sign-up-header">
     <button class="button button-clear button-primary" ng-click="signupModal.hide()">Cancel</button>
   </ion-header-bar>
   <ion-content>
     <div class="mid-padding stacks-welcome">Hi! Welcome to stacks.</div>
-    <form name="signupForm" ng-submit="register()" class="list">
+    <form name="signupForm" class="list">
       <ion-input class="item item-stacked-label borderless">
         <ion-label>Email</ion-label>
         <input type="email" name="email" ng-model="data.email" class="underline-input">
@@ -17,7 +17,7 @@
     </form>
   </ion-content>
   <ion-footer-bar align-title="left" class="bar-calm">
-    <button class="button sign-up-button">
+    <button class="button sign-up-button" ng-click="register()">
       Sign up
     </button>
   </ion-footer-bar>
