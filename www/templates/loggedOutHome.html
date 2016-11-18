@@ -1,18 +1,25 @@
-<ion-view hide-nav-bar="true">
-  <ion-content>
-    Stacks
+<ion-view hide-nav-bar="true" class="main-background-color">
+  <ion-content class="main-content">
+    <div class="main-title">Stacks</div>
 
-    <button class="button button-block button-positive" ng-click="signupModal.show()">
-      Sign up
-    </button>
+    <div class="button-container">
+      <button class="button button-calm" ng-click="signupModal.show()">
+        Sign up
+      </button>
+    </div>
 
-    <button class="button button-block button-positive" ng-click="loginModal.show()">
-      Log in
-    </button>
+    <div class="button-container">
+      <button class="button button-calm" ng-click="loginModal.show()">
+        Log in
+      </button>
+    </div>
 
-    <button class="button button-block button-positive" ng-click="ctrl.loginWithFacebook()">
-      Facebook
-    </button>
+    <div class="button-container">
+      <button class="button button-calm" ng-click="ctrl.loginWithFacebook()">
+        Continue with Facebook
+      </button>
+    </div>
+
 
     <!--<a href="#/passwordResetForm" class="button button-royal button-clear button-block button-small">-->
       <!--I forgot my password :'(-->

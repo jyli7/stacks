@@ -9980,3 +9980,22 @@ div {
   float: right;
   position: absolute;
   right: 10px; }
+
+.main-title {
+  text-align: center; }
+
+.main-content {
+  position: absolute;
+  top: 30%; }
+  .main-content button {
+    width: 240px; }
+
+.main-background-color {
+  background-color: #ebf0fa; }
+
+.button-container {
+  text-align: center;
+  padding: 10px 0px; }
+
+.light-blue-button {
+  color: #6edaf7; }

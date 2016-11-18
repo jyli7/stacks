@@ -20,6 +20,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import "www/lib/ionic/scss/ionic";
 
+
+
 /* Empty. Add your own CSS if you like */
 
 /* Empty. Add your own CSS if you like */
@@ -29,6 +31,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 /* Empty. Add your own CSS if you like */
 
 /* Card styling */
+
+$lightCalm: #6edaf7;
 
 td-cards {
   display: block;
@@ -224,4 +228,33 @@ div {
   position: absolute;
   right: 10px;
 }
+
+.main-title {
+  text-align: center;
+}
+
+.main-content {
+  position: absolute;
+  top: 30%;
+
+  button {
+    width: 240px;
+  }
+}
+
+.main-background-color {
+  background-color: #ebf0fa;
+}
+
+.button-container {
+  text-align: center;
+  padding: 10px 0px;
+}
+
+.light-blue-button {
+  color: $lightCalm;
+}
+
+
+
 
