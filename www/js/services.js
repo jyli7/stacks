@@ -65,10 +65,10 @@ angular.module('stacksApp.services', []
       },
 
       addDeviceTokenToUser: function (userId, token) {
-        var tokensRef = rootRef.child("users").child(userId).child('tokens');
+        var userTokensRef = rootRef.child("users").child(userId).child('tokens');
         var tokenObj = {};
         tokenObj[token] = true;
-        tokensRef.update(tokenObj);
+        return userTokensRef.update(tokenObj);
       },
 
       createCardForUser: function (userId, card, senderId, senderEmail) {
@@ -93,6 +93,18 @@ angular.module('stacksApp.services', []
         });
       }
 
+    };
+  }])
+
+  .factory('Tokens', ['rootRef', '$firebaseArray', '$firebaseObject', function (rootRef, $firebaseArray, $firebaseObject) {
+    var tokensRef = rootRef.child('tokens');
+    return {
+      setActiveUserId: function (tokenId, userId) {
+        var tokenRef = rootRef.child("tokens").child(tokenId);
+        tokenRef.set({
+          activeUserId: userId
+        });
+      }
     };
   }])
 

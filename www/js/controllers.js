@@ -14,9 +14,17 @@ angular.module('stacksApp.controllers', [])
 ;
 
 
-function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
+function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush) {
 
   $scope.data = {};
+  $scope.setActiveUserIdOnTokens = function (userId) {
+    var userTokens = rootRef.child("users").child(userId).child("tokens").on('value', function (snapshot) {
+      snapshot.forEach(function (data) {
+        var tokenId = data.key();
+        Tokens.setActiveUserId(tokenId, userId);
+      });
+    });
+  };
 
   $scope.loginEmail = function () {
     Auth.$authWithPassword({
@@ -24,7 +32,11 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
       "password": $scope.data.password
     }).then(function (authData) {
       if ($ionicPush.token) {
-        Users.addDeviceTokenToUser(authData.uid, $ionicPush.token["token"]);
+        Users.addDeviceTokenToUser(authData.uid, $ionicPush.token["token"]).then(function () {
+          $scope.setActiveUserIdOnTokens(authData.uid);
+        });
+      } else {
+        $scope.setActiveUserIdOnTokens(authData.uid);
       }
     }).catch(function (error) {
       alert(error);
@@ -60,7 +72,7 @@ function AuthCtrl(rootRef, $scope, Auth, $state, Users, $ionicPush) {
   };
 }
 
-AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', '$state', 'Users', '$ionicPush'];
+AuthCtrl.$inject = ['rootRef', '$scope', 'Auth', 'Tokens', '$state', 'Users', '$ionicPush'];
 
 function PasswordResetCtrl($scope, Auth, $state) {
   $scope.data = {}; // Empty object to get the form data.
