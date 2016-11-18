@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89a2fdde-0111-448e-847b-6131b75cb672" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/templates/loggedOutHome.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/templates/loginForm.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/templates/login.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/www/templates/signup.html" afterPath="$PROJECT_DIR$/www/templates/signupForm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers.js" afterPath="$PROJECT_DIR$/www/js/controllers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/loginForm.html" afterPath="$PROJECT_DIR$/www/templates/loginForm.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/signupForm.html" afterPath="$PROJECT_DIR$/www/templates/signupForm.html" />
     </list>
     <ignored path="stacks.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +29,8 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-27.148148">
-              <caret line="40" column="14" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="179" column="6" selection-start-line="179" selection-start-column="6" selection-end-line="179" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -42,8 +39,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.5">
-              <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+            <state vertical-scroll-proportion="-22.107143">
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -59,20 +56,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.024358975">
+              <caret line="1" column="94" selection-start-line="1" selection-start-column="94" selection-end-line="1" selection-end-column="94" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loggedOutHome.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="loggedOutHome.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/loggedOutHome.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.029411765">
+            <state vertical-scroll-proportion="-1.3571428">
               <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
               <folding />
             </state>
@@ -102,8 +99,8 @@
       <file leaf-file-name="loginForm.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/loginForm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.928572">
-              <caret line="22" column="12" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state vertical-scroll-proportion="-10.178572">
+              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -112,8 +109,8 @@
       <file leaf-file-name="signupForm.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/signupForm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.142858">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state vertical-scroll-proportion="-12.214286">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -129,7 +126,6 @@
       <list>
         <option value="$PROJECT_DIR$/www/templates/groupShow.html" />
         <option value="$PROJECT_DIR$/www/templates/notifications.html" />
-        <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/templates/cards.html" />
         <option value="$PROJECT_DIR$/scss/ionic.app.scss" />
         <option value="$PROJECT_DIR$/www/templates/shareWithGroups.html" />
@@ -138,13 +134,14 @@
         <option value="$PROJECT_DIR$/../interviews/careercup/longestIncreasingSubsequence.js" />
         <option value="$PROJECT_DIR$/../interviews/careercup/regex.js" />
         <option value="$PROJECT_DIR$/www/js/services.js" />
-        <option value="$PROJECT_DIR$/www/templates/loginForm.html" />
         <option value="$PROJECT_DIR$/www/templates/login.html" />
         <option value="$PROJECT_DIR$/www/templates/signup.html" />
-        <option value="$PROJECT_DIR$/www/js/controllers.js" />
-        <option value="$PROJECT_DIR$/www/js/app.js" />
-        <option value="$PROJECT_DIR$/www/templates/signupForm.html" />
         <option value="$PROJECT_DIR$/www/templates/loggedOutHome.html" />
+        <option value="$PROJECT_DIR$/www/templates/loginForm.html" />
+        <option value="$PROJECT_DIR$/www/templates/signupForm.html" />
+        <option value="$PROJECT_DIR$/www/js/controllers.js" />
+        <option value="$PROJECT_DIR$/www/index.html" />
+        <option value="$PROJECT_DIR$/www/js/app.js" />
       </list>
     </option>
   </component>
@@ -154,10 +151,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2556" />
-    <option name="y" value="-962" />
-    <option name="width" value="2556" />
-    <option name="height" value="1417" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -242,7 +238,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -355,10 +351,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2556" y="-962" width="2556" height="1417" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.094679184" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16805555" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32789317" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -712,42 +708,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="70" selection-start-line="73" selection-start-column="70" selection-end-line="73" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.5">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-27.148148">
-          <caret line="40" column="14" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/signupForm.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.142858">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state vertical-scroll-proportion="-12.214286">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/loginForm.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.928572">
-          <caret line="22" column="12" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state vertical-scroll-proportion="-10.178572">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -768,18 +740,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/app.js">
+    <entry file="file://$PROJECT_DIR$/www/templates/loggedOutHome.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+        <state vertical-scroll-proportion="-1.3571428">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/loggedOutHome.html">
+    <entry file="file://$PROJECT_DIR$/www/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.029411765">
-          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="179" column="6" selection-start-line="179" selection-start-column="6" selection-end-line="179" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.107143">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="70" selection-start-line="73" selection-start-column="70" selection-end-line="73" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.024358975">
+          <caret line="1" column="94" selection-start-line="1" selection-start-column="94" selection-end-line="1" selection-end-column="94" />
           <folding />
         </state>
       </provider>

@@ -50,7 +50,9 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush, $ion
       } else {
         $scope.setActiveUserIdOnTokens(authData.uid);
       }
-      $scope.loginModal.hide();
+      setTimeout(function () {
+        $scope.loginModal.hide();
+      }, 500);
     }).catch(function (error) {
       alert(error);
     });
@@ -101,7 +103,7 @@ function PasswordResetCtrl($scope, Auth, $state) {
 
 PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
-function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal, Notifications) {
+function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal, Notifications, $ionicPopup) {
 
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
@@ -171,7 +173,11 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
         });
         $scope.shareWithGroupsModal.hide();
         $scope.groups.forEach(function (group) { group.selected = false; });
-      };
+        $ionicPopup.alert({
+          title: 'Success!',
+          template: 'Shared card with groups!'
+        });
+      }
     } else {
       alert("You have not selected any groups");
     }
@@ -207,7 +213,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
   };
 }
 
-CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal', 'Notifications'];
+CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAuth', '$state', '$http', 'TDCardDelegate', 'Auth', 'cardsList', '$ionicModal', 'Notifications', '$ionicPopup'];
 
 function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, currentAuth, $state, Users, $ionicPush, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/notifications.html', {

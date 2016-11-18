@@ -5,11 +5,16 @@
   </ion-header-bar>
   <ion-content class="padding has-header">
     <form name="signupForm" ng-submit="register()" class="list card no-margin">
-      <ion-label>Email</ion-label>
-      <input type="email" name="email" placeholder="Your email..." ng-model="data.email"/>
 
-      <ion-label>Password</ion-label>
-      <input type="password" name="password" placeholder="Your password" ng-model="data.password">
+      <ion-input class="item item-input item-stacked-label">
+        <ion-label>Email</ion-label>
+        <input type="email" name="email" ng-model="data.email">
+      </ion-input>
+
+      <ion-input class="item item-input item-stacked-label">
+        <ion-label>Password</ion-label>
+        <input type="password" name="password" ng-model="data.password">
+      </ion-input>
 
       <ion-input class="item-input padding">
         <input type="submit" class="button button-positive" value="Sign up"/>
