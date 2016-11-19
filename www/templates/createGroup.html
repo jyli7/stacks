@@ -1,26 +1,29 @@
 <ion-modal-view>
-  <ion-header-bar class="bar bar-header bar-positive">
+  <ion-header-bar class="bar bar-header bar-calm">
     <h1 class="title">New Group</h1>
     <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
   </ion-header-bar>
   <ion-content class="padding">
     <form class="groups-form" ng-submit="createGroup()">
       <div class="list">
-        <label class="item item-input">
-          <textarea class="form-control" ng-model="newGroup.name" placeholder="Group name"></textarea>
-        </label>
+        <ion-input class="item taller-item item-stacked-label borderless card-input">
+          <label>Group name</label>
+          <textarea class="form-control group-name-input" ng-model="newGroup.name" placeholder=""></textarea>
+        </ion-input>
 
-        <label class="item item-input">
-          <textarea class="form-control" ng-model="newGroup.description" placeholder="Group description (optional)"></textarea>
-        </label>
+        <ion-input class="item taller-item item-stacked-label borderless card-input">
+          <label>Group description</label>
+          <textarea class="form-control group-desc-input" ng-model="newGroup.description" placeholder=""></textarea>
+        </ion-input>
 
-        <label class="item item-input">
-          <textarea class="form-control" ng-model="newGroup.members" placeholder="Member emails (comma separated)"></textarea>
-        </label>
+        <ion-input class="item taller-item item-stacked-label borderless card-input">
+          <label>Add members with emails (separated by comma)</label>
+          <textarea class="form-control member-email-input" ng-model="newGroup.members" placeholder="email1@gmail.com, email2@gmail.com, ..."></textarea>
+        </ion-input>
       </div>
 
       <div class="padding">
-        <button type="submit" class="button button-block button-positive">Create Group</button>
+        <button type="submit" class="button button-block button-calm">Create Group</button>
       </div>
     </form>
   </ion-content>

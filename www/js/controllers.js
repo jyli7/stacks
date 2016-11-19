@@ -105,9 +105,9 @@ PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal, Notifications, $ionicPopup) {
 
-  $scope.frontCharLimit = 200;
+  $scope.frontCharLimit = 250;
 
-  $scope.backCharLimit = 200;
+  $scope.backCharLimit = 250;
 
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
@@ -175,12 +175,12 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
             });
           });
         });
-        $scope.shareWithGroupsModal.hide();
         $scope.groups.forEach(function (group) { group.selected = false; });
         $ionicPopup.alert({
           title: 'Success!',
           template: 'Shared card with groups!'
         });
+        $scope.shareWithGroupsModal.hide();
       }
     } else {
       alert("You have not selected any groups");
@@ -202,7 +202,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
       setTimeout(function () {
         el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
         el.style.transition = el.style.webkitTransition = 'all 0.75s ease-in-out';
-      }, 100);
+      }, 500);
       setTimeout(function () {
         el.style.transition = el.style.webkitTransition = 'all 0s linear';
       }, 1000)
@@ -287,36 +287,7 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
 
 AppCtrl.$inject = ['rootRef', '$scope', 'Auth', 'GroupInvites', 'Groups', 'CardInvites', 'currentAuth', '$state', 'Users', '$ionicPush', '$ionicModal'];
 
-function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal, Notifications) {
-  var createGroupInvites = function (memberEmails, group, inviterEmail, currentAuth) {
-    var groupId = group.$id;
-    var groupName = group.name;
-
-    for (var i = 0; i < memberEmails.length; i++) {
-      var email = memberEmails[i];
-      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
-        snapshot.forEach(function (data) {
-          var userId = data.key();
-          if (Object.keys(group.members).indexOf(userId) != -1) {
-            alert(email + " is already in the group");
-          } else {
-            rootRef.child('groupInvites').push({
-              invitee_id: userId,
-              inviter_id: currentAuth.uid,
-              inviter_email: inviterEmail,
-              group_id: groupId,
-              group_name: groupName
-            }).then(function (groupInviteRef) {
-              var user = data.val();
-              var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
-              Notifications.sendNotificationToUser(user.tokens, msg);
-              Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
-            });
-          }
-        });
-      });
-    }
-  };
+function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal, Notifications, $ionicPopup) {
 
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
     scope: $scope
@@ -330,9 +301,36 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     $scope.groupShowModal = modal;
   });
 
+  $scope.createGroupInvites = function (memberEmails, groupId, group, inviterEmail, currentAuth) {
+    var groupName = group.name;
+
+    for (var i = 0; i < memberEmails.length; i++) {
+      var email = memberEmails[i];
+      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+        snapshot.forEach(function (data) {
+          var userId = data.key();
+          var groupInvite = {
+            invitee_id: userId,
+            inviter_id: currentAuth.uid,
+            inviter_email: inviterEmail,
+            group_id: groupId,
+            group_name: groupName
+          };
+          rootRef.child('groupInvites').push(groupInvite).then(function (groupInviteRef) {
+            var user = data.val();
+            var msg = "You have been invited to join the group " + groupName + " by the user " + inviterEmail;
+            Notifications.sendNotificationToUser(user.tokens, msg);
+            Users.getGroupInvitesForUserById(userId).$ref().child(groupInviteRef.key()).set(true);
+          });
+        });
+      });
+    }
+  };
+
   $scope.showGroupModal = function (group) {
     $scope.selectedGroup = group;
     $scope.selectedGroupMembers = Groups.getMembersWithGroupId(group.$key);
+    $scope.userIsCreatorOfSelectedGroup = $scope.selectedGroup.creator_id === currentAuth.uid;
     $scope.groupShowModal.show();
   };
 
@@ -340,7 +338,16 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     var memberEmails = $scope.selectedGroup.newMemberEmails.split(/, |,/);
     var inviterEmail = currentAuth.password.email || "Inviter email unknown";
 
-    createGroupInvites(memberEmails, $scope.selectedGroup, inviterEmail, currentAuth);
+    $scope.createGroupInvites(memberEmails, $scope.selectedGroup.$id, $scope.selectedGroup, inviterEmail, currentAuth);
+    $scope.selectedGroup.newMemberEmails = "";
+
+    setTimeout(function () {
+      $ionicPopup.alert({
+        title: 'Success!',
+        template: 'Sent out group invites!'
+      });
+    }, 500);
+
   };
 
   $scope.groups = Groups.forUser(currentAuth.uid);
@@ -391,8 +398,11 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
   };
 
   $scope.createGroup = function () {
-    var memberEmails = $scope.newGroup.members.split(/, |,/);
-    delete $scope.newGroup.members;
+    var memberEmails = [];
+    if ($scope.newGroup.members && $scope.newGroup.members.length > 0) {
+      memberEmails = $scope.newGroup.members.split(/, |,/);
+      delete $scope.newGroup.members;
+    }
 
     var groupsRef = rootRef.child("groups");
 
@@ -405,16 +415,21 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
       $scope.newGroup.description = '';
       $scope.modal.hide();
 
-      createGroupInvites(memberEmails, groupRef.val(), inviterEmail, currentAuth);
+      if (memberEmails.length > 0) {
+        groupRef.once("value", function (snapshot) {
+          var group = snapshot.val();
+          $scope.createGroupInvites(memberEmails, groupId, group, inviterEmail, currentAuth);
+        })
+      }
 
       // Add group to creator, add creator to group
-      Users.getGroupsForUserById($scope.newGroup.creator_id).$ref().child(groupRef.key()).set(true);
-      rootRef.child('groups').child(groupRef.key()).child('members').child($scope.newGroup.creator_id).set(true);
+      rootRef.child('users').child(currentAuth.uid).child('groups').child(groupRef.key()).set(true);
+      rootRef.child('groups').child(groupRef.key()).child('members').child(currentAuth.uid).set(true);
     });
   };
 };
 
-GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal', 'Notifications'];
+GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$state', '$http', 'Auth', '$ionicModal', 'Notifications', '$ionicPopup'];
 
 function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $scope.user = Users.getUserById(currentAuth.uid);

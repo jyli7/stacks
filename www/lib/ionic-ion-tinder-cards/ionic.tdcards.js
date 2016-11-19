@@ -267,7 +267,7 @@
      */
     var fadeFn = function(t) {
       // Speed up time to ramp up quickly
-      t = Math.min(1, t * 6);
+      t = Math.min(1, t * 3);
 
       // This is a simple cubic bezier curve.
       // http://cubic-bezier.com/#.11,.67,.41,.99

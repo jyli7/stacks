@@ -52,6 +52,32 @@ td-cards {
   height: 100px;
 }
 
+textarea.group-name-input, textarea.group-desc-input, textarea.member-email-input {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  resize: none;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+textarea.group-name-input {
+  height: 50px;
+}
+
+textarea.group-desc-input {
+  height: 80px;
+}
+
+textarea.member-email-input {
+  height: 50px;
+}
+
+.item.taller-item {
+  padding: 10px 16px;
+}
+
+
 textarea.front-input, textarea.back-input {
   height: 100%;
   resize: none;
@@ -90,8 +116,8 @@ td-card {
 
   .face {
     border: 1px solid #999;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     position: absolute;
     z-index: 2;
     height: 100%;
@@ -143,17 +169,19 @@ td-card {
 }
 
 .yes-text {
-  background-color: grey;
+  background-color: $calm;
 }
 
 .no-text {
-  background-color: grey;
+  background-color: $calm;
 }
 
 .yesBox, .noBox {
   margin: 20% 0% 0% 0%;
   text-align: center;
   color: white;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 .fade {
@@ -263,7 +291,7 @@ div {
 }
 
 .light-blue-button {
-  color: $lightCalm;
+  color: $calm;
 }
 
 .groups-share-icon {
@@ -300,6 +328,31 @@ div {
   cursor: not-allowed;
 }
 
+.bar.bar-stable {
+  background-color: $calm;
+  color: white;
+
+  .button {
+    color: white;
+  }
+
+  .title {
+    color: white;
+  }
+}
+
+.group-name, .group-desc, .group-members, .group-creator {
+  padding: 15px;
+}
+
+.group-name {
+  font-size: 18px;
+}
+
+.group-desc {
+  padding-top: 0px;
+  font-size: 14px;
+}
 
 
 

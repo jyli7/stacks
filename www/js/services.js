@@ -171,7 +171,8 @@ angular.module('stacksApp.services', []
           "userGroups.$key",
           "groups.name",
           "groups.members",
-          "groups.description"
+          "groups.description",
+          "groups.creator_id"
         ).ref();
         return $firebaseArray(nc);
       },

@@ -1,22 +1,24 @@
 <ion-modal-view>
-  <ion-header-bar class="bar bar-header bar-positive">
+  <ion-header-bar class="bar bar-header bar-calm">
     <h1 class="title">Edit Group</h1>
     <button class="button button-clear button-primary" ng-click="groupShowModal.hide()">Cancel</button>
   </ion-header-bar>
   <ion-content class="has-header">
-    <div>{{selectedGroup.name}}</div>
-    <div>{{selectedGroup.description}}</div>
+    <div class="group-name">{{selectedGroup.name}}</div>
+    <div class="group-desc">{{selectedGroup.description}}</div>
+    <div class="group-creator" ng-if="userIsCreatorOfSelectedGroup">You are the creator of this group</div>
     <form class="groups-form" ng-submit="addGroupMembers()">
       <div class="list">
         <label class="item item-input">
-          <textarea class="form-control" ng-model="selectedGroup.newMemberEmails" placeholder="Add group members (with comma separated emails)"></textarea>
+          <textarea class="form-control" ng-model="selectedGroup.newMemberEmail" placeholder="Add group members (with comma separated emails)"></textarea>
         </label>
       </div>
 
       <div class="padding">
-        <button type="submit" class="button button-block button-positive">Add Group Members</button>
+        <button type="submit" class="button button-block button-calm">Add Group Members</button>
       </div>
     </form>
+    <div class="group-members">Members</div>
     <ion-list>
       <ion-list ng-repeat="member in selectedGroupMembers">
         <ion-item>
