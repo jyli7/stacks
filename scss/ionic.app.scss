@@ -281,6 +281,24 @@ div {
   }
 }
 
+.front-char-count {
+  float: right;
+  margin-right: 1px;
+}
+
+.back-char-count {
+  float: right;
+  margin-right: 1px;
+}
+
+.overLimit {
+  color: red;
+}
+
+.button.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 
 
 

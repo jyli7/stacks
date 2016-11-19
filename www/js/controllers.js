@@ -105,6 +105,10 @@ PasswordResetCtrl.$inject = ['$scope', 'Auth', '$state'];
 
 function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $http, TDCardDelegate, Auth, cardsList, $ionicModal, Notifications, $ionicPopup) {
 
+  $scope.frontCharLimit = 200;
+
+  $scope.backCharLimit = 200;
+
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
   }).then(function(modal) {
@@ -198,7 +202,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
       setTimeout(function () {
         el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
         el.style.transition = el.style.webkitTransition = 'all 0.75s ease-in-out';
-      }, 500);
+      }, 100);
       setTimeout(function () {
         el.style.transition = el.style.webkitTransition = 'all 0s linear';
       }, 1000)
