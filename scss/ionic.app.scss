@@ -345,6 +345,11 @@ div {
   padding: 15px;
 }
 
+.group-creator {
+  font-style: italic;
+  font-size: 14px;
+}
+
 .group-name {
   font-size: 18px;
 }
@@ -352,6 +357,25 @@ div {
 .group-desc {
   padding-top: 0px;
   font-size: 14px;
+}
+
+.member-email {
+  position: relative;
+  bottom: 4px;
+  left: 3px;
+}
+
+.remove-from-group {
+  position: relative;
+  bottom: 0px;
+  float: right;
+  font-size: 25px;
+  cursor: hand;
+}
+
+.destroy-group-button {
+  width: 100%;
+  margin-top: 25px;
 }
 
 

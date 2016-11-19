@@ -18,13 +18,13 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush, $ion
 
   $ionicModal.fromTemplateUrl('templates/loginForm.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.loginModal = modal;
   });
 
   $ionicModal.fromTemplateUrl('templates/signupForm.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.signupModal = modal;
   });
 
@@ -111,13 +111,13 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
   $ionicModal.fromTemplateUrl('templates/createCard.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.modal = modal;
   });
 
   $ionicModal.fromTemplateUrl('templates/shareWithGroups.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.shareWithGroupsModal = modal;
   });
 
@@ -153,7 +153,9 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
   };
 
   $scope.shareWithGroups = function () {
-    var selectedGroups = $scope.groups.filter(function (group) { return group.selected === true });
+    var selectedGroups = $scope.groups.filter(function (group) {
+      return group.selected === true
+    });
     var inviterEmail = currentAuth.password.email;
     if (selectedGroups.length > 0) {
       var response = confirm("Share this card with selected groups?");
@@ -175,7 +177,9 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
             });
           });
         });
-        $scope.groups.forEach(function (group) { group.selected = false; });
+        $scope.groups.forEach(function (group) {
+          group.selected = false;
+        });
         $ionicPopup.alert({
           title: 'Success!',
           template: 'Shared card with groups!'
@@ -222,7 +226,7 @@ CardsCtrl.$inject = ['$scope', 'rootRef', 'Cards', 'Users', 'Groups', 'currentAu
 function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, currentAuth, $state, Users, $ionicPush, $ionicModal) {
   $ionicModal.fromTemplateUrl('templates/notifications.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.notificationsModal = modal;
   });
 
@@ -291,13 +295,13 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
   $ionicModal.fromTemplateUrl('templates/createGroup.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.modal = modal;
   });
 
   $ionicModal.fromTemplateUrl('templates/groupShow.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.groupShowModal = modal;
   });
 
@@ -306,7 +310,7 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
 
     for (var i = 0; i < memberEmails.length; i++) {
       var email = memberEmails[i];
-      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+      rootRef.child('users').orderByChild('email').equalTo(email).once('value', function (snapshot) {
         snapshot.forEach(function (data) {
           var userId = data.key();
           var groupInvite = {
@@ -363,38 +367,53 @@ function GroupsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, 
     delete $scope.selectedGroup.members[member.$id];
     delete member.groups[$scope.selectedGroup.$id];
 
-    rootRef.child('groups').child($scope.selectedGroup.$id).update({members: $scope.selectedGroup.members}).then(function () {
-      rootRef.child('users').child(member.$id).update({groups: member.groups});
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Removing user',
+      template: 'Are you sure you want to remove this user?'
+    });
+
+    confirmPopup.then(function (res) {
+      if (res) {
+        rootRef.child('groups').child($scope.selectedGroup.$id).update({members: $scope.selectedGroup.members}).then(function () {
+          rootRef.child('users').child(member.$id).update({groups: member.groups});
+        });
+      }
     });
   };
 
   $scope.destroyGroup = function (group) {
-    var response = confirm("Are you sure you want to delete group, remove all its members, and retract all invites?");
-    if (response === true) {
-      var members = group.members;
-      for (var memberId in group.members) {
-        if (group.members.hasOwnProperty(memberId)) {
-          rootRef.child('users').child(memberId).child('groups').child(group.$id).remove();
-        }
-      }
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Destroying group',
+      template: 'Are you sure you want to destroy this group?'
+    });
 
-      rootRef.child('groupInvites').orderByChild('group_id').equalTo(group.$id).once('value', function(snapshot) {
-        snapshot.forEach(function (childSnapshot) {
-          var groupInviteId = childSnapshot.key();
-          var groupInvite = childSnapshot.val();
-          rootRef.child('users').child(groupInvite.invitee_id).child('groupInvites').child(groupInviteId).remove();
-          childSnapshot.ref().remove();
+    confirmPopup.then(function (res) {
+      if (res) {
+        var members = group.members;
+        for (var memberId in group.members) {
+          if (group.members.hasOwnProperty(memberId)) {
+            rootRef.child('users').child(memberId).child('groups').child(group.$id).remove();
+          }
+        }
+
+        rootRef.child('groupInvites').orderByChild('group_id').equalTo(group.$id).once('value', function (snapshot) {
+          snapshot.forEach(function (childSnapshot) {
+            var groupInviteId = childSnapshot.key();
+            var groupInvite = childSnapshot.val();
+            rootRef.child('users').child(groupInvite.invitee_id).child('groupInvites').child(groupInviteId).remove();
+            childSnapshot.ref().remove();
+          });
         });
-      });
 
-      rootRef.child('groups').child(group.$id).remove(function (error) {
-        if (error) {
-          console.log("Group destroy failed");
-        } else {
-          $scope.groupShowModal.hide();
-        }
-      });
-    }
+        rootRef.child('groups').child(group.$id).remove(function (error) {
+          if (error) {
+            console.log("Group destroy failed");
+          } else {
+            $scope.groupShowModal.hide();
+          }
+        });
+      }
+    });
   };
 
   $scope.createGroup = function () {
@@ -434,7 +453,7 @@ GroupsCtrl.$inject = ['$scope', 'rootRef', 'Groups', 'Users', 'currentAuth', '$s
 function SettingsCtrl($scope, rootRef, Groups, Users, currentAuth, $state, $http, Auth, $ionicModal) {
   $scope.user = Users.getUserById(currentAuth.uid);
 
-  $scope.user.$loaded().then(function() {
+  $scope.user.$loaded().then(function () {
     //$scope.numNotificationsPerBatch = $scope.user.numNotificationsPerBatch;
   });
 

@@ -8,11 +8,10 @@
     <div class="group-desc">{{selectedGroup.description}}</div>
     <div class="group-creator" ng-if="userIsCreatorOfSelectedGroup">You are the creator of this group</div>
     <form class="groups-form" ng-submit="addGroupMembers()">
-      <div class="list">
-        <label class="item item-input">
-          <textarea class="form-control" ng-model="selectedGroup.newMemberEmail" placeholder="Add group members (with comma separated emails)"></textarea>
-        </label>
-      </div>
+      <ion-input class="item taller-item item-stacked-label borderless card-input">
+        <label>Add members with emails (separated by comma)</label>
+        <textarea class="form-control member-email-input" ng-model="selectedGroup.newMemberEmail" placeholder="email1@gmail.com, email2@gmail.com, etc."></textarea>
+      </ion-input>
 
       <div class="padding">
         <button type="submit" class="button button-block button-calm">Add Group Members</button>
@@ -22,11 +21,12 @@
     <ion-list>
       <ion-list ng-repeat="member in selectedGroupMembers">
         <ion-item>
-          <img gravatar-src="member.email" gravatar-size="100">
-          <a href="#" ng-click="removeFromGroup(member)">Remove from group</a>
+          <img gravatar-src="member.email" gravatar-size="20">
+          <span class="member-email">{{member.email}}</span>
+          <i href="#" ng-if="userIsCreatorOfSelectedGroup" ng-click="removeFromGroup(member)" class="ion-ios-close remove-from-group"></i>
         </ion-item>
       </ion-list>
     </ion-list>
-    <a href="#" ng-click="destroyGroup(selectedGroup)">Destroy group</a>
+    <button href="#" ng-if="userIsCreatorOfSelectedGroup" ng-click="destroyGroup(selectedGroup)" class="destroy-group-button button button-assertive">Destroy group</button>
   </ion-content>
 </ion-modal-view>
