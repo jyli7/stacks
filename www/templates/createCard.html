@@ -6,14 +6,16 @@
   <ion-content class="padding">
     <form class="cards-form" ng-submit="createCard()">
       <div class="list">
-        <label class="item item-input front-input-label">
-          <textarea class="form-control front-input" ng-model="newCard.front" placeholder="Front of card"></textarea>
-        </label>
+        <ion-input class="item item-stacked-label borderless card-input">
+          <label>Front of card</label>
+          <textarea class="form-control front-input" ng-model="newCard.front" placeholder=""></textarea>
+        </ion-input>
 
-        <label class="item item-input">
+        <ion-input class="item item-stacked-label borderless card-input">
+          <label>Back of card (optional)</label>
           <textarea class="form-control back-input" ng-model="newCard.back"
-                    placeholder="Back of card (optional)"></textarea>
-        </label>
+                      placeholder=""></textarea>
+        </ion-input>
       </div>
       <div class="padding">
         <button type="submit" class="button button-block button-positive">Create Card</button>

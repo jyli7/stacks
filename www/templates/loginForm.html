@@ -4,7 +4,7 @@
   </ion-header-bar>
   <ion-content>
     <div class="mid-padding stacks-welcome">Good to see you again.</div>
-    <form name="loginForm" class="list">
+    <form name="loginForm" class="list" ng-submit="loginEmail()">
       <ion-input class="item item-stacked-label borderless">
         <ion-label>Email</ion-label>
         <input type="email" name="email" ng-model="data.email" class="underline-input">
@@ -14,6 +14,8 @@
         <ion-label>Password</ion-label>
         <input type="password" name="password" ng-model="data.password" class="underline-input">
       </ion-input>
+
+      <input type="submit" class="hidden">
     </form>
   </ion-content>
   <ion-footer-bar align-title="left" class="bar-calm">

@@ -6,8 +6,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scss/ionic.app.scss" afterPath="$PROJECT_DIR$/scss/ionic.app.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/ionic.app.css" afterPath="$PROJECT_DIR$/www/css/ionic.app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/ionic.app.min.css" afterPath="$PROJECT_DIR$/www/css/ionic.app.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/cards.html" afterPath="$PROJECT_DIR$/www/templates/cards.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/createCard.html" afterPath="$PROJECT_DIR$/www/templates/createCard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/loginForm.html" afterPath="$PROJECT_DIR$/www/templates/loginForm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/signupForm.html" afterPath="$PROJECT_DIR$/www/templates/signupForm.html" />
     </list>
     <ignored path="stacks.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,37 +33,47 @@
         <entry file="file://$PROJECT_DIR$/www/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+              <caret line="115" column="22" selection-start-line="115" selection-start-column="22" selection-end-line="115" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="signupForm.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/templates/signupForm.html">
+      <file leaf-file-name="cards.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/templates/cards.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.857142">
-              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            <state vertical-scroll-proportion="-16.285715">
+              <caret line="24" column="66" selection-start-line="24" selection-start-column="66" selection-end-line="24" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loginForm.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="createCard.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/templates/createCard.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.428571">
+              <caret line="8" column="71" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loginForm.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/loginForm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10106383">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.107143">
+              <caret line="9" column="63" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loggedOutHome.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/templates/loggedOutHome.html">
+      <file leaf-file-name="ionic.app.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scss/ionic.app.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="58" selection-start-line="0" selection-start-column="58" selection-end-line="0" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.39086688">
+              <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -78,7 +89,6 @@
       <list>
         <option value="$PROJECT_DIR$/www/templates/groupShow.html" />
         <option value="$PROJECT_DIR$/www/templates/notifications.html" />
-        <option value="$PROJECT_DIR$/www/templates/cards.html" />
         <option value="$PROJECT_DIR$/www/templates/shareWithGroups.html" />
         <option value="$PROJECT_DIR$/www/lib/ionic-ion-tinder-cards/ionic.tdcards.js" />
         <option value="$PROJECT_DIR$/../interviews/careercup/cuttingRod.js" />
@@ -87,13 +97,15 @@
         <option value="$PROJECT_DIR$/www/js/services.js" />
         <option value="$PROJECT_DIR$/www/templates/login.html" />
         <option value="$PROJECT_DIR$/www/templates/signup.html" />
-        <option value="$PROJECT_DIR$/www/js/controllers.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/templates/loggedOutHome.html" />
-        <option value="$PROJECT_DIR$/scss/ionic.app.scss" />
         <option value="$PROJECT_DIR$/www/templates/signupForm.html" />
         <option value="$PROJECT_DIR$/www/templates/loginForm.html" />
+        <option value="$PROJECT_DIR$/www/js/controllers.js" />
+        <option value="$PROJECT_DIR$/www/templates/cards.html" />
+        <option value="$PROJECT_DIR$/www/templates/createCard.html" />
+        <option value="$PROJECT_DIR$/scss/ionic.app.scss" />
       </list>
     </option>
   </component>
@@ -103,10 +115,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="4" />
-    <option name="y" value="23" />
-    <option name="width" value="1436" />
-    <option name="height" value="877" />
+    <option name="x" value="-2556" />
+    <option name="y" value="-962" />
+    <option name="width" value="2556" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -304,10 +316,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="4" y="23" width="1436" height="877" extended-state="6" />
+    <frame x="-2556" y="-962" width="2556" height="1417" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16852368" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.094679184" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32789317" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -647,34 +659,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.024358975">
-          <caret line="1" column="94" selection-start-line="1" selection-start-column="94" selection-end-line="1" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5641026">
           <caret line="73" column="70" selection-start-line="73" selection-start-column="70" selection-end-line="73" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/cards.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/createCard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -695,6 +683,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.01439394">
+          <caret line="1" column="94" selection-start-line="1" selection-start-column="94" selection-end-line="1" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/signupForm.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23529412">
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/loggedOutHome.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -703,34 +707,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scss/ionic.app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.79787236">
-          <caret line="259" column="41" selection-start-line="259" selection-start-column="41" selection-end-line="259" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+          <caret line="115" column="22" selection-start-line="115" selection-start-column="22" selection-end-line="115" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/signupForm.html">
+    <entry file="file://$PROJECT_DIR$/www/templates/cards.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.857142">
-          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        <state vertical-scroll-proportion="-16.285715">
+          <caret line="24" column="66" selection-start-line="24" selection-start-column="66" selection-end-line="24" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/createCard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.428571">
+          <caret line="8" column="71" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/loginForm.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10106383">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.107143">
+          <caret line="9" column="63" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scss/ionic.app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39086688">
+          <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
           <folding />
         </state>
       </provider>

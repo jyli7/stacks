@@ -9820,6 +9820,9 @@ a.button {
 /* Card styling */
 /* Empty. Add your own CSS if you like */
 /* Card styling */
+.hidden {
+  display: none; }
+
 td-cards {
   display: block; }
 
@@ -9830,10 +9833,14 @@ td-cards {
 .item-input {
   height: 100px; }
 
-.front-input, .back-input {
+textarea.front-input, textarea.back-input {
   height: 100%;
   resize: none;
-  padding-top: 8px; }
+  padding: 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  width: 100%;
+  height: 100px; }
 
 td-card {
   font-size: 15px;
@@ -9918,7 +9925,7 @@ td-card {
 .card-count {
   padding: 5px 0 5px 12px; }
 
-.back-instruction {
+.card-num {
   float: right;
   position: absolute;
   right: 10px;
@@ -9937,7 +9944,7 @@ td-card {
   font-size: 12px;
   position: absolute;
   bottom: 35px;
-  left: 10px; }
+  left: 13px; }
 
 .share-card-display {
   height: 220px; }
@@ -9990,8 +9997,8 @@ div {
   .main-content button {
     width: 240px; }
 
-.main-background-color {
-  background-color: #ebf0fa; }
+.main-background-color, input {
+  background-color: white !important; }
 
 .button-container {
   text-align: center;
@@ -10000,5 +10007,13 @@ div {
 .light-blue-button {
   color: #6edaf7; }
 
-input {
-  background-color: #ebf0fa !important; }
+.groups-share-icon {
+  position: absolute;
+  bottom: -4px;
+  left: 7px;
+  font-size: 32px;
+  z-index: 1;
+  padding: 0 8px; }
+
+.card-input textarea {
+  margin-top: 10px; }
