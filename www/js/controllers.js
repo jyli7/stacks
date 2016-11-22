@@ -38,7 +38,11 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush, $ion
     });
   };
 
+  $scope.isLoading = false;
+
   $scope.loginEmail = function () {
+
+    $scope.isLoading = true;
     Auth.$authWithPassword({
       "email": $scope.data.email,
       "password": $scope.data.password
@@ -50,6 +54,7 @@ function AuthCtrl(rootRef, $scope, Auth, Tokens, $state, Users, $ionicPush, $ion
       } else {
         $scope.setActiveUserIdOnTokens(authData.uid);
       }
+      $scope.isLoading = false;
       setTimeout(function () {
         $scope.loginModal.hide();
       }, 500);
@@ -131,6 +136,8 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
 
   $scope.cards = cardsList;
 
+  $scope.currentCardNum = 0;
+
   $scope.groups = Groups.forUser(currentAuth.uid);
 
   $scope.newCard = {
@@ -139,8 +146,7 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
     frontIsActive: true,
     //tags: $scope.selectedTags,
     creator_id: currentAuth.uid,
-    last_updated: Date.now(),
-    completed: false
+    last_updated: Date.now()
   };
 
   $scope.createCard = function () {
@@ -214,10 +220,19 @@ function CardsCtrl($scope, rootRef, Cards, Users, Groups, currentAuth, $state, $
   };
 
   $scope.complete = function (card) {
-    console.log("Trashing....");
-    card.last_updated = Date.now();
-    card.completed = true;
-    $scope.cards.$save(card);
+    var cardId = card.$id;
+    rootRef.child('cards').child(cardId).remove(function (error) {
+      if (error) {
+        console.log("Card destroy failed");
+      } else {
+        rootRef.child('users').child(currentAuth.uid).child('cards').child(cardId).remove(function (error) {
+          if (error) {
+            console.log("User card destroy failed");
+          }
+        });
+      }
+    });
+
   };
 }
 
@@ -268,8 +283,7 @@ function AppCtrl(rootRef, $scope, Auth, GroupInvites, Groups, CardInvites, curre
       back: invite.back,
       frontIsActive: true,
       creator_id: currentAuth.uid,
-      last_updated: Date.now(),
-      completed: false
+      last_updated: Date.now()
     };
     Users.createCardForUser(invite.invitee_id, card, invite.inviter_id, invite.sender_email);
     $scope.deleteCardInviteForCurrentUser(invite);

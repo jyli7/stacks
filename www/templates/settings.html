@@ -7,7 +7,7 @@
   </ion-nav-buttons>
   <ion-content class="padding">
     <form class="settings-form" ng-submit="updateSettings()">
-      <label>How often should we send you a batch of cards?</label>
+      <div class="settings-label">How often should we send you a batch of cards?</div>
       <ion-list>
         <ion-radio ng-model="user.numBatchesPerDay" ng-value="0" name="batchesPerDay">0</ion-radio>
         <ion-radio ng-model="user.numBatchesPerDay" ng-value="1" name="batchesPerDay">1</ion-radio>
@@ -15,14 +15,14 @@
         <ion-radio ng-model="user.numBatchesPerDay" ng-value="3" name="batchesPerDay">3</ion-radio>
       </ion-list>
 
-      <label>At most how many cards should we send, per batch?</label>
+      <div class="settings-label second-settings-label">At most how many cards should we send, per batch?</div>
       <ion-list>
         <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="0" name="notificationsPerBatch">0</ion-radio>
         <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="5" name="notificationsPerBatch">5</ion-radio>
         <ion-radio ng-model="user.numNotificationsPerBatch" ng-value="10" name="notificationsPerBatch">10</ion-radio>
       </ion-list>
 
-      <div class="padding">
+      <div class="padding settings-button">
         <button type="submit" class="button button-block button-positive">Update settings</button>
       </div>
     </form>

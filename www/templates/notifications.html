@@ -6,9 +6,13 @@
   <ion-content class="padding">
     <ion-list>
       <div ng-repeat="groupInvite in groupInvites">
-        Invited to {{groupInvite.group_name}} by {{groupInvite.inviter_email}}
-        <a href="#" ng-click="acceptGroupInvite(groupInvite)">Accept</a>
-        <a href="#" ng-click="declineGroupInvite(groupInvite)">Decline</a>
+        <div class="group-invite-notification">
+          You have been invited to {{groupInvite.group_name}} by {{groupInvite.inviter_email}}
+          <div class="invite-replies">
+            <a href="#" ng-click="acceptGroupInvite(groupInvite)">Accept</a>
+            <a href="#" ng-click="declineGroupInvite(groupInvite)">Decline</a>
+          </div>
+        </div>
       </div>
 
       <div ng-repeat="cardInvite in cardInvites">

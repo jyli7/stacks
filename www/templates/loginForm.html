@@ -1,5 +1,5 @@
 <ion-modal-view class="main-background-color">
-  <ion-header-bar class="bar bar-header bar-calm sign-up-header">
+  <ion-header-bar class="bar bar-header bar-positive sign-up-header">
     <button class="button button-clear button-primary" ng-click="loginModal.hide()">Cancel</button>
   </ion-header-bar>
   <ion-content>
@@ -18,7 +18,8 @@
       <input type="submit" class="hidden">
     </form>
   </ion-content>
-  <ion-footer-bar align-title="left" class="bar-calm">
+  <ion-spinner class="login-spinner" ng-if="isLoading"></ion-spinner>
+  <ion-footer-bar align-title="left" class="bar-positive login-footer-bar">
     <button class="button sign-up-button" ng-click="loginEmail()">
       Login
     </button>

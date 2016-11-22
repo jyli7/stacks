@@ -169,11 +169,11 @@ td-card {
 }
 
 .yes-text {
-  background-color: $calm;
+  background-color: $positive;
 }
 
 .no-text {
-  background-color: $calm;
+  background-color: $positive;
 }
 
 .yesBox, .noBox {
@@ -274,7 +274,7 @@ div {
 
 .main-content {
   position: absolute;
-  top: 30%;
+  top: 25%;
 
   button {
     width: 240px;
@@ -329,7 +329,7 @@ div {
 }
 
 .bar.bar-stable {
-  background-color: $calm;
+  background-color: $positive;
   color: white;
 
   .button {
@@ -378,5 +378,38 @@ div {
   margin-top: 25px;
 }
 
+.stacks-logo {
+  width: 70%;
+}
 
+.login-footer-bar {
+  position: fixed;
+}
+
+.login-spinner {
+  position: absolute;
+  left: 46%;
+  top: 47%;
+}
+
+.group-invite-notification {
+  padding: 10px;
+}
+
+.invite-replies {
+  margin-top: 5px;
+}
+
+.settings-label {
+  margin: 10px 0px 10px 0px;
+  font-size: 14px;
+}
+
+.second-settings-label {
+  margin-top: 25px;
+}
+
+.settings-button {
+  margin-top: 10px;
+}
 

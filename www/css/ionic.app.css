@@ -9927,10 +9927,10 @@ td-card {
   font-size: 16px; }
 
 .yes-text {
-  background-color: #11c1f3; }
+  background-color: #387ef5; }
 
 .no-text {
-  background-color: #11c1f3; }
+  background-color: #387ef5; }
 
 .yesBox, .noBox {
   margin: 20% 0% 0% 0%;
@@ -10015,7 +10015,7 @@ div {
 
 .main-content {
   position: absolute;
-  top: 30%; }
+  top: 25%; }
   .main-content button {
     width: 240px; }
 
@@ -10056,7 +10056,7 @@ div {
   cursor: not-allowed; }
 
 .bar.bar-stable {
-  background-color: #11c1f3;
+  background-color: #387ef5;
   color: white; }
   .bar.bar-stable .button {
     color: white; }
@@ -10092,3 +10092,30 @@ div {
 .destroy-group-button {
   width: 100%;
   margin-top: 25px; }
+
+.stacks-logo {
+  width: 70%; }
+
+.login-footer-bar {
+  position: fixed; }
+
+.login-spinner {
+  position: absolute;
+  left: 46%;
+  top: 47%; }
+
+.group-invite-notification {
+  padding: 10px; }
+
+.invite-replies {
+  margin-top: 5px; }
+
+.settings-label {
+  margin: 10px 0px 10px 0px;
+  font-size: 14px; }
+
+.second-settings-label {
+  margin-top: 25px; }
+
+.settings-button {
+  margin-top: 10px; }
